@@ -1,7 +1,7 @@
 license: MIT
 upstream:
   ref: ghcr.io/vxedge/parts/hpc/ad/middleware/ros2-humble:0.1.0
-  # digest: sha256:...   # this part's own ros2-humble build, once published
+  digest: sha256:63d1fc55b689c82420c51217b7915438dc9495656de135069e96ad72bb5d75df
 annotations:
   carla-version: "0.9.15"
 sbom:

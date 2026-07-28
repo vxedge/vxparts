@@ -10,6 +10,16 @@ All notable changes to this project will be documented in this file. Format foll
 
 - Repo scaffolding: `README.md`, `AGENTS.md`, `TASKS.md`, `parts/{zone,hpc,gw,agent,svc}/` +
   `scripts/publish/` directory layout.
+- Second part published to GHCR (2026-07-28), and the first container one:
+  `ghcr.io/vxedge/parts/hpc/ad/middleware/ros2-humble:0.1.0`,
+  `sha256:63d1fc55b689c82420c51217b7915438dc9495656de135069e96ad72bb5d75df`. Private package;
+  8 `org.vxedge.*` labels intact. Both publish paths — ORAS artifact and OCI container — are
+  now proven against a real registry. `carla-ros-bridge` is pinned to this digest, and a build
+  confirmed it resolves the dependency from the registry rather than a local tag.
+- `publish-container.sh` reports the pushed manifest digest (`podman push --digestfile`),
+  which is the value a dependent part or experiment manifest pins. Reading it back off the
+  registry would need a pull token — needless for a private package when the push already
+  knows the answer.
 - **`schema/taxonomy.yaml`** — classes, subtypes, layers, supplier code and digest width
   extracted out of `vxpn.py` into a single reviewable data file. The script now holds the
   algorithm only. Subtypes became class-scoped in the move, so `hpc/qnx` is rejected rather

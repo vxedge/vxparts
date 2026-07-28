@@ -70,7 +70,13 @@ if [[ "${VXPARTS_NO_PUSH:-0}" == "1" ]]; then
   echo "== VXPARTS_NO_PUSH=1 — built and labelled, not pushed"
 else
   echo "== pushing $REF"
-  podman push "$REF"
+  DIGESTFILE="$(mktemp)"; trap 'rm -f "$DIGESTFILE"' EXIT
+  podman push --digestfile "$DIGESTFILE" "$REF"
+  PUSHED_DIGEST="$(cat "$DIGESTFILE")"
+  # Reported because this is the value a dependent part's part.yaml or an experiment
+  # manifest pins. Reading it back off the registry would need a pull token, which for a
+  # private package is a needless extra step when the push already knows the answer.
+  echo "== digest: $PUSHED_DIGEST"
 fi
 
 echo "== verifying labels survived"

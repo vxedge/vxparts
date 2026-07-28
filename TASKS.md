@@ -173,13 +173,21 @@ governor pinning, cpu affinity, randomized load order).
 upstream digest resolved and its content filled in. Nothing else in this file is
 gate-blocking, and building anything else first is how phase 2 slips further.**
 
-- [ ] 1. `parts/hpc/ad/middleware/ros2-humble` (`VXE8J-HADS-MFER`) — its own part so the
-      bridge and Autoware are forced to agree on one distro + one RMW by construction
+- [x] 1. `parts/hpc/ad/middleware/ros2-humble` (`VXE8J-HADS-MFER`) — its own part so the
+      bridge and Autoware are forced to agree on one distro + one RMW by construction.
+      **Published 2026-07-28**: `ghcr.io/vxedge/parts/hpc/ad/middleware/ros2-humble:0.1.0`,
+      `sha256:63d1fc55b689c82420c51217b7915438dc9495656de135069e96ad72bb5d75df`, private,
+      8 `org.vxedge.*` labels intact. First `hpc`-class part and first container part in the
+      registry — the ORAS and container publish paths are now both proven against GHCR.
 - [ ] 2. `parts/hpc/sim/app/carla-server` (`VXER8-HSIM-AGF3`) — **CC-BY-NC assets, see
       licensing review before tagging**
 - [ ] 3. `parts/hpc/ad/middleware/carla-ros-bridge` (`VXEUS-HADS-M7BO`) — **the actual
       blocker and the highest integration risk**: pins the CARLA version *and* the ROS2
-      distro at once, so its version triple must be settled before either neighbour is tagged
+      distro at once, so its version triple must be settled before either neighbour is tagged.
+      Upstream pinned 2026-07-28 to this repo's own published `ros2-humble` digest, and a
+      build confirmed it resolves `FROM ...ros2-humble@sha256:63d1fc55...` — the intra-repo
+      dependency chain works. Still to do: the source build itself (clone + apt + pip), then
+      confirm the bridge's topic set against the CARLA version pinned in `carla-server`
 - [ ] 4. `parts/hpc/ad/app/autoware` (`VXERR-HADS-AOHA`) — pins/re-labels the upstream
       prebuilt image; a source build costs hours and changes nothing measured
 - [ ] 5. `parts/hpc/ad/config/autoware-params` (`VXEUV-HADS-CCSC`) — explicit per-topic DDS
