@@ -4,7 +4,7 @@ license: MIT AND CC-BY-NC-4.0
 gpu: passthrough
 upstream:
   ref: docker.io/carlasim/carla:0.9.15
-  # digest: sha256:...   # REQUIRED before publish — see README
+  digest: sha256:1af47c314443f4a2d0869ac399c5b5eabde138a5bc39dd31dcbb1540e22f5588
 annotations:
   headless: "true"
   license-note: "assets CC-BY-NC — non-commercial; see README before publishing results"

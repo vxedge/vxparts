@@ -1,7 +1,7 @@
 license: Apache-2.0
 upstream:
   ref: docker.io/library/ros:humble-ros-base
-  # digest: sha256:...   # REQUIRED before publish — see README
+  digest: sha256:afb40d6be65331c20a114d4e229a7ef099fed1b17bf6370daee193514b32aa16
 annotations:
   rmw: rmw_fastrtps_cpp
 sbom:

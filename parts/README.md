@@ -51,6 +51,8 @@ Every publish script derives the registry ref *and* the VXPN from the part's own
 path, so neither is ever passed in and neither can be mistyped.
 
 ```
+../scripts/resolve-pin.sh <part-dir> [--write]   # pin upstream tag -> digest (no image pull)
+../scripts/sbom.sh <part-dir>        # CycloneDX SBOM, non-blocking when tooling is absent
 ../scripts/vxpn.py lint     # validate every part against its layer's build contract
 ../scripts/vxpn.py scan     # VXPN collision gate
 ../scripts/vxpn.py meta <part-dir>   # what will be stamped on the artifact
