@@ -181,13 +181,27 @@ gate-blocking, and building anything else first is how phase 2 slips further.**
       registry — the ORAS and container publish paths are now both proven against GHCR.
 - [ ] 2. `parts/hpc/sim/app/carla-server` (`VXER8-HSIM-AGF3`) — **CC-BY-NC assets, see
       licensing review before tagging**
-- [ ] 3. `parts/hpc/ad/middleware/carla-ros-bridge` (`VXEUS-HADS-M7BO`) — **the actual
-      blocker and the highest integration risk**: pins the CARLA version *and* the ROS2
-      distro at once, so its version triple must be settled before either neighbour is tagged.
-      Upstream pinned 2026-07-28 to this repo's own published `ros2-humble` digest, and a
-      build confirmed it resolves `FROM ...ros2-humble@sha256:63d1fc55...` — the intra-repo
-      dependency chain works. Still to do: the source build itself (clone + apt + pip), then
-      confirm the bridge's topic set against the CARLA version pinned in `carla-server`
+- [x] 3. `parts/hpc/ad/middleware/carla-client` (`VXECL-HADS-M70H`) — **published 2026-07-28**:
+      `sha256:832dedf3a03e4b3f9eefc5f4955bce24ab7f30878579d5db2068f860a3e9d436`, private.
+      CARLA 0.9.15 Python client on Humble; the build asserts `import carla` so a broken
+      client fails the build rather than the experiment.
+  - **Replaced `carla-ros-bridge` (`VXEUS-HADS-M7BO`, retired).** The flagged
+      "highest integration risk" was real, and worse than a version bump. Verified
+      2026-07-28: `carla-simulator/ros-bridge` master is frozen at 2022-07-22 ("Update CARLA
+      version to 0.9.13"), no branch touched since 2023-11, and its README requires CARLA
+      **0.9.13** against our pinned **0.9.15** server. It built and imported cleanly — which
+      is precisely what made it the dangerous option, since a version-mismatched bridge still
+      produces numbers. (The CARLA *simulator* is actively maintained, commit 2026-07-14 —
+      the frozen repo is the bridge, a different one.)
+  - The supported path for 0.9.15 + Humble is **`autoware_carla_interface`** (inside
+      `autoware_universe`, compatibility table 22.04/humble/0.9.15, last touched 2026-07-24).
+      It is a ROS2 package that ships inside the `autoware` part; what this repo owes it is a
+      matching client, which `carla-client` is. Official cp310 wheel exists on PyPI, so the
+      `gezp/carla_ros` rebuild its README suggests is unnecessary here.
+  - Forward path, deliberately deferred: `autowarefoundation/carla-autoware-extension`
+      (very active) targets CARLA `ue5-dev` **native DDS publishers**, removing the bridge
+      process from the data path — but its README states it does not replace
+      `autoware_carla_interface` for 0.9.15. Revisit when moving off 0.9.15; not phase 2.
 - [ ] 4. `parts/hpc/ad/app/autoware` (`VXERR-HADS-AOHA`) — pins/re-labels the upstream
       prebuilt image; a source build costs hours and changes nothing measured
 - [ ] 5. `parts/hpc/ad/config/autoware-params` (`VXEUV-HADS-CCSC`) — explicit per-topic DDS

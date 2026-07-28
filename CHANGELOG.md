@@ -10,6 +10,20 @@ All notable changes to this project will be documented in this file. Format foll
 
 - Repo scaffolding: `README.md`, `AGENTS.md`, `TASKS.md`, `parts/{zone,hpc,gw,agent,svc}/` +
   `scripts/publish/` directory layout.
+### Changed
+
+- **`carla-ros-bridge` retired, replaced by `carla-client`** (2026-07-28), published as
+  `ghcr.io/vxedge/parts/hpc/ad/middleware/carla-client:0.1.0`,
+  `sha256:832dedf3...`. Building the original part is what surfaced the problem:
+  `carla-simulator/ros-bridge` master has been frozen since 2022-07-22 and requires CARLA
+  0.9.13, while our `carla-server` is pinned to 0.9.15. It built and imported cleanly, which
+  is what made it dangerous — a version-mismatched bridge still produces numbers. The
+  supported path is `autoware_carla_interface`, which ships inside `autoware_universe` and
+  documents exactly 22.04/humble/0.9.15; this part supplies the matching CARLA client.
+  The part's VXPN changed with its name: `VXEUS-HADS-M7BO` → `VXECL-HADS-M70H`.
+
+### Added
+
 - Second part published to GHCR (2026-07-28), and the first container one:
   `ghcr.io/vxedge/parts/hpc/ad/middleware/ros2-humble:0.1.0`,
   `sha256:63d1fc55b689c82420c51217b7915438dc9495656de135069e96ad72bb5d75df`. Private package;

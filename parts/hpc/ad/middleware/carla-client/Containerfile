@@ -1,0 +1,26 @@
+# The pinned CARLA 0.9.15 Python client on ROS2 Humble.
+#
+# Replaces the former `carla-ros-bridge` part, which built carla-simulator/ros-bridge —
+# frozen on master since 2022-07-22, no branch touched since 2023-11, and its own README
+# requires CARLA 0.9.13 against our pinned 0.9.15 server. It built cleanly, which is exactly
+# what made it dangerous: a silently version-mismatched bridge still produces numbers.
+#
+# The supported path for CARLA 0.9.15 + Humble is `autoware_carla_interface`, which ships
+# inside autoware_universe (actively maintained; its compatibility table reads 22.04 /
+# humble / 0.9.15). That interface is a ROS2 package, not a container — what it needs from
+# us is the CARLA client API at the matching version, which is what this part is.
+#
+# Which container the interface actually executes in is a runtime composition question, and
+# composition belongs in the vehicle/experiment manifest, never in a part (../../AGENTS.md).
+ARG UPSTREAM
+FROM ${UPSTREAM}
+
+# Official cp310 manylinux wheel — CARLA publishes one for 3.10, so the gezp/carla_ros
+# rebuild that autoware_carla_interface's README suggests is not needed here.
+ARG CARLA_VERSION=0.9.15
+RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip3 install --no-cache-dir "carla==${CARLA_VERSION}" transforms3d
+
+# Fail the build rather than the experiment if the client ever stops importing.
+RUN python3 -c "import carla; print('carla client', carla.VERSION if hasattr(carla,'VERSION') else '${CARLA_VERSION}')"

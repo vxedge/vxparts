@@ -4,6 +4,7 @@ upstream:
   digest: sha256:63d1fc55b689c82420c51217b7915438dc9495656de135069e96ad72bb5d75df
 annotations:
   carla-version: "0.9.15"
+  interface: autoware_carla_interface
 sbom:
   format: cyclonedx-json
   path: sbom.cdx.json
