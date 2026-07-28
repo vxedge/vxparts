@@ -1,0 +1,10 @@
+license: Apache-2.0
+gpu: passthrough
+upstream:
+  ref: ghcr.io/autowarefoundation/autoware:universe
+  # digest: sha256:...   # REQUIRED before publish — see README
+annotations:
+  rmw: rmw_fastrtps_cpp
+sbom:
+  format: cyclonedx-json
+  path: sbom.cdx.json

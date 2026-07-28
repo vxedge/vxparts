@@ -1,0 +1,5 @@
+# Composite: an OCI index over its constituents. A composite inherits the union of its
+# constituents' licences — it is not a licence laundry.
+license: Apache-2.0 AND MIT
+annotations:
+  composite: "true"

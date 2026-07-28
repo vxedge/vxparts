@@ -8,10 +8,22 @@ mechanism (VM vs container), not domain (see `TASKS.md` Track P for the rational
 migration plan). Master spec: `../docs/ARCHITECTURE.md` §6 (zone/compute schema), §9
 (virtualization stack), §10 (compute model).
 
+## Two files decide everything
+
+- **`schema/taxonomy.yaml`** — the SSOT for classes, subtypes, layers, supplier code, and
+  digest width. `scripts/vxpn.py` holds the *algorithm*; this file holds the *vocabulary*.
+  Adding a subtype is a reviewable data change, never a code change. Changing an existing
+  `code:` or `name_digest_chars` renumbers parts and is a breaking change.
+- **`parts/<...>/part.yaml`** — one per part: licence, upstream pin, GPU need, SBOM slot,
+  extra annotations. It never restates class/subtype/layer/name; those come from the path.
+
+Everything else — the publish scripts, the build recipes — reads these two and hardcodes
+nothing. `vxpn.py meta <part-dir>` is the single resolver both go through.
+
 ## What lands here
 
 - **Loadables**, one directory per part: `parts/<class>/<subtype>/<layer>/<name>/` — build
-  recipe + README only, no composition data (see Classification below).
+  recipe + `part.yaml` + README only, no composition data (see Classification below).
 - **Publish scripts**, one per artifact kind, in `scripts/publish/`: container push
   (docker/podman) for `hpc`/`gw`-class parts, ORAS push for VM/kernel/QNX/AAOS bundles.
 - **What does NOT land here**: which part goes into which zone/vehicle. That composition is

@@ -1,0 +1,20 @@
+# Built from source on top of the ros2-humble part: no official image tracks recent CARLA
+# releases, and this is the one component pinning the CARLA version AND the ROS2 distro at
+# once — the integration risk on the exp-011 critical path.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+
+ARG BRIDGE_REF=master
+ARG CARLA_VERSION=0.9.15
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      git python3-pip ros-humble-derived-object-msgs \
+    && rm -rf /var/lib/apt/lists/*
+RUN pip3 install --no-cache-dir "carla==${CARLA_VERSION}"
+
+WORKDIR /opt/bridge
+RUN git clone --depth 1 --branch "${BRIDGE_REF}" \
+      https://github.com/carla-simulator/ros-bridge.git src/ros-bridge
+
+# Record what was actually built, so the image documents its own inputs (§13).
+RUN git -C src/ros-bridge rev-parse HEAD > /opt/bridge/BRIDGE_SHA

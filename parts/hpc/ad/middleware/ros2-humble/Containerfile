@@ -1,0 +1,12 @@
+# The ROS2 layer every hpc/ad part builds on. Kept as its own part (rather than folded into
+# autoware) so carla-ros-bridge and autoware are forced to agree on one distro and one RMW
+# by construction rather than by convention.
+#
+# UPSTREAM is injected by scripts/publish/publish-container.sh from part.yaml's pinned
+# upstream ref+digest — the pin is data, not something edited into this recipe.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+
+# Declared explicitly because the transport is part of the measured system, not incidental
+# config (ARCHITECTURE.md protocol table; ros2-dds-patterns skill).
+ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp

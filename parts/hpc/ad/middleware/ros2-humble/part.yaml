@@ -1,0 +1,9 @@
+license: Apache-2.0
+upstream:
+  ref: docker.io/library/ros:humble-ros-base
+  # digest: sha256:...   # REQUIRED before publish — see README
+annotations:
+  rmw: rmw_fastrtps_cpp
+sbom:
+  format: cyclonedx-json
+  path: sbom.cdx.json

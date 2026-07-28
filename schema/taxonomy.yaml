@@ -1,0 +1,90 @@
+# taxonomy.yaml — the single source of truth for vxedge part classification.
+#
+# Everything that decides what a VXPN looks like lives here, and nowhere else.
+# `scripts/vxpn.py` holds the *algorithm* and reads this file for the *vocabulary*, so
+# adding a class, subtype, or layer is a data change reviewable by someone who does not
+# read Python. Adding a subtype is backward-compatible; changing an existing `code:` or
+# `name_digest_chars` renumbers every affected part and is a breaking change (see below).
+#
+# Consumed by: scripts/vxpn.py, scripts/publish/*.sh (via `vxpn.py meta`).
+# Format rationale + standards provenance: ../PART-NUMBERING.md
+
+version: 1
+
+supplier:
+  # MMM in the ARINC-665 shape. Third-party suppliers contributing parts get their own,
+  # exactly as in avionics — see PART-NUMBERING.md's open item on a supplier registry.
+  code: VXE
+  name: vxedge project
+
+format:
+  pattern: MMMCC-SSSS-SSSS
+  # Width of the base36 name digest. 3 chars = 46,656 values, which by the birthday bound
+  # makes a collision roughly even odds around 255 parts. Widening to 4 is a one-line change
+  # HERE — but it renumbers every part, so it is a deliberate, announced migration, not a
+  # tweak. `vxpn.py scan` is the gate that tells you when you are approaching the limit.
+  name_digest_chars: 3
+  alphabet: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+# Layer = where in a node's software stack the part sits. Shared across all classes.
+#
+# `build:` says what a part of this layer is made of, and therefore which publish script
+# applies and what `vxpn.py lint` should require:
+#   recipe    — a Containerfile or build.sh produces an artifact
+#   files     — the part IS its files (publish-files.sh); no recipe exists or should
+#   composite — an OCI index over other parts; produced by indexing, not building
+layers:
+  firmware:   {code: F, build: recipe,    description: "register-level image for an MCU-class guest"}
+  os:         {code: O, build: recipe,    description: "guest operating system or base container image"}
+  hypervisor: {code: H, build: recipe,    description: "hypervisor under a guest (fidelity ladder)"}
+  middleware: {code: M, build: recipe,    description: "transport/bus layer — DDS, SOME/IP, ROS2 base"}
+  app:        {code: A, build: recipe,    description: "the workload itself"}
+  config:     {code: C, build: files,     description: "parameters, scenarios, QoS profiles — versioned like code"}
+  stack:      {code: S, build: composite, description: "composite: an OCI index over constituent parts"}
+
+# Class = what kind of node the part loads onto. Subtypes are scoped to their class, so the
+# same subtype word may mean different things under different classes without ambiguity —
+# the VXPN carries the class code immediately before the subtype code.
+classes:
+  zone:
+    code: Z
+    description: "virtual ECU / zone controller guest"
+    subtypes:
+      qnx:      {code: QNX, description: "QNX SDP 8 — ADAS/safety guest"}
+      zephyr:   {code: ZEP, description: "Zephyr RTOS — sensor/ECU node"}
+      freertos: {code: FRT, description: "FreeRTOS — actuator/ECU node"}
+      linux:    {code: LNX, description: "Linux microVM guest"}
+      aaos:     {code: AAO, description: "Android Automotive — infotainment guest"}
+      mcu:      {code: MCU, description: "register-level guest (Renode), not OS-hosted"}
+  hpc:
+    code: H
+    description: "central compute node — mirrors Track D dimension 1's compute[].domain"
+    subtypes:
+      ad:      {code: ADS, description: "autonomous driving stack"}
+      cockpit: {code: CKP, description: "cockpit/IVI backend"}
+      motion:  {code: MOT, description: "vehicle motion / dynamics"}
+      sim:     {code: SIM, description: "simulation and world generation"}
+  gw:
+    code: G
+    description: "gateway / network-side node"
+    subtypes:
+      tcu: {code: TCU, description: "telematics control unit — uplink"}
+      nos: {code: NOS, description: "network OS (SONiC-VS production twin)"}
+      5gc: {code: 5GC, description: "5G core (Open5GS) — carries the H2 result"}
+      ran: {code: RAN, description: "radio access network (UERANSIM gNB/UE)"}
+      dp:  {code: DPL, description: "accelerated dataplane (VPP/DPDK) variant"}
+  agent:
+    code: A
+    description: "in-experiment measurement agent — probe, don't perturb"
+    subtypes:
+      probe:   {code: PRB, description: "latency/loss reflector (vxprobe)"}
+      load:    {code: LOD, description: "traffic generator (vxtraffic)"}
+      collect: {code: CLT, description: "metric collection agent"}
+  svc:
+    code: S
+    description: "platform service supporting an experiment"
+    subtypes:
+      ota:           {code: OTA, description: "OTA server/store/probe (vxota)"}
+      telemetry:     {code: TLM, description: "telemetry ingest/collect (vxtelemetry)"}
+      observability: {code: OBS, description: "Prometheus/Grafana/DCGM exporter"}
+      signal:        {code: SIG, description: "VSS/Kuksa signal plane (Track D dim 2-3)"}

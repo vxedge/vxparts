@@ -35,6 +35,19 @@ single-source-of-truth rule: a side table mapping opaque part numbers to registr
 considered and rejected, for the same reason a `catalog.yaml` was rejected — it would be a
 second thing to keep in sync, and it would drift.
 
+## Where the vocabulary lives
+
+The scheme's *algorithm* is `scripts/vxpn.py`. Its *vocabulary* — every class, subtype,
+layer, the supplier code, and the digest width — is data in **`schema/taxonomy.yaml`**, so
+extending the taxonomy never touches Python and can be reviewed by someone who does not read
+it. Two consequences worth knowing:
+
+- **Subtypes are class-scoped.** `hpc/qnx` is rejected as firmly as an unknown subtype, so a
+  typo'd path cannot mint a valid-looking number for a kind of part that does not exist.
+- **`format.name_digest_chars` is a knob, not a constant.** Widening the digest (see the open
+  item below) is a one-line data change — but it renumbers every part, so it is a deliberate,
+  announced migration.
+
 ## Format
 
 ARINC 665's Loadable Software Part Number shape, `MMMCC-SSSS-SSSS`:
@@ -97,8 +110,24 @@ dimension 3's bill-of-software work rather than here.
       dimension 3 (`vxedge manifest bom`) defines the whole-vehicle bill of software. The
       natural pairing is a CycloneDX SBOM per part, with the RxSWIN computed over the set —
       this also feeds the licensing review (`docs/TASKS.md`, go-public prerequisites).
-- [ ] `vxpn.py scan` in CI as a merge gate: the 3-char name digest holds ~46.6k values, so
-      collisions become likely somewhere past a couple hundred parts. Widen the digest (or
-      shorten the supplier segment) before that, not after.
+- [ ] `vxpn.py scan` + `vxpn.py lint` in CI as merge gates: the 3-char name digest holds
+      ~46.6k values, so collisions become likely somewhere past ~255 parts. Widen
+      `format.name_digest_chars` before that, not after.
+- [ ] **PURL as the machine-facing identifier**, alongside the VXPN:
+      `pkg:oci/<name>@sha256:...?repository_url=ghcr.io/vxedge/parts/<class>/<subtype>/<layer>`.
+      The VXPN serves humans and BOMs; nothing outside this project can interpret it. UN R155
+      (CSMS) obliges continuous vulnerability monitoring over a vehicle's software for its
+      whole lifetime, and that matching is done on PURL/CPE — a purely internal part number
+      leaves a compliance duty with no mechanical way to discharge it. Like the VXPN, a PURL
+      is computed from the path, so it adds no second source of truth.
+- [ ] **CycloneDX SBOM per part**, attached via the OCI referrers API rather than baked into
+      the artifact, so it can be regenerated when an advisory lands without repushing the
+      part. `part.yaml` already carries the `sbom:` slot and `scripts/sbom.sh` the generator;
+      both are deliberately non-blocking (no tooling installed → no SBOM, exit 0), and
+      `org.vxedge.sbom` is emitted only when the file genuinely exists.
+- [ ] **in-toto/SLSA provenance + signature** subject-linked to the digest. This is the
+      correct replacement for ARINC 665's "new PN per change" rule: that rule existed because
+      the number was the only provenance channel available, and a signed attestation answers
+      "which bytes, built from what, by whom" far better than a serial number can.
 - [ ] Supplier-code registry for third-party `MMM` values — needed only when a part arrives
       from outside the project. Deliberately not built in advance.

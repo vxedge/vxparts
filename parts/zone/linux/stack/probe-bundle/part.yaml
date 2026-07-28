@@ -1,0 +1,11 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+# A `stack` that is genuinely built as one artifact (kernel + initramfs), not an OCI
+# index over other parts — overrides the layer default.
+build: recipe
+license: GPL-2.0
+annotations:
+  backend: qemu-microvm,libvirt
+  arch: x86_64
+sbom:
+  format: cyclonedx-json
+  path: bundle/sbom.cdx.json   # emitted by build.sh when SBOM tooling is present

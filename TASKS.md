@@ -52,9 +52,15 @@ transitively on the same thing.
       trees/permissions/symlinks, byte-identical `busybox` and `vxprobe`, identical `vmlinuz`
       digest; the only diff is two cosmetic strings (`vxzones` → `vxparts` in an `/init`
       comment and its console line). Confirmed nothing in any repo greps that console line.
-  - [ ] **Real publish to `ghcr.io/vxedge/parts/...` still not done** — validated only against
-        a local `registry:2`. Needs an explicit go-ahead, since it publishes into the org
-        namespace and would be the project's first public artifact.
+  - [x] **First real publish to GHCR (2026-07-28)**:
+        `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:0.1.0`,
+        `sha256:33c9c8d8625bd5c6d1f4d3d0c561fdaa930e057fcd1fb24fb3badb402f25429d`. Push +
+        pull round-trip byte-identical for all three files; `artifactType:
+        application/vnd.vxedge.part.v1` and all seven `org.vxedge.*` annotations (including
+        `pn=VXE7G-ZLNX-SHAE`) survive GHCR's manifest storage unchanged; `oras repo tags`
+        enumerates it — the registry-is-the-catalogue claim now holds against a real
+        registry, not just a local `registry:2`. Package **visibility: private**, consistent
+        with going-public being deferred; publishing it is a separate deliberate step.
   - [ ] **Cutover not done yet, and not safe to do casually**: `vxzones/scripts/build-guest-bundle.sh`
         is still the live recipe backing `exp-002`/`exp-002b` (`vxperiments/experiments/exp-002*.yaml`,
         `vxperiments/scripts/run-exp-002*.sh` all reference `vxzones/images/linux-probe/bundle`
@@ -72,14 +78,37 @@ transitively on the same thing.
 
 ## Part numbering (see `PART-NUMBERING.md`)
 
+- [x] **Taxonomy and per-part metadata extracted to data (2026-07-28).** `vxpn.py` had the
+      vocabulary hardcoded and the publish script scraped `# license:` comments out of
+      Containerfiles — both are now `schema/taxonomy.yaml` (classes/subtypes/layers/supplier/
+      digest width) and `parts/*/part.yaml` (licence, upstream pin, GPU, SBOM, annotations),
+      resolved through one `vxpn.py meta` call that every publish script and build recipe goes
+      through. Subtypes became class-scoped in the move, so `hpc/qnx` is now rejected instead
+      of silently encoded, and the taxonomy self-checks on load (duplicate codes, wrong code
+      width, a class with no subtypes). Upstream pins moved out of Containerfiles too — the
+      recipe takes `ARG UPSTREAM` and the script injects `<ref>@<digest>` from `part.yaml`, so
+      recipes carry no version data. **Verified: every existing part number and the published
+      bundle's `initrd.img` digest are byte-identical after the refactor.**
+
 - [x] VXPN scheme + `scripts/vxpn.py` (2026-07-26): ARINC-665-shaped `MMMCC-SSSS-SSSS`
       (`VXE7G-ZLNX-SHAE`), **computed from** the part's class/subtype/layer/name rather than
       mapped to it — no side table, preserving the same single-source-of-truth rule that ruled
       out `catalog.yaml`. `encode`/`encode-path`/`verify`/`decode`/`scan`. Check characters
       measured at 100% detection for single-char substitutions and adjacent transpositions.
       Stamped into `meta.json` as `org.vxedge.pn`, so it rides to the registry as an annotation.
+- [x] **Taxonomy completed to cover all five classes (2026-07-28).** A catalogue pass over
+      the 2026-07-20 E/E architecture found `agent` and `svc` had **no subtypes defined at
+      all** — so `vxprobe`, `vxtraffic`, all three `vxota` crates and both `vxtelemetry`
+      crates, every one of them shipped working code, could not be assigned a part number.
+      Open5GS/UERANSIM (the components behind the H2 result) had no home either. Added:
+      `agent`→`probe`/`load`/`collect`, `svc`→`ota`/`telemetry`/`observability`/`signal`,
+      `gw`→`5gc`/`ran`/`dp`, `zone`→`mcu`. `svc/signal` exists because the entire VSS/Kuksa
+      signal plane — Track D dimensions 2 and 3 — had no representation in the part system.
+      Verified: the already-published `VXE7G-ZLNX-SHAE` is unchanged by the addition.
 - [ ] `vxpn.py scan` as a CI merge gate — the 3-char name digest holds ~46.6k values, so
-      collisions get likely past a couple hundred parts; widen before that, not after
+      collisions get likely past a couple hundred parts; widen before that, not after.
+      Measured on the 77-part candidate catalogue: 0 collisions, but that counts only *named*
+      parts — per-zone configs and per-scenario variants push toward the limit fast
 - [ ] `org.vxedge.rxswin` (UN R156 / ISO 24089) at vehicle-manifest level — gated on Track D
       dimension 3's `vxedge manifest bom`; an RxSWIN describes a *set* of parts, never one part
 - [ ] Supplier-code registry for third-party `MMM` values — only needed once a part arrives
@@ -87,11 +116,20 @@ transitively on the same thing.
 
 ## Registry & classification (design, mostly decided — see `AGENTS.md`)
 
-- [ ] `parts/<class>/<subtype>/<layer>/<name>/` directory layout (build recipe + README only,
+- [x] `parts/<class>/<subtype>/<layer>/<name>/` directory layout (build recipe + README only,
       no composition data)
-- [ ] `scripts/publish/publish-container.sh` — docker/podman push for `hpc`/`gw`-class parts,
-      stamping `org.vxedge.class/subtype/layer/backend/arch/license` annotations
-- [ ] `scripts/publish/publish-vm-bundle.sh` — ORAS push for `zone`-class VM/kernel/QNX
+- [x] `scripts/publish/publish-container.sh` (2026-07-28) — podman build+push for `hpc`/`gw`-class
+      parts, stamping `org.vxedge.pn/class/subtype/layer/license/gpu` as OCI labels. Derives
+      both the registry ref and the VXPN from the part's own directory path, so neither is
+      passed in and neither can be mistyped. Two guardrails, both tested: it refuses a
+      Containerfile with no pinned `@sha256:` digest (a part built on a moving tag is not
+      reproducible, §13), and refuses one that declares no `# license:` line. `VXPARTS_NO_PUSH=1`
+      builds and verifies labels without pushing, for CI. Smoke-tested end to end against a
+      local image.
+- [x] `scripts/publish/publish-files.sh` (2026-07-28) — ORAS push for `config`-layer parts.
+      Config is a part in its own right: a run's parameters are as much an input to its result
+      as the code that reads them, so an unversioned params file silently breaks §13.
+- [x] `scripts/publish/publish-vm-bundle.sh` — ORAS push for `zone`-class VM/kernel/QNX
       IFS/AAOS system images, same annotation set
 - [ ] Composite-part convention: OCI image index for a full loaded stack (e.g.
       `parts/zone/qnx/stack/safety-baseline:2.1.0` indexing its os+middleware+config parts as
@@ -130,10 +168,33 @@ defaults: off-screen Vulkan rendering, GPU shared only between CARLA and inferen
 consumer RTX cards), synchronous fixed-tick CARLA mode, H2's host-confound controls (cpu
 governor pinning, cpu affinity, randomized load order).
 
-- [ ] `parts/hpc/ad/middleware/` — Autoware/ROS2: pinned distro, digest-tagged; consumes
-      carla-ros-bridge topics
-- [ ] `parts/hpc/sim/app/` — CARLA server + carla-ros-bridge wiring (`source: carla` traffic
-      profiles)
+**Critical path — these eight parts, and only these, close phase 2's open gate half
+(`exp-011`). Scaffolded 2026-07-28 with READMEs + Containerfiles; each still needs its
+upstream digest resolved and its content filled in. Nothing else in this file is
+gate-blocking, and building anything else first is how phase 2 slips further.**
+
+- [ ] 1. `parts/hpc/ad/middleware/ros2-humble` (`VXE8J-HADS-MFER`) — its own part so the
+      bridge and Autoware are forced to agree on one distro + one RMW by construction
+- [ ] 2. `parts/hpc/sim/app/carla-server` (`VXER8-HSIM-AGF3`) — **CC-BY-NC assets, see
+      licensing review before tagging**
+- [ ] 3. `parts/hpc/ad/middleware/carla-ros-bridge` (`VXEUS-HADS-M7BO`) — **the actual
+      blocker and the highest integration risk**: pins the CARLA version *and* the ROS2
+      distro at once, so its version triple must be settled before either neighbour is tagged
+- [ ] 4. `parts/hpc/ad/app/autoware` (`VXERR-HADS-AOHA`) — pins/re-labels the upstream
+      prebuilt image; a source build costs hours and changes nothing measured
+- [ ] 5. `parts/hpc/ad/config/autoware-params` (`VXEUV-HADS-CCSC`) — explicit per-topic DDS
+      QoS; populate once the bridge's topic set is known
+- [ ] 6. `parts/hpc/sim/config/scenarios` (`VXEQC-HSIM-CD0I`) — fixed-tick synchronous mode;
+      in async mode CARLA's tick rate varies with GPU load, so offered ADAS load would differ
+      between runs and exp-011's arms would not be comparable
+- [ ] 7–8. `parts/hpc/{sim/stack/sim-baseline,ad/stack/ad-baseline}` (`VXEAO-HSIM-S5WY`,
+      `VXES9-HADS-S7Q1`) — **blocked on the composite-part convention above**, the only
+      critical-path parts needing new tooling rather than new content. Until it lands, an
+      experiment manifest references the constituents individually.
+
+**Explicitly NOT on the critical path** (both contend for the same VRAM as CARLA+Autoware on
+a single ≥12GB card): DeepStream/TensorRT and Alpamayo. Adding either before the gate closes
+converts a schedule problem into a GPU-contention debugging problem.
 - [ ] Closed loop: vehicle control (steer/throttle/brake) published back into CARLA via
       carla-ros-bridge — enables the control-loop latency metric (§12)
 - [ ] CARLO-based CI smoke test for the carla-ros-bridge topic contract — CARLO

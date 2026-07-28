@@ -1,0 +1,13 @@
+# CARLA's code is MIT but its bundled assets are CC-BY-NC. Both are declared, because a
+# consumer reading only "MIT" would draw the wrong conclusion about redistribution.
+license: MIT AND CC-BY-NC-4.0
+gpu: passthrough
+upstream:
+  ref: docker.io/carlasim/carla:0.9.15
+  # digest: sha256:...   # REQUIRED before publish — see README
+annotations:
+  headless: "true"
+  license-note: "assets CC-BY-NC — non-commercial; see README before publishing results"
+sbom:
+  format: cyclonedx-json
+  path: sbom.cdx.json

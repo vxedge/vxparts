@@ -1,0 +1,7 @@
+# Autoware Universe — consumes carla-ros-bridge topics. Upstream ships prebuilt images;
+# a source build costs hours and changes nothing we measure, so this part pins and
+# re-labels rather than rebuilds.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+
+ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp

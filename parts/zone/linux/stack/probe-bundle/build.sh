@@ -89,26 +89,22 @@ find "$STAGE" -exec touch -h -d "@$SOURCE_DATE_EPOCH" {} +
   > "$OUT/initrd.img"
 cp "$KERNEL" "$OUT/vmlinuz"
 
-# VXPN is derived from this part's own class/subtype/layer/name — not stored anywhere else.
-VXPN="$("$VXPARTS_ROOT/scripts/vxpn.py" encode zone linux stack probe-bundle)"
+# Classification comes from `vxpn.py meta`: identity from this part's own path, declared
+# metadata from its part.yaml. Nothing about the part is restated in this recipe, so a
+# licence or annotation change is a one-line edit to part.yaml and never a code change.
+VX_META="$("$VXPARTS_ROOT/scripts/vxpn.py" meta "$PART_DIR")"
 
-python3 - "$OUT" "$KVER" "$VXPN" <<'EOF'
-import hashlib, json, pathlib, sys
+VX_META="$VX_META" python3 - "$OUT" "$KVER" <<'EOF'
+import hashlib, json, os, pathlib, sys
 out = pathlib.Path(sys.argv[1])
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-meta = {
-    "bundle": "linux-probe",
-    "org.vxedge.pn": sys.argv[3],
-    "org.vxedge.class": "zone",
-    "org.vxedge.subtype": "linux",
-    "org.vxedge.layer": "stack",
-    "org.vxedge.backend": "qemu-microvm,libvirt",
-    "org.vxedge.arch": "x86_64",
-    "org.vxedge.license": "GPL-2.0",
+meta = {"bundle": "linux-probe"}
+meta.update(json.loads(os.environ["VX_META"]))
+meta.update({
     "kernel_version": sys.argv[2],
     "payload": "vxprobe reflect :9800 (static musl)",
     "files": {p.name: sha(out / p.name) for p in [out/"vmlinuz", out/"initrd.img"]},
-}
+})
 (out / "meta.json").write_text(json.dumps(meta, indent=2) + "\n")
 print(json.dumps(meta, indent=2))
 EOF

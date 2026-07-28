@@ -10,6 +10,38 @@ All notable changes to this project will be documented in this file. Format foll
 
 - Repo scaffolding: `README.md`, `AGENTS.md`, `TASKS.md`, `parts/{zone,hpc,gw,agent,svc}/` +
   `scripts/publish/` directory layout.
+- **`schema/taxonomy.yaml`** — classes, subtypes, layers, supplier code and digest width
+  extracted out of `vxpn.py` into a single reviewable data file. The script now holds the
+  algorithm only. Subtypes became class-scoped in the move, so `hpc/qnx` is rejected rather
+  than silently encoded; `format.name_digest_chars` became a knob rather than a constant.
+  Verified: every existing part number is byte-identical after the refactor.
+- **`part.yaml` per part** — licence, upstream pin, GPU need, SBOM slot, free-form
+  annotations. Replaces scraping `# license:` comments out of Containerfiles. Identity
+  (class/subtype/layer/name) is deliberately *not* restatable there; `vxpn.py meta` rejects a
+  declaration that tries, since that duplication is what the no-catalog rule exists to stop.
+- `vxpn.py meta` (the single resolver every publish script and build recipe now goes through)
+  and `vxpn.py lint` (validates each part against the `build:` contract its layer declares).
+- Upstream pins moved from Containerfiles into `part.yaml`; the publish script injects them
+  as `--build-arg UPSTREAM=<ref>@<digest>`, so recipes carry no version data at all.
+- `scripts/sbom.sh` — CycloneDX generation, deliberately non-blocking: no tooling installed
+  means no SBOM, a clear message, and exit 0. `org.vxedge.sbom` is emitted only when the file
+  really exists, so a missing SBOM can never become a false claim.
+- Subtypes for all five classes (2026-07-28). `agent` and `svc` previously had none, so
+  `vxprobe`, `vxtraffic`, the `vxota` crates and the `vxtelemetry` crates — all shipped code —
+  could not be numbered; nor could Open5GS/UERANSIM, the components behind the H2 result.
+  Added `agent`→`probe`/`load`/`collect`, `svc`→`ota`/`telemetry`/`observability`/`signal`,
+  `gw`→`5gc`/`ran`/`dp`, `zone`→`mcu`. Existing part numbers are unaffected.
+- `scripts/publish/publish-container.sh` and `scripts/publish/publish-files.sh` — the
+  container and config-layer publish paths. Both derive the registry ref and the VXPN from the
+  part's directory path. The container script refuses an unpinned base image or a missing
+  licence declaration.
+- Scaffolding for the eight `hpc/{ad,sim}` parts on phase 2's critical path (READMEs +
+  Containerfiles; upstream digests still to resolve).
+- First part published to GHCR (2026-07-28):
+  `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:0.1.0`,
+  `sha256:33c9c8d8625bd5c6d1f4d3d0c561fdaa930e057fcd1fb24fb3badb402f25429d`. Private package.
+  Round-trip byte-identical; `artifactType` and all seven `org.vxedge.*` annotations preserved
+  by GHCR, so the registry serves as the catalogue without a `catalog.yaml`.
 - `parts/zone/linux/stack/probe-bundle/build.sh` — the `linux-probe` guest bundle recipe,
   copied from `vxzones/scripts/build-guest-bundle.sh` and adapted to stamp `org.vxedge.*`
   classification fields into `meta.json`. Verified end to end: the bundle boots under
