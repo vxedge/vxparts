@@ -217,6 +217,20 @@ gate-blocking, and building anything else first is how phase 2 slips further.**
 **Explicitly NOT on the critical path** (both contend for the same VRAM as CARLA+Autoware on
 a single ≥12GB card): DeepStream/TensorRT and Alpamayo. Adding either before the gate closes
 converts a schedule problem into a GPU-contention debugging problem.
+
+> **Hardware gate blocker, 2026-07-28.** Everything above *builds and publishes* without a
+> GPU — these are pin-and-relabel parts. But running `exp-011` requires a Tier 2 GPU host
+> (RTX-class, ≥12 GB VRAM, tensor cores for DeepStream/TensorRT). Finishing these eight parts
+> will not close the gate — see `docs/TASKS.md` phase 2 gate blocker; the GPU decision now
+> sits ahead of them on the critical path.
+
+- [x] **Container parts build in CI** (2026-07-28, `.github/workflows/parts.yml`):
+      `validate` (`vxpn.py lint` + `scan`) on every push/PR; `publish` is
+      `workflow_dispatch`-only, because pushing into the org namespace is an outward-facing
+      act and should not be a side effect of merging a README fix. The runner frees ~30 GB of
+      preinstalled toolchains first, since CARLA's base is 8.9 GB compressed (Autoware amd64
+      is 2.0 GB) against a stock runner's ~14 GB free. Publishing a pin-and-relabel part
+      should never depend on a particular workstation's hardware.
 - [ ] Closed loop: vehicle control (steer/throttle/brake) published back into CARLA via
       carla-ros-bridge — enables the control-loop latency metric (§12)
 - [ ] CARLO-based CI smoke test for the carla-ros-bridge topic contract — CARLO
