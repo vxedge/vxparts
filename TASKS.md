@@ -76,6 +76,31 @@ transitively on the same thing.
       update workspace root `CLAUDE.md` repo table, `docs/ARCHITECTURE.md`, every other repo's
       `AGENTS.md` naming `vxzones`/`vxcompute`, and `docs/TASKS.md` Track P
 
+## Track D consequences for this repo (design closed 2026-07-29)
+
+`docs/TASKS.md` Track D settled the vehicle-model design. Three things land here, none needing
+a GPU:
+
+- [ ] **`veh` class in `schema/taxonomy.yaml`** — vehicle models are `config`-layer parts at
+      `parts/veh/car/config/<name>`, numbered by the existing VXPN scheme. A separate
+      model-number scheme (VXMN) was proposed and rejected: one number kind, one publishing
+      contract, so sharing an experiment stays a single `oras pull`. Subtypes start at `car`;
+      the class axis leaves room for other mobility entities without implementing any.
+- [ ] **`requires:` block in `part.yaml`** — what a part *needs* to run (`arch`, `libc`, `cpu`,
+      `memory_gb`, `gpu.vram_gb`, `gpu.compute_capability`), as distinct from the `resources`
+      a component is *allocated* in a vehicle model. `vxedge manifest validate` checks
+      part → component → host and fails early. This is the check that would have caught the
+      Tier 2 GPU shortfall at validate time instead of after a build.
+      `depends_on` is metadata only — validated for presence in the same baseline, never
+      version-solved; a resolver is a package manager and would be a separate decision.
+- [ ] **Composite-part OCI index convention** — already on the board below, now with a second
+      consumer: a released vehicle is a `stack`-layer composite indexing its structure config
+      plus every part in its baseline, so an engineer shares one pullable, digest-addressed
+      thing.
+- [ ] Publish the manifest **JSON Schema generated from `vxedge-core`** as a config part
+      (`parts/ctl/schema/config/manifest-schema`) — editor autocomplete and inline validation
+      for hand-authored workspaces. Needs a `ctl` class alongside `veh`.
+
 ## Part numbering (see `PART-NUMBERING.md`)
 
 - [x] **Taxonomy and per-part metadata extracted to data (2026-07-28).** `vxpn.py` had the
@@ -218,11 +243,12 @@ gate-blocking, and building anything else first is how phase 2 slips further.**
 a single ≥12GB card): DeepStream/TensorRT and Alpamayo. Adding either before the gate closes
 converts a schedule problem into a GPU-contention debugging problem.
 
-> **Hardware gate blocker, 2026-07-28.** Everything above *builds and publishes* without a
-> GPU — these are pin-and-relabel parts. But running `exp-011` requires a Tier 2 GPU host
-> (RTX-class, ≥12 GB VRAM, tensor cores for DeepStream/TensorRT). Finishing these eight parts
-> will not close the gate — see `docs/TASKS.md` phase 2 gate blocker; the GPU decision now
-> sits ahead of them on the critical path.
+> **HELD until GPU access (2026-07-29).** `carla-server` and `autoware` are pinned and
+> CI-dispatchable, but they serve only `exp-011`, so there is nothing to gain by publishing
+> them before there is a host to run them on. Everything above *builds* without a GPU;
+> *running* `exp-011` requires a Tier 2 GPU host (RTX-class, ≥12 GB VRAM, tensor cores for
+> DeepStream/TensorRT). This hold blocks nothing else — see `docs/TASKS.md` phase 2, where
+> Track D's workspace-model implementation is now the main thread.
 
 - [x] **Container parts build in CI** (2026-07-28, `.github/workflows/parts.yml`):
       `validate` (`vxpn.py lint` + `scan`) on every push/PR; `publish` is
