@@ -1,0 +1,27 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Not built from source: SONiC-VS is produced by upstream sonic-buildimage's own multi-hour CI
+# pipeline. This part re-labels an official pre-built artifact under vxedge's own registry
+# namespace (the same "pull one, push it back via oras" pattern QNX/AAOS use for other
+# third-party-licensed guest images) — build.sh's job is `oras pull` + `oras push`, never
+# `sonic-buildimage`'s own build.
+build: recipe
+# TODO: confirm SPDX before first publish. SONiC itself is an Apache-2.0 Linux Foundation
+# project, but a built VS image bundles the Debian base and every packaged component under
+# their own upstream licenses — "Apache-2.0" alone would misstate what's actually in the
+# artifact. Do not publish with this placeholder still in place.
+license: TODO-confirm-before-publish
+annotations:
+  arch: x86_64
+  # Not a zone-attached guest: does not follow the zone-backend-contract guest-bundle
+  # convention (no `vx.ip=` kernel cmdline, no vmlinuz/initrd split — see this part's README).
+  role: production-nos-twin
+upstream:
+  # TODO: the official source ref/URL, pending confirmation.
+  ref: TODO-pending-official-source
+  # TODO: required before publish (SHA256 of the pulled artifact, §13 reproducibility —
+  # `latest`/unpinned tags are never published).
+  digest: TODO-pending
+sbom:
+  format: cyclonedx-json
+  path: bundle/sbom.cdx.json   # emitted by build.sh when SBOM tooling is present
