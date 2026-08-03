@@ -97,6 +97,11 @@ is genuine and usable; it does not yet confirm config parity (see below).
 parts that ship as one complete disk image instead — SONiC-VS today, any future full-appliance
 VM twin later.
 
+**Published 2026-08-03**: `ghcr.io/vxedge/parts/gw/nos/os/sonic-vs:202505.1182664`. Confirmed
+via `oras manifest fetch` (not just a successful push exit code): the pushed
+`sonic-vs.img` layer's digest, size (6457589760 bytes), and every `org.vxedge.*` annotation
+match the local `bundle/meta.json` exactly.
+
 ## What this part does not include
 
 The local boot verification above proves the artifact is genuine and boots correctly — it does
