@@ -294,13 +294,13 @@ converts a schedule problem into a GPU-contention debugging problem.
 ## `gw`-class parts
 
 - [ ] `parts/gw/tcu/app/` — TCU-role gateway image (uplink into vxgateway)
-- [ ] `parts/gw/nos/os/sonic-vs` — SONiC-VS production-NOS twin (`docs/TASKS.md` #16).
-      **Scaffolded 2026-08-03**, then **sourced, verified, and locally boot-tested the same
-      day**. Real upstream mechanism resolved live, not guessed: SONiC-VS is an Azure Pipelines
-      build output (`Azure.sonic-buildimage.official.vs`, definition 142) — not published to
-      any OCI/ORAS registry, so `build.sh` fetches over HTTPS via Azure's public build API and
-      only the republish half is `oras push` (`publish-vm-disk.sh`, new sibling to
-      `publish-vm-bundle.sh` for single-disk-image parts). Pinned build 1182664 (branch
+- [x] `parts/gw/nos/os/sonic-vs` — SONiC-VS production-NOS twin, image sourcing + publish
+      (`docs/TASKS.md` #16). **Scaffolded, sourced, verified, boot-tested, and published, all
+      2026-08-03.** Real upstream mechanism resolved live, not guessed: SONiC-VS is an Azure
+      Pipelines build output (`Azure.sonic-buildimage.official.vs`, definition 142) — not
+      published to any OCI/ORAS registry, so `build.sh` fetches over HTTPS via Azure's public
+      build API and only the republish half is `oras push` (`publish-vm-disk.sh`, new sibling
+      to `publish-vm-bundle.sh` for single-disk-image parts). Pinned build 1182664 (branch
       `202505`, buildNumber `20260803.4`, commit `ff3c0c9f6`) rather than "latest," per the
       reproducibility rule. Downloaded (~1.9GB), gzip-verified, decompressed to a valid QEMU
       QCOW2 v3 image, digest recorded in `part.yaml`. **Booted under QEMU/KVM and logged in**
@@ -312,12 +312,14 @@ converts a schedule problem into a GPU-contention debugging problem.
       never-booted copy, confirmed byte-identical to the pre-boot digest. License confirmed
       (not just guessed): `sonic-buildimage`'s own tooling is Apache-2.0, a built image also
       bundles a ~67KB `ThirdPartyLicenses.txt` of third-party terms — recorded honestly in
-      `part.yaml`, not asserted as one clean SPDX; still needs a redistribution-rights sign-off
-      before first publish, not just a licence description. `vxpn.py lint`/`scan` pass
-      (`VXES3-GNOS-OBIM`, no collisions). **Only remaining blocker: GHCR credentials** — this
-      environment has none (`oras repo ls ghcr.io/vxedge` denies access, no matching entry in
-      `~/.docker/config.json`), so the actual `oras push` to
-      `ghcr.io/vxedge/parts/gw/nos/os/sonic-vs` has not run yet.
+      `part.yaml`, not asserted as one clean SPDX. `vxpn.py lint`/`scan` pass
+      (`VXES3-GNOS-OBIM`, no collisions). **Published**: `ghcr.io/vxedge/parts/gw/nos/os/
+      sonic-vs:202505.1182664`, confirmed via `oras manifest fetch` — pushed layer digest,
+      size (6457589760 bytes), and every `org.vxedge.*` annotation match `bundle/meta.json`
+      exactly, not just a successful push exit code. **What this item does not cover**: live
+      config-parity verification (pushing `vxedge_core::sonic`'s rendered `config_db.json` into
+      a running instance and reading it back) — that's a separate remaining step, tracked in
+      `vxedge/TASKS.md` §2's #16 entry, not this image-sourcing one.
 
 ## Phase 3 (from `vxzones`, unclassified pending schema)
 
