@@ -294,8 +294,15 @@ converts a schedule problem into a GPU-contention debugging problem.
 ## `gw`-class parts
 
 - [ ] `parts/gw/tcu/app/` — TCU-role gateway image (uplink into vxgateway)
-- [ ] `parts/gw/nos/` — SONiC-VS-adjacent NOS twin packaging, if/when it moves from
-      infrastructure config to a published part
+- [ ] `parts/gw/nos/os/sonic-vs` — SONiC-VS production-NOS twin (`docs/TASKS.md` #16).
+      **Scaffolded 2026-08-03**: `part.yaml`, `README.md`, `build.sh` (pull-and-republish via
+      `oras pull`/`oras push`, not built from source), plus a new sibling publish script
+      `publish-vm-disk.sh` for single-disk-image parts. `vxpn.py lint`/`scan` both pass
+      (`VXES3-GNOS-OBIM`, no collisions). **Blocked on two confirmations before first
+      publish**: (1) the official upstream registry ref (`part.yaml`'s `upstream.ref` is a
+      `TODO` placeholder — not guessed), (2) actual redistribution licence for a built VS
+      image (bundles the Debian base + every packaged component under their own upstream
+      terms, not just SONiC's own Apache-2.0).
 
 ## Phase 3 (from `vxzones`, unclassified pending schema)
 
