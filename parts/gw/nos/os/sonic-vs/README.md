@@ -102,10 +102,43 @@ via `oras manifest fetch` (not just a successful push exit code): the pushed
 `sonic-vs.img` layer's digest, size (6457589760 bytes), and every `org.vxedge.*` annotation
 match the local `bundle/meta.json` exactly.
 
-## What this part does not include
+## Config parity: verified, 2026-08-03
 
-The local boot verification above proves the artifact is genuine and boots correctly — it does
-not verify config parity against `vxedge_core::sonic`'s rendered `config_db.json`, which is the
-other half of `docs/TASKS.md` #16's SONiC-VS item and remains tracked separately: pushing a
-rendered config into a running instance (`config load`) and reading it back
-(`show vlan brief`/`redis-cli`) to confirm it matches what the renderer produced.
+`docs/TASKS.md` #16's remaining claim — that `vxedge_core::sonic`'s rendered `config_db.json`
+actually expresses the declared VLAN intent on a real SONiC instance, not just that the
+renderer's own unit tests are internally consistent — is now proven against a live boot, not
+assumed:
+
+```
+cargo run -p vxedge-core --example render_sonic -- <manifest.yaml> Ethernet0 > rendered.json
+python3 verify-config-parity.py bundle/sonic-vs.img rendered.json
+```
+
+`render_sonic` is the real renderer path (`vxedge_core::sonic::render_json`), not a
+hand-written recreation. `verify-config-parity.py` boots a **disposable copy** of the given
+image (never the path itself — see the boot-mutation warning above), clears whichever ports the
+rendered config's own `VLAN_MEMBER` entries name (SONiC-VS's default config pre-assigns every
+front-panel port as a routed L3 interface as part of a default T1 fabric topology — a port
+can't be both a routed interface and a VLAN member, the same repurposing step a real operator
+would take), loads the rendered config with SONiC's own `config load`, then reads every
+declared field back via direct CONFIG_DB queries and asserts an exact match.
+
+Result with a 2-VLAN example (`adas`→101, `infotainment`→103, trunk `Ethernet0`): **all 4
+declared fields matched exactly** — `VLAN|Vlan101.vlanid=101`, `VLAN|Vlan103.vlanid=103`,
+`VLAN_MEMBER|Vlan101|Ethernet0.tagging_mode=tagged`,
+`VLAN_MEMBER|Vlan103|Ethernet0.tagging_mode=tagged` — confirmed independently via `show vlan
+brief` too. `sonic-cfggen -j <file> --write-to-db` (what `config load` runs under the hood)
+accepted the renderer's JSON with no errors or warnings.
+
+Two real bugs were found and fixed while getting the verification script itself right — worth
+recording since they're generic `pexpect`-over-serial-console gotchas, not SONiC- or
+vxedge-specific: (1) a bare `\$` prompt-match pattern matches the *first* `$` character
+anywhere in the buffer, including one echoed back from a command's own text (`$(...)`
+substitution, `"$ip"`) — before the command finishes, not after — fixed by anchoring to the
+literal, end-of-buffer prompt string instead; (2) a rendered JSON's own dict keys are bare row
+keys (`"Vlan101"`, matching `config_db.json`'s own nested-table shape, where the *outer* JSON
+key already names the table) — a direct `redis-cli` lookup needs the real CONFIG_DB key with
+the table name prefixed (`"VLAN|Vlan101"`), and the first version of this script queried the
+bare key, silently got `(nil)` back for everything, and would have been misread as "the config
+never loaded" rather than what it actually was — a key-construction bug in the verification
+script, not the renderer.
