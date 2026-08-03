@@ -316,10 +316,15 @@ converts a schedule problem into a GPU-contention debugging problem.
       (`VXES3-GNOS-OBIM`, no collisions). **Published**: `ghcr.io/vxedge/parts/gw/nos/os/
       sonic-vs:202505.1182664`, confirmed via `oras manifest fetch` — pushed layer digest,
       size (6457589760 bytes), and every `org.vxedge.*` annotation match `bundle/meta.json`
-      exactly, not just a successful push exit code. **What this item does not cover**: live
-      config-parity verification (pushing `vxedge_core::sonic`'s rendered `config_db.json` into
-      a running instance and reading it back) — that's a separate remaining step, tracked in
-      `vxedge/TASKS.md` §2's #16 entry, not this image-sourcing one.
+      exactly, not just a successful push exit code. **Live config-parity verification also
+      done, same day**: `verify-config-parity.py` boots a disposable copy, loads
+      `vxedge_core::sonic`'s real rendered output (via the new `render_sonic` example) with
+      SONiC's own `config load`, and reads every declared field back via direct CONFIG_DB
+      queries. Result: all 4 fields in a 2-VLAN example matched exactly, `sonic-cfggen` accepted
+      the JSON with no errors — full account, including two real `pexpect`-over-serial-console
+      bugs found and fixed along the way, in this part's own README. **Item #16's SONiC-VS twin
+      is now fully closed** — mechanism, image sourcing, publish, and live config-parity
+      verification all delivered and proven, not assumed.
 
 ## Phase 3 (from `vxzones`, unclassified pending schema)
 
