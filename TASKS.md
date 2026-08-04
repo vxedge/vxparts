@@ -70,11 +70,29 @@ transitively on the same thing.
         diff) before H3 numbers are trusted post-move. Until that lands, treat the `vxzones`
         copy as the one still in use and the `vxparts` copy as the new canonical *source* for
         anything net-new.
-- [ ] Migrate `vxzones`'s zone manifests into `parts/zone/...`
-- [ ] Migrate `vxcompute`'s docs-only backlog (below) into this board
-- [ ] Once both migrations land: archive `vxzones` and `vxcompute` on GitHub (not delete);
-      update workspace root `CLAUDE.md` repo table, `docs/ARCHITECTURE.md`, every other repo's
-      `AGENTS.md` naming `vxzones`/`vxcompute`, and `docs/TASKS.md` Track P
+- [x] Migrate `vxzones`'s zone manifests into `parts/zone/...` — **confirmed 2026-08-04**:
+      `vxzones` never actually had zone manifests beyond `linux-probe` (its own board,
+      `vxzones/TASKS.md`, still shows "Zone manifests for the six roles" as `[ ]`, never
+      built — "zero code beyond linux-probe" throughout its own history). There was nothing
+      to migrate beyond what already landed above. Every item on `vxzones`' own backlog
+      (Zephyr/FreeRTOS/QNX/AAOS images, sensor-node variant, digest tooling, Kuksa, CAN, RSU,
+      restbus, Renode, Jetson/DRIVE AGX validation) is already tracked here — see the
+      `zone`-class section below plus Phase 3/4 — verified item-by-item against
+      `vxzones/TASKS.md` before checking this off, not assumed.
+- [x] Migrate `vxcompute`'s docs-only backlog (below) into this board — **confirmed
+      2026-08-04**: verified item-by-item against `vxcompute/TASKS.md`. Everything was
+      already migrated in the 2026-07-26 re-scope (see the `hpc`-class section below) except
+      one real gap, found and added: the minimal responder/echo container for measuring
+      **service response time** (`ARCHITECTURE.md` §12's own compute metric class, distinct
+      from `vxprobe`'s network-RTT numbers) — `vxcompute`'s own Phase 1 item, missed in the
+      original re-scope. `vxcompute`'s other two Phase-1 items (repo layout, a §6.1
+      `compute:` manifest) are genuinely obsolete, not gaps: superseded by this repo's own
+      layout and by the §6.0 workspace model (§6.1 stopped being a provisioning input
+      2026-07-31) respectively.
+- [ ] Both migrations now confirmed complete — `vxzones` and `vxcompute` can be archived on
+      GitHub (not deleted) once this is checked. Already propagated ahead of the archival
+      itself: workspace root `CLAUDE.md` repo table, `docs/ARCHITECTURE.md` §4, every other
+      repo's `AGENTS.md`/skill naming `vxzones`/`vxcompute`.
 
 ## Track D consequences for this repo (design closed 2026-07-29)
 
@@ -307,6 +325,13 @@ converts a schedule problem into a GPU-contention debugging problem.
       replacement.** Promoting to a named ADAS-slice workload needs an `ARCHITECTURE.md` §10
       change first — not decided here
 - [ ] MIG-slice GPU sharing variant (`resources.gpu: mig-slice`)
+- [ ] Minimal `hpc`-class responder/echo container — measures **service response time**
+      specifically (`ARCHITECTURE.md` §12's compute metric class, distinct from the
+      network-RTT numbers `vxprobe` already produces). From `vxcompute`'s own phase-1
+      scope (`Repo layout`/`vxcompute-central manifest` items are obsolete — superseded by
+      this repo's own layout and the §6.0 workspace model respectively — but this one
+      metric-class gap survived the migration unaddressed until noticed 2026-08-04 while
+      confirming `vxcompute`'s backlog was fully present here before archiving it)
 
 ## `gw`-class parts
 
