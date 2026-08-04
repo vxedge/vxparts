@@ -48,6 +48,72 @@ jobs:
       - name: VXPN collision scan
         run: ./scripts/vxpn.py scan
 
+  # Builds every changed container part (VXPARTS_NO_PUSH=1: no registry credentials needed,
+  # no push happens) on every push/PR — catches a broken Containerfile or a label that
+  # doesn't survive the build before merge, which `validate`'s lint/scan never can since they
+  # only check part.yaml/taxonomy metadata, never invoke podman. `publish` below stays the
+  # only path that actually pushes, and stays manual (see the file's own top comment on why).
+  build-containers:
+    name: build changed container parts
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install PyYAML
+      # Same reclaim as `publish` below — CARLA's base alone (8.9 GB) exceeds a stock
+      # runner's ~14 GB free on /.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+      - name: Determine changed container parts
+        id: changed
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            # First push to a new branch: `before` is all-zeros. Diff against the empty tree
+            # so every part present today is treated as "changed" rather than the step
+            # erroring on a ref that doesn't exist.
+            if [[ "$BASE" =~ ^0+$ ]]; then
+              BASE="$(git hash-object -t tree /dev/null)"
+            fi
+          fi
+          mapfile -t parts < <(
+            git diff --name-only "$BASE" HEAD -- parts/ \
+              | awk -F/ 'NF>=6 {print $1"/"$2"/"$3"/"$4"/"$5}' \
+              | sort -u
+          )
+          {
+            echo "parts<<VXEOF"
+            printf '%s\n' "${parts[@]}"
+            echo "VXEOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Build changed container parts (no push)
+        env:
+          VXPARTS_NO_PUSH: "1"
+        run: |
+          set -euo pipefail
+          any=0
+          while IFS= read -r part; do
+            [[ -z "$part" ]] && continue
+            if [[ -f "$part/Containerfile" ]]; then
+              any=1
+              ./scripts/publish/publish-container.sh "$part" ci-build
+            fi
+          done <<<"${{ steps.changed.outputs.parts }}"
+          if [[ "$any" == "0" ]]; then
+            echo "no container parts changed — nothing to build"
+          fi
+
   publish:
     if: github.event_name == 'workflow_dispatch'
     needs: validate

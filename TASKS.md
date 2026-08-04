@@ -163,9 +163,26 @@ a GPU:
 - [ ] Decide publish-tooling shape: thin wrapper CLI (`vxpart`?) vs. documented
       `oras`/`docker` invocations + a script-per-kind — default to the latter until the
       number of artifact kinds/repeated steps justifies a real binary
-- [ ] CI: path-filtered build+publish workflow (`parts/zone/**` → VM/kernel bundle build,
-      `parts/hpc/**`/`parts/gw/**` → container build) — two genuinely different toolchains
-      (QEMU/kernel assembly vs. Docker+CUDA), kept as separate jobs sharing one workflow
+- [x] CI: automated container-part **build** verification — **delivered 2026-08-04**
+      (`docs/TASKS.md` #18, cross-reference here). New `build-containers` job in
+      `.github/workflows/parts.yml`: detects which `parts/**` directories changed (`git diff`
+      against the PR base or the previous push, first-push-to-a-branch handled by diffing
+      against the empty tree) and, for each with a `Containerfile`, runs
+      `VXPARTS_NO_PUSH=1 ./scripts/publish/publish-container.sh` — the same script `publish`
+      already uses, just without pushing, exactly the mode its own `VXPARTS_NO_PUSH` env var
+      exists for ("for CI," per its header comment). Catches a broken Containerfile or a
+      label that doesn't survive the build before merge — `validate`'s `lint`/`scan` only
+      check `part.yaml`/taxonomy metadata, never invoke `podman`. **Deliberately does not
+      publish**: pushing into the org namespace stays the manual, dispatch-only act the
+      file's own top comment already explains; this job only builds. A real bug caught while
+      writing the change-detection logic: the first version's `awk` field split was off by
+      one (`parts/<class>/<subtype>/<layer>`, missing the part's own `<name>` segment) —
+      found and fixed by dry-running the exact script against this repo's real history before
+      trusting it in CI, not by reasoning about it in the abstract.
+- [ ] CI: the other half — `parts/zone/**` → VM/kernel bundle build (`publish-vm-bundle.sh`/
+      `publish-vm-disk.sh`), a genuinely different toolchain (QEMU/kernel assembly vs.
+      Docker+CUDA) from the container half just delivered above — kept as a separate,
+      smaller follow-on rather than blocking the container half on it
 
 ## `zone`-class parts (from `vxzones`)
 
