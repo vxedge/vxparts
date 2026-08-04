@@ -89,10 +89,12 @@ transitively on the same thing.
       `compute:` manifest) are genuinely obsolete, not gaps: superseded by this repo's own
       layout and by the §6.0 workspace model (§6.1 stopped being a provisioning input
       2026-07-31) respectively.
-- [ ] Both migrations now confirmed complete — `vxzones` and `vxcompute` can be archived on
-      GitHub (not deleted) once this is checked. Already propagated ahead of the archival
-      itself: workspace root `CLAUDE.md` repo table, `docs/ARCHITECTURE.md` §4, every other
-      repo's `AGENTS.md`/skill naming `vxzones`/`vxcompute`.
+- [x] Both migrations confirmed complete, then `vxzones` and `vxcompute` **archived on GitHub
+      2026-08-04** (not deleted — verified via `gh repo view --json isArchived`, both
+      `true`). Propagated ahead of the archival itself: workspace root `CLAUDE.md` repo
+      table, `docs/ARCHITECTURE.md` §4, every other repo's `AGENTS.md`/skill naming
+      `vxzones`/`vxcompute`; a closing note pushed to each repo's own `TASKS.md` before
+      archiving (afterward they're read-only, no more pushes possible).
 
 ## Track D consequences for this repo (design closed 2026-07-29)
 
