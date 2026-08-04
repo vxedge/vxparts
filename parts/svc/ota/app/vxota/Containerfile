@@ -1,0 +1,22 @@
+# vxota — the OTA server (keygen/publish/serve), packaged for deployment via
+# `vxedge ota up --experiment <manifest>` (ARCHITECTURE.md §8).
+#
+# Packaging-only, deliberately: `vxota` is a first-party Rust workspace living in its own
+# *private* repo (`vxedge/vxota`), not an external upstream this Containerfile can `git
+# clone` at build time the way autoware/carla-server pull a public base image — a private
+# clone would need build-time credentials, which is exactly the kind of secret this
+# workspace's own network-provisioning-patterns skill already argues against baking into a
+# build. So the binary is built *outside* (from a checkout of `vxedge/vxota` at the pinned
+# commit `bin/`'s own provenance annotation names) and staged into `bin/` before this
+# Containerfile ever runs — this stage only packages it. UPSTREAM here is the actual
+# external dependency: the minimal Debian runtime base, digest-pinned like every other
+# part's own upstream.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+
+RUN groupadd -r vxota && useradd -r -g vxota -s /usr/sbin/nologin -d /nonexistent vxota
+
+COPY bin/vxota /usr/local/bin/vxota
+
+USER vxota
+ENTRYPOINT ["/usr/local/bin/vxota"]
