@@ -107,6 +107,23 @@ jobs:
             [[ -z "$part" ]] && continue
             if [[ -f "$part/Containerfile" ]]; then
               any=1
+              # Convention: a part may stage content from a sibling repo this single-repo
+              # checkout doesn't have (e.g. gw/ran/os/ueransim's stage-vxprobe.sh, staging a
+              # prebuilt vxprobe from vxagents). Run any stage-*.sh first; if it fails because
+              # the sibling isn't present, skip this part's build-verification rather than
+              # failing the whole job — that's an expected CI limitation, not a broken
+              # Containerfile, and it's still verified for real whenever it's actually published
+              # (a human, from a workstation with the sibling repo checked out).
+              stage_ok=1
+              for stage in "$part"/stage-*.sh; do
+                [[ -e "$stage" ]] || continue
+                echo "== running $stage"
+                if ! "$stage"; then
+                  echo "== $stage failed (sibling repo likely unavailable in this checkout) — skipping $part's build-verification"
+                  stage_ok=0
+                fi
+              done
+              [[ "$stage_ok" == "1" ]] || continue
               ./scripts/publish/publish-container.sh "$part" ci-build
             fi
           done <<<"${{ steps.changed.outputs.parts }}"

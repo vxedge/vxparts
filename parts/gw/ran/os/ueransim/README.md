@@ -24,6 +24,12 @@ competing recipe of its own.
 `bin/` is gitignored repo-wide (`vxparts/.gitignore: parts/**/bin/`) — nothing to clean up
 manually, and nothing staged there is committed.
 
+**CI**: the `build-containers` job's own checkout has no `vxagents`, so `stage-*.sh` scripts
+are run automatically as a best-effort step — when the sibling repo isn't present, this part's
+build-verification is skipped (loudly, not silently) rather than failing the whole job. Real
+build verification for this part happens locally, or from a future CI variant that checks out
+`vxagents` too (not built — needs cross-repo checkout access, a separate decision).
+
 ## Upstream pin
 
 Same base-image pattern as `gw/5gc/os/open5gs`: `upstream.ref`/`digest` in `part.yaml` pin the
