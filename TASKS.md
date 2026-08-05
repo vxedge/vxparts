@@ -133,10 +133,25 @@ a GPU:
       `depends_on` is metadata only — validated for presence in the same baseline, never
       version-solved; a resolver is a package manager and would be a separate decision. Not
       touched by this pass.
-- [ ] **Composite-part OCI index convention** — already on the board below, now with a second
-      consumer: a released vehicle is a `stack`-layer composite indexing its structure config
-      plus every part in its baseline, so an engineer shares one pullable, digest-addressed
-      thing.
+- [x] **Composite-part OCI index convention — landed 2026-08-05** (`docs/TASKS.md` #19 item
+      3). `scripts/publish/publish-composite.sh`: a `stack`-layer part declares its
+      `constituents:` (already-published `<path>:<tag>` refs) in `part.yaml`;
+      `vxpn.py build` gates the script to `build: composite` parts only. The non-obvious
+      part: `oras manifest index create` requires every referenced manifest to already exist
+      in the INDEX'S OWN repository — a real registry enforces this, a naive single-repo
+      local test would not have caught it — so the script first cross-mounts each
+      constituent's manifest into the composite's own repo with `oras cp` (a same-registry
+      mount, not a re-upload, since digests are content-addressed and survive the copy
+      unchanged) before indexing the resulting in-repo digests. Verified against a disposable
+      local `registry:2` end-to-end, using the real unmodified script (only `oras` itself
+      shimmed with `--plain-http`, everything else genuine): two throwaway constituents
+      pushed, mounted, indexed, fetched back, digests confirmed to match; both error paths
+      (wrong layer, missing `constituents:`) fail loudly. `ad-baseline`/`sim-baseline` now
+      carry real `constituents:` lists — still blocked on `autoware-params`/`scenarios`
+      themselves being non-`todo`, not on tooling anymore (see their own READMEs).
+      A vehicle-as-composite (structure config + every baseline part, one pullable unit) is
+      the same convention, second consumer — not built as its own thing, since nothing about
+      it differs from what already landed.
 - [ ] Publish the manifest **JSON Schema generated from `vxedge-core`** as a config part
       (`parts/ctl/schema/config/manifest-schema`) — editor autocomplete and inline validation
       for hand-authored workspaces.

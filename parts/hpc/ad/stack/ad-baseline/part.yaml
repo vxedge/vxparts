@@ -3,3 +3,11 @@
 license: Apache-2.0 AND MIT
 annotations:
   composite: "true"
+# Each constituent must already be published at this tag (its own publish-container.sh /
+# publish-files.sh run) before ./scripts/publish/publish-composite.sh can index it —
+# that script fails loudly, not silently, if a constituent isn't there yet.
+constituents:
+  - hpc/ad/middleware/ros2-humble:0.1.0
+  - hpc/ad/middleware/carla-client:0.1.0
+  - hpc/ad/app/autoware:0.1.0
+  - hpc/ad/config/autoware-params:0.1.0

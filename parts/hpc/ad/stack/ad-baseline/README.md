@@ -15,7 +15,17 @@ The CARLA↔ROS2 link is `autoware_carla_interface`, which ships inside the `aut
 constituent; `carla-client` supplies the matching CARLA 0.9.15 client API. The former
 `carla-ros-bridge` part was retired 2026-07-28 — see `carla-client/README.md`.
 
-**Blocked:** the composite-part convention (an OCI image index over constituent parts) is not
-implemented yet — `docs/TASKS.md` Track P. Until it lands, an experiment manifest references
-the four constituents individually. Build this last; it is the only critical-path part that
-needs new publish tooling rather than new content.
+**Composite tooling landed 2026-08-05** (`scripts/publish/publish-composite.sh`, `vxparts/TASKS.md`
+#19 item 3): `part.yaml` now declares this baseline's four `constituents:` at their tags; the
+script cross-mounts each constituent's already-pushed manifest into this part's own repo (an
+OCI index can only reference manifests within its own repository — a real registry, not just a
+local one, is what surfaces that) and creates the index over the resulting digests. Verified
+against a disposable local registry with two throwaway constituents end-to-end (mount, index
+create, fetch, digest-match), and its error paths (wrong layer, missing `constituents:`) both
+fail loudly rather than silently.
+
+**Still blocked, but on content now, not tooling:** two of the four constituents —
+`hpc/ad/config/autoware-params` and (for `sim-baseline`) `hpc/sim/config/scenarios` — are
+themselves still `todo` (no payload yet, `vxpn.py lint`). Until those are populated and
+published, running `publish-composite.sh` against this part fails at the `oras cp` step for
+whichever constituent isn't there — which is the intended fail-fast behaviour, not a bug.

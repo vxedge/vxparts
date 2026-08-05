@@ -18,6 +18,7 @@ Usage:
     vxpn.py verify <vxpn>                   # check-character validation
     vxpn.py decode <vxpn>                   # -> class/subtype/layer + name digest
     vxpn.py meta <part-dir>                 # part.yaml + VXPN -> org.vxedge.* JSON
+    vxpn.py build <part-dir>                # resolved build kind: recipe | files | composite
     vxpn.py scan [parts-dir]                # collision gate over a parts/ tree (CI)
     vxpn.py lint [parts-dir]                # taxonomy + part.yaml validation (CI)
 """
@@ -304,6 +305,10 @@ def main() -> int:
         print(f"name digest:  {d['name_digest']}  (one-way — the registry holds the name)")
     elif cmd == "meta" and len(args) == 1:
         print(json.dumps(part_meta(pathlib.Path(args[0])), indent=2, sort_keys=True))
+    elif cmd == "build" and len(args) == 1:
+        d = pathlib.Path(args[0])
+        _cls, _sub, layer, _name = part_fields(d)
+        print(part_build(d, layer))
     elif cmd == "scan":
         # The name digest is finite, so collisions become likely as the catalogue grows —
         # this is the CI gate that catches one before it ships.
