@@ -1,0 +1,4 @@
+license: Apache-2.0
+annotations:
+  kind: json-schema
+  generated-from: vxedge-core

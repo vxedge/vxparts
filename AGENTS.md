@@ -36,9 +36,10 @@ nothing. `vxpn.py meta <part-dir>` is the single resolver both go through.
 Every part is identified by **class / subtype / layer**, encoded both as its directory path
 and as `org.vxedge.*` OCI annotations stamped at push time:
 
-- **class**: `zone` | `hpc` | `gw` | `agent` | `svc`
+- **class**: `zone` | `hpc` | `gw` | `agent` | `svc` | `veh` | `ctl`
 - **subtype**: for `zone` — `qnx` | `zephyr` | `freertos` | `linux` | `aaos`; for `hpc` —
-  `ad` | `cockpit` | `motion` | `sim`; for `gw` — `tcu` | `nos`
+  `ad` | `cockpit` | `motion` | `sim`; for `gw` — `tcu` | `nos`; for `veh` — `car`; for `ctl`
+  — `schema`
 - **layer**: `firmware` | `os` | `hypervisor` | `middleware` | `app` | `config` | `stack`
   (`stack` = a composite part, see below)
 

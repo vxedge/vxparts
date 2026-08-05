@@ -88,3 +88,13 @@ classes:
       telemetry:     {code: TLM, description: "telemetry ingest/collect (vxtelemetry)"}
       observability: {code: OBS, description: "Prometheus/Grafana/DCGM exporter"}
       signal:        {code: SIG, description: "VSS/Kuksa signal plane (Track D dim 2-3)"}
+  veh:
+    code: V
+    description: "vehicle structural model — config-layer only, no runtime image (Track D consequence a, vxparts/TASKS.md)"
+    subtypes:
+      car: {code: CAR, description: "passenger-car structural model (zone/HPC placement, E/E topology)"}
+  ctl:
+    code: C
+    description: "control-plane/tooling artifact — schemas and manifests consumed by vxedge itself, not a loadable workload (Track D consequence d, vxparts/TASKS.md)"
+    subtypes:
+      schema: {code: SCH, description: "generated JSON Schema for editor autocomplete/inline validation (e.g. manifest-schema, from vxedge-core's Rust types)"}

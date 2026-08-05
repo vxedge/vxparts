@@ -101,11 +101,17 @@ transitively on the same thing.
 `docs/TASKS.md` Track D settled the vehicle-model design. Three things land here, none needing
 a GPU:
 
-- [ ] **`veh` class in `schema/taxonomy.yaml`** — vehicle models are `config`-layer parts at
-      `parts/veh/car/config/<name>`, numbered by the existing VXPN scheme. A separate
-      model-number scheme (VXMN) was proposed and rejected: one number kind, one publishing
-      contract, so sharing an experiment stays a single `oras pull`. Subtypes start at `car`;
-      the class axis leaves room for other mobility entities without implementing any.
+- [x] **`veh` class in `schema/taxonomy.yaml`** — landed 2026-08-05: `code: V`, subtype `car`
+      (`code: CAR`), vehicle models are `config`-layer parts at `parts/veh/car/config/<name>`,
+      numbered by the existing VXPN scheme. A separate model-number scheme (VXMN) was proposed
+      and rejected: one number kind, one publishing contract, so sharing an experiment stays a
+      single `oras pull`. Subtypes start at `car`; the class axis leaves room for other
+      mobility entities without implementing any. `vxpn.py lint`/`scan` both clean (13 parts,
+      no collisions). Scaffolded `parts/veh/car/config/reference-sedan-6zone/` (`todo`, no
+      payload yet — none of `vxperiments`' existing vehicle documents is the full six-zone
+      reference topology this name promises; populating it is a design decision — hand-author
+      one, or defer to Track M/`vxmodels` rendering it from SysML v2 — not data entry, so left
+      `todo` deliberately, same discipline as `hpc/ad/config/autoware-params`).
 - [ ] **`requires:` block in `part.yaml`** — what a part *needs* to run (`arch`, `libc`, `cpu`,
       `memory_gb`, `gpu.vram_gb`, `gpu.compute_capability`), as distinct from the `resources`
       a component is *allocated* in a vehicle model. `vxedge manifest validate` checks
@@ -119,7 +125,14 @@ a GPU:
       thing.
 - [ ] Publish the manifest **JSON Schema generated from `vxedge-core`** as a config part
       (`parts/ctl/schema/config/manifest-schema`) — editor autocomplete and inline validation
-      for hand-authored workspaces. Needs a `ctl` class alongside `veh`.
+      for hand-authored workspaces.
+  - [x] `ctl` class in `schema/taxonomy.yaml` — landed 2026-08-05: `code: C`, subtype `schema`
+        (`code: SCH`); scaffolded `parts/ctl/schema/config/manifest-schema/` (`todo`, no
+        payload yet). `vxpn.py lint`/`scan` clean.
+  - [ ] The schema itself: real Rust codegen in `vxedge` (`schemars` on `vxedge-core`'s
+        workspace document structs — `Experiment`/`Vehicle`/`Road`/`Baseline`/`Component` —
+        emitted via a script/xtask), not something to fabricate on the `vxparts` side. Tracked
+        as part of `docs/TASKS.md` #19 item 4, alongside the registry-fetch mechanism.
 
 ## Part numbering (see `PART-NUMBERING.md`)
 
