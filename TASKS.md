@@ -61,15 +61,20 @@ transitively on the same thing.
         enumerates it — the registry-is-the-catalogue claim now holds against a real
         registry, not just a local `registry:2`. Package **visibility: private**, consistent
         with going-public being deferred; publishing it is a separate deliberate step.
-  - [ ] **Cutover not done yet, and not safe to do casually**: `vxzones/scripts/build-guest-bundle.sh`
-        is still the live recipe backing `exp-002`/`exp-002b` (`vxperiments/experiments/exp-002*.yaml`,
-        `vxperiments/scripts/run-exp-002*.sh` all reference `vxzones/images/linux-probe/bundle`
-        directly) — the H3 numbers on record were measured against that path. Repointing those
-        manifests/scripts at a `vxparts`-published artifact is a separate step requiring
-        re-validation that the bundle is bit-for-bit equivalent (or a documented, justified
-        diff) before H3 numbers are trusted post-move. Until that lands, treat the `vxzones`
-        copy as the one still in use and the `vxparts` copy as the new canonical *source* for
-        anything net-new.
+  - [x] **Cutover done and live-verified, 2026-08-05.** `exp-002-ws`/`exp-002b-ws`'s
+        `BUNDLE=`/`fetch-parts.sh` redirected from `vxzones/images/linux-probe/bundle` (long
+        archived, no longer clonable) to `vxparts/parts/zone/linux/stack/probe-bundle/bundle`.
+        Content equivalence verified before trusting it: `vmlinuz` byte-identical
+        (`a2e220a5...`), `initrd.img` hash changed (`993b448d...` → `b3634b26...`) but confirmed
+        to be exactly the already-documented cosmetic string diff from the original migration
+        (Track P, 2026-07-28), not a functional regression — `parts/linux-probe.sha256`
+        regenerated for both workspaces to match. Surfaced a genuine, separate,
+        pre-existing `vxedged` bug along the way (`ActiveExperiment.dir` falling back to `"."`
+        for inline-staged manifests — see `vxedge`'s own commit fixing `ManifestRef.resolved_dir`),
+        independent of this path change but only exercised by exp-002/002b's local
+        `kind: bundle` refs. Live-verified: a real `--quick` campaign against the `vxparts`
+        path completes clean on all three arms (container/microvm/libvirt), including the
+        microvm arm that previously failed with a bundle-path error before the daemon fix.
 - [x] Migrate `vxzones`'s zone manifests into `parts/zone/...` — **confirmed 2026-08-04**:
       `vxzones` never actually had zone manifests beyond `linux-probe` (its own board,
       `vxzones/TASKS.md`, still shows "Zone manifests for the six roles" as `[ ]`, never
