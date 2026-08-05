@@ -169,6 +169,42 @@ def part_fields(part_dir: pathlib.Path):
     return rel.parts
 
 
+REQUIRES_KEYS = {"arch", "libc", "cpu", "memory_gb", "gpu"}
+REQUIRES_CPU_KEYS = {"cores"}
+REQUIRES_GPU_KEYS = {"vram_gb", "compute_capability"}
+
+
+def _validate_requires(requires: dict, meta_path: pathlib.Path) -> None:
+    """Schema-side validation only (Track D consequence b, vxparts/TASKS.md): what a part
+    *needs* to run, as distinct from the `resources` a component is *allocated* in a vehicle
+    model. `vxedge manifest validate` checking part -> component -> host against this is a
+    separate, not-yet-built piece — it is blocked on Track D dimension 1 (a `parts:` list in
+    zone/hpc manifests), which does not exist yet. This function only keeps `requires:` blocks
+    honest at publish time; it does not itself enforce anything against a host.
+    """
+    if not isinstance(requires, dict):
+        raise SystemExit(f"error: {meta_path} 'requires' must be a mapping")
+    unknown = set(requires) - REQUIRES_KEYS
+    if unknown:
+        raise SystemExit(
+            f"error: {meta_path} 'requires' has unknown key(s) {sorted(unknown)} "
+            f"(expected a subset of {sorted(REQUIRES_KEYS)})")
+    if "memory_gb" in requires and not isinstance(requires["memory_gb"], (int, float)):
+        raise SystemExit(f"error: {meta_path} 'requires.memory_gb' must be numeric")
+    if "cpu" in requires:
+        cpu = requires["cpu"]
+        if not isinstance(cpu, dict) or set(cpu) - REQUIRES_CPU_KEYS:
+            raise SystemExit(
+                f"error: {meta_path} 'requires.cpu' must be a mapping with only "
+                f"{sorted(REQUIRES_CPU_KEYS)}")
+    if "gpu" in requires:
+        gpu = requires["gpu"]
+        if not isinstance(gpu, dict) or set(gpu) - REQUIRES_GPU_KEYS:
+            raise SystemExit(
+                f"error: {meta_path} 'requires.gpu' must be a mapping with only "
+                f"{sorted(REQUIRES_GPU_KEYS)}")
+
+
 def part_meta(part_dir: pathlib.Path) -> dict:
     """Merge the path-derived identity with the part's declared metadata.
 
@@ -203,6 +239,9 @@ def part_meta(part_dir: pathlib.Path) -> dict:
     }
     if decl.get("gpu"):
         out["org.vxedge.gpu"] = str(decl["gpu"])
+    if decl.get("requires"):
+        _validate_requires(decl["requires"], meta_path)
+        out["org.vxedge.requires"] = json.dumps(decl["requires"], sort_keys=True)
     upstream = decl.get("upstream") or {}
     if upstream.get("ref"):
         out["org.vxedge.upstream"] = str(upstream["ref"])

@@ -2,6 +2,18 @@
 # consumer reading only "MIT" would draw the wrong conclusion about redistribution.
 license: MIT AND CC-BY-NC-4.0
 gpu: passthrough
+# What this part needs to run, distinct from `gpu:` above (which names the passthrough
+# mechanism, not a size/capability floor). Figures per docs/TASKS.md's own record: CARLA
+# 0.9.15 alone wants ~6-8 GB VRAM before Autoware shares the same card, and Tier 2's compute
+# capability floor (vxedge-core's TIER2_MIN_COMPUTE_CAP) is 7.0 — pre-Turing is excluded on
+# architecture, not memory. `vxedge manifest validate` checking this against a host is not
+# built yet (blocked on Track D dimension 1's `parts:` list existing in manifests at all) —
+# this only keeps the declaration honest and machine-readable ahead of that.
+requires:
+  arch: x86_64
+  gpu:
+    vram_gb: 8
+    compute_capability: "7.0"
 upstream:
   ref: docker.io/carlasim/carla:0.9.15
   digest: sha256:1af47c314443f4a2d0869ac399c5b5eabde138a5bc39dd31dcbb1540e22f5588

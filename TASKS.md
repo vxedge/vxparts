@@ -112,13 +112,27 @@ a GPU:
       reference topology this name promises; populating it is a design decision — hand-author
       one, or defer to Track M/`vxmodels` rendering it from SysML v2 — not data entry, so left
       `todo` deliberately, same discipline as `hpc/ad/config/autoware-params`).
-- [ ] **`requires:` block in `part.yaml`** — what a part *needs* to run (`arch`, `libc`, `cpu`,
-      `memory_gb`, `gpu.vram_gb`, `gpu.compute_capability`), as distinct from the `resources`
-      a component is *allocated* in a vehicle model. `vxedge manifest validate` checks
-      part → component → host and fails early. This is the check that would have caught the
-      Tier 2 GPU shortfall at validate time instead of after a build.
+- [x] **`requires:` block in `part.yaml` — schema half landed 2026-08-05.** Optional block
+      (`arch`, `libc`, `cpu.cores`, `memory_gb`, `gpu.vram_gb`, `gpu.compute_capability`), as
+      distinct from the `resources` a component is *allocated* in a vehicle model, and
+      distinct from the coarser workspace-level `.vxp requires: {gpu: none|tier2}` preflight
+      that already exists in `vxedge-core` (`package.rs`) — that one gates a whole workspace
+      against a host tier before provisioning starts; this one is per-part, meant to feed a
+      future part → component → host check. `scripts/vxpn.py`: `_validate_requires()` rejects
+      unknown keys/shapes at `lint`/`meta` time, and a declared block is emitted as
+      `org.vxedge.requires` (JSON-encoded) alongside the part's other annotations. First real
+      usage: `parts/hpc/sim/app/carla-server/part.yaml` (`arch: x86_64`, `gpu.vram_gb: 8`,
+      `gpu.compute_capability: "7.0"`, grounded in this repo's own recorded CARLA VRAM note
+      and `vxedge-core`'s `TIER2_MIN_COMPUTE_CAP`). Verified: valid/invalid blocks both
+      exercised directly against `_validate_requires`, `lint`/`scan` clean.
+  - [ ] **Enforcement half still blocked, not done**: `vxedge manifest validate` checking
+        part → component → host against this block has nothing to check yet — it needs Track D
+        dimension 1 (a real `parts:` list in zone/hpc manifests, replacing today's single flat
+        `image` string per node) to exist first. That is the check that would have caught the
+        Tier 2 GPU shortfall at validate time instead of after a build; still future work.
       `depends_on` is metadata only — validated for presence in the same baseline, never
-      version-solved; a resolver is a package manager and would be a separate decision.
+      version-solved; a resolver is a package manager and would be a separate decision. Not
+      touched by this pass.
 - [ ] **Composite-part OCI index convention** — already on the board below, now with a second
       consumer: a released vehicle is a `stack`-layer composite indexing its structure config
       plus every part in its baseline, so an engineer shares one pullable, digest-addressed
