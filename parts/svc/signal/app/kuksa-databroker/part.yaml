@@ -1,0 +1,22 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Simple relabel pattern (like hpc/ad/middleware/ros2-humble): Eclipse Kuksa publishes real,
+# versioned, multi-arch OCI images — unlike the two gw/5gc, gw/ran siblings landed alongside
+# this part, no build:recipe non-OCI-upstream workaround is needed here.
+license: Apache-2.0
+upstream:
+  ref: ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0
+  digest: sha256:9ace2824719ba7c05929f0af4827d9b25fa5ca7b2e0d58d0acff95885c649d6d
+  # Resolved 2026-08-05 via `oras resolve ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0`
+  # (manifest-list digest, multi-arch). Latest release as of pinning: 0.7.0 (2026-07-03),
+  # confirmed via `gh api repos/eclipse-kuksa/kuksa-databroker/releases/latest`.
+annotations:
+  role: vss-signal-plane
+  kuksa-databroker-version: "0.7.0"
+  # The manifest schema hook this part feeds: SignalBinding.vss (vxedge-core::model /
+  # workspace.rs) — a per-device COVESA VSS path string, parsed today, nothing plugged into
+  # it yet. This part is that first plug: the databroker a rendered vss: path would subscribe
+  # against.
+sbom:
+  format: cyclonedx-json
+  path: sbom.cdx.json

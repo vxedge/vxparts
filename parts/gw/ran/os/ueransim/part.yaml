@@ -1,0 +1,23 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Same pattern as the sibling gw/5gc/os/open5gs part: `upstream.ref`/`digest` pin the actual
+# `FROM` base (docker.io/library/ubuntu:24.04, both build and runtime stages) — what
+# publish-container.sh's `--build-arg UPSTREAM=<ref>@<digest>` mechanism injects. UERANSIM
+# itself is a source build pinned by git tag (resolved to its commit for a real, checkable
+# pin — not "latest on main"), recorded in annotations below, not in `upstream` — it isn't an
+# OCI artifact, so forcing it into that field would misrepresent what's actually pinned there.
+build: recipe
+license: AGPL-3.0
+annotations:
+  arch: x86_64
+  role: ran-simulator
+  ueransim-tag: v3.2.7
+  ueransim-commit: 1d1e154f869260b5e98f6905827b1bd9b8663afc
+  # Resolved 2026-08-05 via `gh api repos/aligungr/UERANSIM/git/refs/tags/v3.2.7` — the tag's
+  # own commit object, not a lightweight-tag ambiguity.
+upstream:
+  ref: docker.io/library/ubuntu:24.04
+  digest: sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea
+sbom:
+  format: cyclonedx-json
+  path: sbom.cdx.json

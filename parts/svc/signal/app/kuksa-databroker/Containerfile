@@ -1,0 +1,13 @@
+# svc/signal/app/kuksa-databroker — Eclipse Kuksa databroker, relabeled under vxedge's own
+# registry namespace (same thin-relabel pattern as hpc/ad/middleware/ros2-humble — no source
+# build, no vxedge-specific behavior change needed for a first pass).
+#
+# Upstream image (verified 2026-08-05, `podman inspect`): entrypoint /app/databroker,
+# listens 0.0.0.0:55555 (gRPC), VSS metadata release 6.0 baked in
+# (KUKSA_DATABROKER_METADATA_FILE=vss_release_6.0.json). Feeds vxedge-core's
+# SignalBinding.vss schema hook — see this part's README.
+#
+# Run:    podman run --rm -p 55555:55555 <ref>
+
+ARG UPSTREAM
+FROM ${UPSTREAM}

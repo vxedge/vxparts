@@ -1,0 +1,45 @@
+# gw/5gc/os/open5gs — Open5GS 5G core network functions, containerized. One image, every NF
+# binary; the deploying pod runs one container per NF with a vxedge-rendered config bind-mounted
+# (vxedge-core::fiveg). Ported from vxedge/containers/fiveg/Containerfile.open5gs — same content,
+# now built via vxparts' own publish pipeline instead of a bare `podman build` in that repo.
+#
+# Build:  handled by ../../../../../scripts/publish/publish-container.sh (injects UPSTREAM from
+#         this part's part.yaml). Direct build for local testing:
+#         podman build --build-arg UPSTREAM=docker.io/library/ubuntu@sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea -t vxparts-open5gs .
+# Run:    entrypoint is the NF daemon name, e.g.
+#         podman run --rm vxparts-open5gs open5gs-amfd -c /etc/vx5g/amf.yaml
+
+ARG UPSTREAM
+FROM ${UPSTREAM}
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      software-properties-common ca-certificates \
+ && add-apt-repository -y ppa:open5gs/latest \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      open5gs iproute2 \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Subscriber tooling: mongosh (MongoDB apt repo) + open5gs-dbctl (lives in the open5gs source
+# tree, not the deb packages; pinned to the v2.8.0 tag so the script matches the NF version).
+# Runs against the pod's own mongo container over loopback, not bundled into this image.
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl gnupg \
+ && curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc \
+      | gpg --dearmor -o /usr/share/keyrings/mongodb.gpg \
+ && echo "deb [signed-by=/usr/share/keyrings/mongodb.gpg] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" \
+      > /etc/apt/sources.list.d/mongodb.list \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends mongodb-mongosh \
+ && curl -fsSL https://raw.githubusercontent.com/open5gs/open5gs/v2.8.0/misc/db/open5gs-dbctl \
+      -o /usr/local/bin/open5gs-dbctl \
+ && chmod +x /usr/local/bin/open5gs-dbctl \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Log to stdout by default (containers); rendered configs may override with -l.
+RUN mkdir -p /etc/vx5g /var/log/open5gs
+
+# No default command: the pod runner names the NF explicitly.
+ENTRYPOINT []
+CMD ["bash", "-c", "ls /usr/bin/open5gs-* && echo 'gw/5gc/os/open5gs: pass an NF daemon + -c <config>'"]

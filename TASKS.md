@@ -416,6 +416,67 @@ converts a schedule problem into a GPU-contention debugging problem.
       bugs found and fixed along the way, in this part's own README. **Item #16's SONiC-VS twin
       is now fully closed** — mechanism, image sourcing, publish, and live config-parity
       verification all delivered and proven, not assumed.
+- [x] `parts/gw/5gc/os/open5gs` — Open5GS 5G core, containerized. **Landed 2026-08-05**
+      (`docs/TASKS.md` SDV-digital-twin buildout, priority-1 item: "already running, already
+      producing H2's real numbers via local podman, just never wrapped"). Content ported from
+      `vxedge/containers/fiveg/Containerfile.open5gs` — same NF set, now built through
+      `publish-container.sh` instead of a bare `podman build` in that repo. No official OCI
+      image exists for Open5GS (PPA install, confirmed live, not guessed) — `upstream.ref`/
+      `digest` pin the actual `FROM` base (`ubuntu:24.04@sha256:561618e2...`, resolved
+      2026-08-05) rather than forcing a non-OCI source into that field, with the Open5GS
+      version target (`2.8.0`, matching what `vxedge-core::fiveg`'s renderer validates against)
+      recorded as an annotation instead. License **AGPL-3.0**, confirmed via upstream repo SPDX
+      metadata — one of the two cases `docs/TASKS.md`'s licensing-review item flags for
+      careful redistribution-terms review. `VXPARTS_NO_PUSH=1` build verified clean, all 10
+      `org.vxedge.*` labels intact; ran the built image and confirmed all 17 Open5GS NF
+      binaries present (`open5gs-amfd` through `-upfd`). `vxpn.py lint`/`scan` pass
+      (`VXEQB-G5GC-OFCS`, no collisions). Not yet re-verified against a live pod run with this
+      image swapped in for `vx5g-core` — repointing `pod-up.sh` is a deliberate, separate
+      follow-up (mirrors the `exp-002`/`probe-bundle` cutover pattern), so H2's currently-passing
+      result isn't put at risk by an unproven swap in the same change.
+- [x] `parts/gw/ran/os/ueransim` — UERANSIM gNB/UE simulator, containerized. **Landed
+      2026-08-05**, same buildout item as `gw/5gc/os/open5gs` above. Content ported from
+      `vxedge/containers/fiveg/Containerfile.ueransim`; the cross-repo `vxprobe` (from
+      `vxagents`) staging step moved from `build-vx5g-ran.sh` to this part's own
+      `stage-vxprobe.sh` — deliberately not named `build.sh`, since `vxpn.py lint` treats
+      `Containerfile`/`build.sh` as mutually exclusive recipes and this is a prebuild helper
+      for the `Containerfile`, not a competing recipe. Same base-image upstream-pin pattern as
+      `gw/5gc/os/open5gs`; UERANSIM itself pinned by git tag `v3.2.7`, resolved 2026-08-05 to
+      its actual commit (`1d1e154f869260b5e98f6905827b1bd9b8663afc`) and recorded as an
+      annotation (not `upstream.digest` — a git commit isn't a sha256 content digest, and
+      forcing it into that field would misrepresent what's pinned there). License **AGPL-3.0**,
+      confirmed via upstream repo SPDX metadata, same review-item caveat as Open5GS.
+      `VXPARTS_NO_PUSH=1` build verified clean, all 11 `org.vxedge.*` labels intact; ran the
+      built image and confirmed `nr-gnb --version`/`nr-ue --version` both report `v3.2.7`,
+      matching the pin exactly. `vxpn.py lint`/`scan` pass (`VXEX0-GRAN-OHMW`, no collisions).
+      Same not-yet-repointed caveat as `gw/5gc/os/open5gs` re: `pod-up.sh`.
+
+## `svc`-class parts
+
+- [x] `parts/svc/signal/app/kuksa-databroker` — Eclipse Kuksa databroker, the VSS/Kuksa signal
+      plane. **Landed 2026-08-05** (`docs/TASKS.md` SDV-digital-twin buildout, priority item:
+      "the `SignalBinding` model already parses `vss`/`dbc` fields end to end — nothing plugged
+      into that slot yet ... pure content, not a design problem"). Genuinely greenfield —
+      checked before authoring: `vxedge`, `vxtelemetry`, `vxparts`, `vxagents`, `docs` all
+      contained zero existing pin (image, version, or client crate) for Kuksa anywhere; only the
+      taxonomy slot (`svc.signal`, code `SIG`) and the manifest schema field
+      (`SignalBinding.vss: Option<String>`) existed already, both unconsumed. Thin relabel
+      pattern (like `hpc/ad/middleware/ros2-humble`) of Eclipse Kuksa's own published, real,
+      multi-arch OCI image — no `build: recipe` workaround needed, unlike the two `gw`-class
+      siblings landed the same pass. Pinned `ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0`
+      (the latest release as of pinning, confirmed via the GitHub releases API, not guessed),
+      digest resolved live via `oras resolve`. `podman inspect` against the pulled image (not
+      assumed from documentation) confirmed entrypoint `/app/databroker`, listens
+      `0.0.0.0:55555` (gRPC), ships VSS release 6.0 metadata baked in. License **Apache-2.0**,
+      confirmed both via upstream repo SPDX metadata and the image's own OCI label — no
+      redistribution caveat, unlike the `gw`-class siblings' AGPL-3.0. `VXPARTS_NO_PUSH=1`
+      build verified clean, all 9 `org.vxedge.*` labels intact; standalone smoke test confirmed
+      the server actually starts and listens (log: "Starting Kuksa Databroker 0.7.0" ...
+      "Listening on 0.0.0.0:55555"). `vxpn.py lint`/`scan` pass (`VXEHI-SSIG-ADSE`, no
+      collisions). Landing the container is the plane's foundation, not the whole feature: a
+      Kuksa client wired into zone guests/agents, CAN/SocketCAN restbus emulation feeding it,
+      and manifest-level wiring beyond the schema field already parsing are all still `todo`,
+      tracked in Phase 3 below.
 
 ## Phase 3 (from `vxzones`, unclassified pending schema)
 
