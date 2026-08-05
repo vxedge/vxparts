@@ -319,9 +319,15 @@ gate-blocking, and building anything else first is how phase 2 slips further.**
       in async mode CARLA's tick rate varies with GPU load, so offered ADAS load would differ
       between runs and exp-011's arms would not be comparable
 - [ ] 7–8. `parts/hpc/{sim/stack/sim-baseline,ad/stack/ad-baseline}` (`VXEAO-HSIM-S5WY`,
-      `VXES9-HADS-S7Q1`) — **blocked on the composite-part convention above**, the only
-      critical-path parts needing new tooling rather than new content. Until it lands, an
-      experiment manifest references the constituents individually.
+      `VXES9-HADS-S7Q1`) — **no longer tooling-blocked, corrected 2026-08-05**: the
+      composite-part convention landed the same day (see above), and both stacks' `part.yaml`
+      already carry real `constituents:` lists. What's actually blocking them now is content —
+      items 4-6 (`autoware`, `autoware-params`, `scenarios`) are still `todo` — and item 2
+      (`carla-server`)'s own licensing review, same as items 2/4/5/6 below. This line was left
+      describing the pre-2026-08-05 tooling gap after the tooling that closed it landed;
+      caught while cross-checking this board against `docs/TASKS.md`'s own program-level
+      status pass. Until 4-6 land, an experiment manifest references the constituents
+      individually.
 
 **Explicitly NOT on the critical path** (both contend for the same VRAM as CARLA+Autoware on
 a single ≥12GB card): DeepStream/TensorRT and Alpamayo. Adding either before the gate closes
