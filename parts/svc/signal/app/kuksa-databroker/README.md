@@ -59,9 +59,13 @@ next steps buildable against a real, pinned, boot-tested server — it doesn't i
 ## Verified 2026-08-05
 
 `VXPARTS_NO_PUSH=1 ./scripts/publish/publish-container.sh parts/svc/signal/app/kuksa-databroker
-0.1.0` built clean; all 9 `org.vxedge.*` labels confirmed intact. Standalone smoke test: ran the
-built image with `-p 15555:55555`, confirmed via logs it actually started — "Starting Kuksa
-Databroker 0.7.0", populated metadata from `vss_release_6.0.json`, "Listening on
-0.0.0.0:55555" — and stayed up. `vxpn.py lint`/`scan` both pass with no collisions. Full
+0.1.0` built clean locally; all 9 `org.vxedge.*` labels confirmed intact. Standalone smoke
+test: ran the built image with `-p 15555:55555`, confirmed via logs it actually started —
+"Starting Kuksa Databroker 0.7.0", populated metadata from `vss_release_6.0.json`, "Listening
+on 0.0.0.0:55555" — and stayed up. `vxpn.py lint`/`scan` both pass with no collisions.
+CI's own `build-containers` job hadn't independently exercised this part as of the initial
+landing commit — a regression in the `gw/ran/os/ueransim` sibling (fixed same day, see
+`vxparts/TASKS.md`) made `set -e` abort the job before reaching this part alphabetically.
+Full
 VSS/CAN integration (a manifest-driven `vss:` path actually feeding this broker) is separate,
 later work, out of scope here.
