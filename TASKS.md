@@ -1,12 +1,12 @@
 # TASKS.md — vxedge/vxparts
 
 This repo is the unified loadable registry, created 2026-07-26 to replace the `vxzones`
-(zone VM images) / `vxcompute` (compute containers) split — see `docs/TASKS.md` Track P for
+(zone VM images) / `vxcompute` (compute containers) split — see `docs/ROADMAP.md` Track P for
 the program-level rationale and Track D for the four-dimension digital-twin model this repo's
 `parts:` list feeds into. Not a GitHub rename: `vxzones` and `vxcompute` remain in place until
 their content migrates here, at which point both are archived (not deleted).
 
-**Stakes, as of 2026-07-26 (zero code in this repo):** phase 2's gate (`docs/TASKS.md`) is
+**Stakes, as of 2026-07-26 (zero code in this repo):** phase 2's gate (`docs/ROADMAP.md`) is
 half-passed — H2 (vlan vs s-nssai) HOLDS (2026-07-18) — but the other half, real ADAS traffic
 (`exp-011`, CARLA → ROS2 → Autoware, `vxperiments/TASKS.md`), is blocked on this repo landing
 its first parts (`hpc/ad`, `hpc/sim`). Track M's M4 (`vxmodels/TASKS.md`) is blocked
@@ -103,7 +103,7 @@ transitively on the same thing.
 
 ## Track D consequences for this repo (design closed 2026-07-29)
 
-`docs/TASKS.md` Track D settled the vehicle-model design. Three things land here, none needing
+`docs/ROADMAP.md` Track D settled the vehicle-model design. Three things land here, none needing
 a GPU:
 
 - [x] **`veh` class in `schema/taxonomy.yaml`** — landed 2026-08-05: `code: V`, subtype `car`
@@ -138,7 +138,7 @@ a GPU:
       `depends_on` is metadata only — validated for presence in the same baseline, never
       version-solved; a resolver is a package manager and would be a separate decision. Not
       touched by this pass.
-- [x] **Composite-part OCI index convention — landed 2026-08-05** (`docs/TASKS.md` #19 item
+- [x] **Composite-part OCI index convention — landed 2026-08-05** (`docs/ROADMAP.md` #19 item
       3). `scripts/publish/publish-composite.sh`: a `stack`-layer part declares its
       `constituents:` (already-published `<path>:<tag>` refs) in `part.yaml`;
       `vxpn.py build` gates the script to `build: composite` parts only. The non-obvious
@@ -166,7 +166,7 @@ a GPU:
   - [ ] The schema itself: real Rust codegen in `vxedge` (`schemars` on `vxedge-core`'s
         workspace document structs — `Experiment`/`Vehicle`/`Road`/`Baseline`/`Component` —
         emitted via a script/xtask), not something to fabricate on the `vxparts` side. Tracked
-        as part of `docs/TASKS.md` #19 item 4, alongside the registry-fetch mechanism.
+        as part of `docs/ROADMAP.md` #19 item 4, alongside the registry-fetch mechanism.
 
 ## Part numbering (see `PART-NUMBERING.md`)
 
@@ -231,7 +231,7 @@ a GPU:
       `oras`/`docker` invocations + a script-per-kind — default to the latter until the
       number of artifact kinds/repeated steps justifies a real binary
 - [x] CI: automated container-part **build** verification — **delivered 2026-08-04**
-      (`docs/TASKS.md` #18, cross-reference here). New `build-containers` job in
+      (`docs/ROADMAP.md` #18, cross-reference here). New `build-containers` job in
       `.github/workflows/parts.yml`: detects which `parts/**` directories changed (`git diff`
       against the PR base or the previous push, first-push-to-a-branch handled by diffing
       against the empty tree) and, for each with a `Containerfile`, runs
@@ -325,7 +325,7 @@ gate-blocking, and building anything else first is how phase 2 slips further.**
       items 4-6 (`autoware`, `autoware-params`, `scenarios`) are still `todo` — and item 2
       (`carla-server`)'s own licensing review, same as items 2/4/5/6 below. This line was left
       describing the pre-2026-08-05 tooling gap after the tooling that closed it landed;
-      caught while cross-checking this board against `docs/TASKS.md`'s own program-level
+      caught while cross-checking this board against `docs/ROADMAP.md`'s own program-level
       status pass. Until 4-6 land, an experiment manifest references the constituents
       individually.
 
@@ -337,7 +337,7 @@ converts a schedule problem into a GPU-contention debugging problem.
 > CI-dispatchable, but they serve only `exp-011`, so there is nothing to gain by publishing
 > them before there is a host to run them on. Everything above *builds* without a GPU;
 > *running* `exp-011` requires a Tier 2 GPU host (RTX-class, ≥12 GB VRAM, tensor cores for
-> DeepStream/TensorRT). This hold blocks nothing else — see `docs/TASKS.md` phase 2, where
+> DeepStream/TensorRT). This hold blocks nothing else — see `docs/ROADMAP.md` phase 2, where
 > Track D's workspace-model implementation is now the main thread.
 
 - [x] **Container parts build in CI** (2026-07-28, `.github/workflows/parts.yml`):
@@ -371,7 +371,7 @@ converts a schedule problem into a GPU-contention debugging problem.
 - [ ] `parts/hpc/ad/middleware/` variant — rmw_zenoh transport option across zone↔compute
       ROS2 graph
 - [ ] Ankaios/BlueChi orchestration option — **not a `hpc` part**; tracked under Track D
-      dimension 4 (orchestration & management plane), `docs/TASKS.md`
+      dimension 4 (orchestration & management plane), `docs/ROADMAP.md`
 - [ ] ARM64 container builds (Jetson; Graviton / Snapdragon vSoC cloud parity)
 - [ ] GenieX runtime for the Snapdragon vSoC parity build, flagged not decided: Qualcomm
       GenieX (github.com/qualcomm/GenieX) as inference runtime for a small VLM (SmolVLM
@@ -392,7 +392,7 @@ converts a schedule problem into a GPU-contention debugging problem.
 
 - [ ] `parts/gw/tcu/app/` — TCU-role gateway image (uplink into vxgateway)
 - [x] `parts/gw/nos/os/sonic-vs` — SONiC-VS production-NOS twin, image sourcing + publish
-      (`docs/TASKS.md` #16). **Scaffolded, sourced, verified, boot-tested, and published, all
+      (`docs/ROADMAP.md` #16). **Scaffolded, sourced, verified, boot-tested, and published, all
       2026-08-03.** Real upstream mechanism resolved live, not guessed: SONiC-VS is an Azure
       Pipelines build output (`Azure.sonic-buildimage.official.vs`, definition 142) — not
       published to any OCI/ORAS registry, so `build.sh` fetches over HTTPS via Azure's public
@@ -423,7 +423,7 @@ converts a schedule problem into a GPU-contention debugging problem.
       is now fully closed** — mechanism, image sourcing, publish, and live config-parity
       verification all delivered and proven, not assumed.
 - [x] `parts/gw/5gc/os/open5gs` — Open5GS 5G core, containerized. **Landed 2026-08-05**
-      (`docs/TASKS.md` SDV-digital-twin buildout, priority-1 item: "already running, already
+      (`docs/ROADMAP.md` SDV-digital-twin buildout, priority-1 item: "already running, already
       producing H2's real numbers via local podman, just never wrapped"). Content ported from
       `vxedge/containers/fiveg/Containerfile.open5gs` — same NF set, now built through
       `publish-container.sh` instead of a bare `podman build` in that repo. No official OCI
@@ -432,7 +432,7 @@ converts a schedule problem into a GPU-contention debugging problem.
       2026-08-05) rather than forcing a non-OCI source into that field, with the Open5GS
       version target (`2.8.0`, matching what `vxedge-core::fiveg`'s renderer validates against)
       recorded as an annotation instead. License **AGPL-3.0**, confirmed via upstream repo SPDX
-      metadata — one of the two cases `docs/TASKS.md`'s licensing-review item flags for
+      metadata — one of the two cases `docs/ROADMAP.md`'s licensing-review item flags for
       careful redistribution-terms review. `VXPARTS_NO_PUSH=1` build verified clean, all 10
       `org.vxedge.*` labels intact; ran the built image and confirmed all 17 Open5GS NF
       binaries present (`open5gs-amfd` through `-upfd`). `vxpn.py lint`/`scan` pass
@@ -460,7 +460,7 @@ converts a schedule problem into a GPU-contention debugging problem.
 ## `svc`-class parts
 
 - [x] `parts/svc/signal/app/kuksa-databroker` — Eclipse Kuksa databroker, the VSS/Kuksa signal
-      plane. **Landed 2026-08-05** (`docs/TASKS.md` SDV-digital-twin buildout, priority item:
+      plane. **Landed 2026-08-05** (`docs/ROADMAP.md` SDV-digital-twin buildout, priority item:
       "the `SignalBinding` model already parses `vss`/`dbc` fields end to end — nothing plugged
       into that slot yet ... pure content, not a design problem"). Genuinely greenfield —
       checked before authoring: `vxedge`, `vxtelemetry`, `vxparts`, `vxagents`, `docs` all
@@ -507,4 +507,4 @@ converts a schedule problem into a GPU-contention debugging problem.
       `vxperiments` manifest to reference real `vxparts` paths instead of placeholder `image:`
       strings
 
-Full program-level summary: `docs/TASKS.md` Track P.
+Full program-level summary: `docs/ROADMAP.md` Track P.

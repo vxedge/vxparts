@@ -1,6 +1,6 @@
 # parts/svc/signal/app/kuksa-databroker
 
-The VSS/Kuksa signal plane (`docs/TASKS.md` buildout priority-5 item, 2026-08-05: "the
+The VSS/Kuksa signal plane (`docs/ROADMAP.md` buildout priority-5 item, 2026-08-05: "the
 `SignalBinding` model already parses `vss`/`dbc` fields end to end — nothing plugged into that
 slot yet ... pure content, not a design problem"). This part is that first plug: Eclipse Kuksa's
 databroker, the reference in-vehicle VSS server the manifest schema's `vss:` field targets.
@@ -51,7 +51,7 @@ VXPARTS_NO_PUSH=1 ../../../../../scripts/publish/publish-container.sh svc/signal
 ## What this part does *not* yet do
 
 Landing the databroker container is the plane's foundation, not the whole feature. Still
-`todo`, tracked in `vxparts/TASKS.md`/`docs/TASKS.md`: a Kuksa client wired into zone
+`todo`, tracked in `vxparts/TASKS.md`/`docs/ROADMAP.md`: a Kuksa client wired into zone
 guests/agents to actually publish `vss:`-bound signals, CAN/SocketCAN restbus emulation feeding
 it, and any manifest-level wiring beyond the schema field already parsing. This part makes those
 next steps buildable against a real, pinned, boot-tested server — it doesn't implement them.

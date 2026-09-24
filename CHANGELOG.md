@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- Open-source release preparation: `LICENSE` (Apache-2.0), `NOTICE`, rewritten `README.md`.
+
+### Added
+
 - Repo scaffolding: `README.md`, `AGENTS.md`, `TASKS.md`, `parts/{zone,hpc,gw,agent,svc}/` +
   `scripts/publish/` directory layout.
 ### Changed

@@ -62,7 +62,7 @@ path, so neither is ever passed in and neither can be mistyped.
 Current tree — `zone/linux/stack/probe-bundle` is published; the eight `hpc/{ad,sim}` parts
 are the phase-2 critical path (`../TASKS.md`); `gw/nos/os/sonic-vs` is scaffolded (recipe +
 `part.yaml`, pending an upstream ref and licence confirmation before its first `build.sh` run
-— `docs/TASKS.md` #16); the rest is skeleton awaiting migration:
+— `docs/ROADMAP.md` #16); the rest is skeleton awaiting migration:
 
 ```
 zone/{linux,qnx,zephyr,freertos,aaos,mcu}/...

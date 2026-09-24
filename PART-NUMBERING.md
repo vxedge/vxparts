@@ -109,7 +109,7 @@ dimension 3's bill-of-software work rather than here.
 - [ ] `org.vxedge.rxswin` on composite/`stack` parts + a vehicle-level roll-up, once Track D
       dimension 3 (`vxedge manifest bom`) defines the whole-vehicle bill of software. The
       natural pairing is a CycloneDX SBOM per part, with the RxSWIN computed over the set —
-      this also feeds the licensing review (`docs/TASKS.md`, go-public prerequisites).
+      this also feeds the licensing review (`docs/ROADMAP.md`, go-public prerequisites).
 - [ ] `vxpn.py scan` + `vxpn.py lint` in CI as merge gates: the 3-char name digest holds
       ~46.6k values, so collisions become likely somewhere past ~255 parts. Widen
       `format.name_digest_chars` before that, not after.

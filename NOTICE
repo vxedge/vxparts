@@ -1,0 +1,25 @@
+vxedge — vxparts
+Copyright 2026 The vxedge Authors
+
+This product includes software developed as part of the vxedge project
+(https://github.com/vxedge).
+
+Source code is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+---
+
+Third-party notices
+
+This repository contains build recipes (Containerfiles, build scripts, part.yaml
+descriptors), not third-party source or binaries. Each part declares the licence of the
+component it builds in its part.yaml `license:` field, and that identifier is stamped on the
+published OCI artifact as org.vxedge.license. Notable upstream licences:
+
+  - Open5GS, UERANSIM — AGPL-3.0 (built unmodified from upstream tags)
+  - Linux kernel (zone probe bundle) — GPL-2.0
+  - CARLA — MIT; CARLA assets — CC-BY-NC-4.0 (non-commercial)
+  - SONiC — Apache-2.0 plus third-party terms per sonic-net/sonic-buildimage
+  - Autoware, ROS 2, Eclipse Kuksa — Apache-2.0
+
+Proprietary components (QNX SDP, NVIDIA DeepStream/TensorRT) are referenced as recipes only
+and are never redistributed by this project.

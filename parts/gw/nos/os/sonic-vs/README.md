@@ -1,6 +1,6 @@
 # parts/gw/nos/os/sonic-vs
 
-The SONiC-VS production-NOS twin (`docs/TASKS.md` #16, `ARCHITECTURE.md` §7): a community
+The SONiC-VS production-NOS twin (`docs/ROADMAP.md` #16, `ARCHITECTURE.md` §7): a community
 SONiC virtual-switch image, fed the same slice/VLAN intent `vxedge_core::sonic` renders from a
 `GatewayPlan`, to prove that intent expresses identically on a real production NOS. **Not
 timing-representative** — every latency/jitter number this project has published still runs
@@ -46,7 +46,7 @@ component actually bundled *into* a built image, under their own upstream terms.
 `license:` states both facts; it is not a legal clearance to redistribute the built artifact —
 get that confirmed by whoever owns that call before first publish, the same diligence already
 applied to Open5GS/UERANSIM (AGPL-3.0) and AAOS (trademark/CTS constraints) in
-`docs/TASKS.md`'s licensing review.
+`docs/ROADMAP.md`'s licensing review.
 
 ## Build
 
@@ -104,7 +104,7 @@ match the local `bundle/meta.json` exactly.
 
 ## Config parity: verified, 2026-08-03
 
-`docs/TASKS.md` #16's remaining claim — that `vxedge_core::sonic`'s rendered `config_db.json`
+`docs/ROADMAP.md` #16's remaining claim — that `vxedge_core::sonic`'s rendered `config_db.json`
 actually expresses the declared VLAN intent on a real SONiC instance, not just that the
 renderer's own unit tests are internally consistent — is now proven against a live boot, not
 assumed:

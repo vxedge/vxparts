@@ -10,7 +10,7 @@
 # org.vxedge.sbom when the file actually exists, so a missing SBOM is never a false claim.
 #
 # Once an SBOM exists it feeds two things already on the board: the workspace licensing
-# review (docs/TASKS.md, go-public prerequisites) and the RxSWIN roll-up computed over a
+# review (docs/ROADMAP.md, go-public prerequisites) and the RxSWIN roll-up computed over a
 # vehicle's set of parts (PART-NUMBERING.md open items).
 set -euo pipefail
 

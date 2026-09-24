@@ -2,7 +2,7 @@
 """Boot a SONiC-VS image, push a rendered config_db.json into it, and confirm what comes back
 out (`show vlan brief`, direct CONFIG_DB reads) matches exactly what was pushed in.
 
-This is docs/TASKS.md #16's SONiC-VS config-parity verification -- the claim ARCHITECTURE.md
+This is docs/ROADMAP.md's SONiC-VS config-parity verification -- the claim ARCHITECTURE.md
 Sec 7 makes ("the same slice/VLAN intent expresses identically on a production NOS"), proven
 against a real running instance rather than assumed from the renderer's own unit tests.
 

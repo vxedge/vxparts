@@ -1,7 +1,7 @@
 # parts/gw/ran/os/ueransim
 
 UERANSIM RAN simulator (gNB + UE), the sibling of `gw/5gc/os/open5gs` — together these carry
-H2's real numbers (`docs/TASKS.md` priority-1 buildout item, 2026-08-05). Same content as
+H2's real numbers (`docs/ROADMAP.md` priority-1 buildout item, 2026-08-05). Same content as
 `vxedge/containers/fiveg/Containerfile.ueransim`, re-homed under `vxparts`.
 
 Classification: `class=gw`, `subtype=ran`, `layer=os`.
@@ -42,7 +42,7 @@ it isn't an OCI digest and doesn't belong in the `upstream` field's sha256 slot.
 ## License
 
 **AGPL-3.0** (confirmed via the upstream `aligungr/UERANSIM` repo's own SPDX metadata,
-2026-08-05) — flagged by `docs/TASKS.md`'s workspace-licensing-review item alongside Open5GS,
+2026-08-05) — flagged by `docs/ROADMAP.md`'s workspace-licensing-review item alongside Open5GS,
 same caveat: standalone containerized service, not linked into vxedge code, final
 redistribution-terms call belongs to whoever owns that review.
 
