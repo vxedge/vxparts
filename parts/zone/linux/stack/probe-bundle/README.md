@@ -27,6 +27,23 @@ Output (`bundle/` by default) is gitignored — host-generated, not committed. I
 `vmlinuz`, `initrd.img`, and a digest-stamped `meta.json` (adds `org.vxedge.*` classification
 fields alongside the existing `bundle`/`kernel_version`/`payload`/`files` keys).
 
+## Per-host: the bundle embeds YOUR kernel
+
+`build.sh` copies the running host's `/boot/vmlinuz-$(uname -r)` into the bundle, so the
+bundle, its `meta.json` and its digest **differ on every host and after every kernel update**.
+That is why the example vehicle does not pin a registry digest: it references a local
+`./bundle` and every user builds their own. Rebuild after a kernel update if you want the
+guest kernel to match the host.
+
+For `vxperiments/vehicles/vx-vehicle-01` (run from the workspace root, as your own user):
+
+```
+vxparts/parts/zone/linux/stack/probe-bundle/build.sh "$PWD/vxperiments/vehicles/vx-vehicle-01/bundle"
+```
+
+`vxedge vehicle up` refuses, before provisioning anything, when that directory is missing
+and prints this command.
+
 ## Publish
 
 Not yet published anywhere — `oras` CLI is not installed on the build host yet (see
