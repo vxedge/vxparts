@@ -12,6 +12,15 @@ First public release: recipes, descriptors and publish scripts.
 
 ### Added
 
+- `gw/nos/os/sonic-vs`, the SONiC-VS network OS part (2026-08-03), published as
+  `ghcr.io/vxedge/parts/gw/nos/os/sonic-vs:202505.1182664`. The image is fetched from the
+  upstream Azure Pipelines build 1182664 (branch `202505`) and republished as a single-disk ORAS
+  artifact with `scripts/publish/publish-vm-disk.sh`. The pushed layer digest, size and
+  `org.vxedge.*` annotations were confirmed against `bundle/meta.json`. Private package. A
+  disposable copy booted, and `verify-config-parity.py` loaded the rendered `config_db.json`
+  with SONiC's own `config load` and read all four declared fields back unchanged. The image
+  bundles third-party licence terms, recorded in `part.yaml` rather than asserted as one SPDX
+  identifier.
 - Open-source release preparation: `LICENSE` (Apache-2.0), `NOTICE`, rewritten `README.md`.
 
 
