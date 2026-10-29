@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "vxparts: the loadable registry of the vxedge testbed, build recipes and descriptors for zone, gateway, compute and service parts"
+type: software
+authors:
+  - family-names: "Djaafri"
+    given-names: "Fouzi"
+    affiliation: "Independent Researcher"
+repository-code: "https://github.com/vxedge/vxparts"
+url: "https://vxedge.dev"
+version: "0.1.0"
+date-released: "2026-10-29"
+license: Apache-2.0
+keywords:
+  - software-defined-vehicle
+  - automotive
+  - oci
+  - oras
+  - testbed
+  - reproducible-research
+abstract: >-
+  vxparts holds the build recipes, part descriptors and publish scripts for the loadable parts of the
+  vxedge testbed. Each part declares its licence and pinned upstream digest. Proprietary components are
+  recipe-only and never redistributed.
+references:
+  - type: software
+    title: "vxedge: specification and results of an all-software SDV network-slicing testbed"
+    authors:
+      - family-names: "Djaafri"
+        given-names: "Fouzi"
+    url: "https://github.com/vxedge/docs"

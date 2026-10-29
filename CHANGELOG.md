@@ -2,31 +2,21 @@
 
 All notable changes to this project will be documented in this file. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows SemVer
-(`../docs/VERSIONING.md`).
+([VERSIONING](https://github.com/vxedge/docs/blob/main/VERSIONING.md)).
 
 ## [Unreleased]
+
+## [0.1.0] - 2026-10-29
+
+First public release: recipes, descriptors and publish scripts.
 
 ### Added
 
 - Open-source release preparation: `LICENSE` (Apache-2.0), `NOTICE`, rewritten `README.md`.
 
-### Added
 
 - Repo scaffolding: `README.md`, `AGENTS.md`, `TASKS.md`, `parts/{zone,hpc,gw,agent,svc}/` +
   `scripts/publish/` directory layout.
-### Changed
-
-- **`carla-ros-bridge` retired, replaced by `carla-client`** (2026-07-28), published as
-  `ghcr.io/vxedge/parts/hpc/ad/middleware/carla-client:0.1.0`,
-  `sha256:832dedf3...`. Building the original part is what surfaced the problem:
-  `carla-simulator/ros-bridge` master has been frozen since 2022-07-22 and requires CARLA
-  0.9.13, while our `carla-server` is pinned to 0.9.15. It built and imported cleanly, which
-  is what made it dangerous — a version-mismatched bridge still produces numbers. The
-  supported path is `autoware_carla_interface`, which ships inside `autoware_universe` and
-  documents exactly 22.04/humble/0.9.15; this part supplies the matching CARLA client.
-  The part's VXPN changed with its name: `VXEUS-HADS-M7BO` → `VXECL-HADS-M70H`.
-
-### Added
 
 - Second part published to GHCR (2026-07-28), and the first container one:
   `ghcr.io/vxedge/parts/hpc/ad/middleware/ros2-humble:0.1.0`,
@@ -71,9 +61,21 @@ All notable changes to this project will be documented in this file. Format foll
   Round-trip byte-identical; `artifactType` and all seven `org.vxedge.*` annotations preserved
   by GHCR, so the registry serves as the catalogue without a `catalog.yaml`.
 - `parts/zone/linux/stack/probe-bundle/build.sh` — the `linux-probe` guest bundle recipe,
-  copied from `vxzones/scripts/build-guest-bundle.sh` and adapted to stamp `org.vxedge.*`
+  copied from `zones-legacy/scripts/build-guest-bundle.sh` and adapted to stamp `org.vxedge.*`
   classification fields into `meta.json`. Verified end to end: the bundle boots under
   `qemu-microvm` when pulled fresh from a registry.
+
+### Changed
+
+- **`carla-ros-bridge` retired, replaced by `carla-client`** (2026-07-28), published as
+  `ghcr.io/vxedge/parts/hpc/ad/middleware/carla-client:0.1.0`,
+  `sha256:832dedf3...`. Building the original part is what surfaced the problem:
+  `carla-simulator/ros-bridge` master has been frozen since 2022-07-22 and requires CARLA
+  0.9.13, while our `carla-server` is pinned to 0.9.15. It built and imported cleanly, which
+  is what made it dangerous — a version-mismatched bridge still produces numbers. The
+  supported path is `autoware_carla_interface`, which ships inside `autoware_universe` and
+  documents exactly 22.04/humble/0.9.15; this part supplies the matching CARLA client.
+  The part's VXPN changed with its name: `VXEUS-HADS-M7BO` → `VXECL-HADS-M70H`.
 
 ### Fixed
 
@@ -82,7 +84,7 @@ All notable changes to this project will be documented in this file. Format foll
   timestamp), so recorded digests identified a build rather than its inputs — at odds with
   the digest-based reproducibility rule these parts depend on. Now pins mtimes via
   `SOURCE_DATE_EPOCH`, sorts cpio member order, and passes `cpio --reproducible` / `gzip -n`.
-  **The same bug remains live in `vxzones/scripts/build-guest-bundle.sh`.**
+  **The same bug remains live in `zones-legacy/scripts/build-guest-bundle.sh`.**
 - `build.sh` honours the `KERNEL=` override its own usage comment documented but the
   inherited code ignored (plus a matching `KVER=`, so an overridden kernel can't be
   mislabelled in `meta.json`).
@@ -93,10 +95,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Known gaps
 
-- No loadable has been published to `ghcr.io/vxedge/parts/...` yet — publishing has only
-  been exercised against a local registry, and no tag has been cut.
-- The bundle has so far been built only with a stand-in kernel: `/boot/vmlinuz-*` is
-  root-only `0600` on the current build host. Everything else in the pipeline is verified.
-- The `vxzones` copy of the `linux-probe` recipe is still the one backing live experiments
-  (`exp-002`/`exp-002b`) — the `vxparts` copy is not yet the cutover target; see `TASKS.md`
-  Migration section.
+- Published parts under `ghcr.io/vxedge/parts/` are private for now. The recipes in this
+  repository build the same parts locally, and `./scripts/vxpn.py lint` runs without a registry.
+- The probe bundle has so far been built only with a stand-in kernel, because
+  `/boot/vmlinuz-*` is root-only `0600` on common distributions. Everything else in the
+  pipeline is verified.
+- `zones-legacy`, the archived predecessor of the zone recipes, is not public.

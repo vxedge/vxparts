@@ -1,6 +1,6 @@
 # parts/gw/nos/os/sonic-vs
 
-The SONiC-VS production-NOS twin (`docs/ROADMAP.md` #16, `ARCHITECTURE.md` §7): a community
+The SONiC-VS production network OS (`docs/ROADMAP.md` #16, `ARCHITECTURE.md` §7): a community
 SONiC virtual-switch image, fed the same slice/VLAN intent `vxedge_core::sonic` renders from a
 `GatewayPlan`, to prove that intent expresses identically on a real production NOS. **Not
 timing-representative** — every latency/jitter number this project has published still runs

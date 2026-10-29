@@ -1,9 +1,9 @@
 # TASKS.md — vxedge/vxparts
 
-This repo is the unified loadable registry, created 2026-07-26 to replace the `vxzones`
-(zone VM images) / `vxcompute` (compute containers) split — see `docs/ROADMAP.md` Track P for
-the program-level rationale and Track D for the four-dimension digital-twin model this repo's
-`parts:` list feeds into. Not a GitHub rename: `vxzones` and `vxcompute` remain in place until
+This repo is the unified loadable registry, created 2026-07-26 to replace the `zones-legacy`
+(zone VM images) / `compute-legacy` (compute containers) split — see `docs/ROADMAP.md` Track P for
+the program-level rationale and Track D for the four-dimension model this repo's
+`parts:` list feeds into. Not a GitHub rename: `zones-legacy` and `compute-legacy` remain in place until
 their content migrates here, at which point both are archived (not deleted).
 
 **Stakes, as of 2026-07-26 (zero code in this repo):** phase 2's gate (`docs/ROADMAP.md`) is
@@ -19,7 +19,7 @@ transitively on the same thing.
 - [x] Copy the `linux-probe` guest bundle recipe into
       `parts/zone/linux/stack/probe-bundle/build.sh` (2026-07-26), adapted to stamp
       `org.vxedge.*` classification fields into `meta.json`; `.gitignore`'d `bundle/` output
-      dir matches `vxzones`' own `images/*/bundle/` convention (host-generated, not committed)
+      dir matches `zones-legacy`' own `images/*/bundle/` convention (host-generated, not committed)
 - [x] `oras` CLI v1.3.3 installed (2026-07-26, `~/.local/bin/oras`, checksum-verified from
       the upstream release; no sudo — `~/.local/bin` is already on PATH)
 - [x] `scripts/publish/publish-vm-bundle.sh` validated against a **local** `registry:2`
@@ -42,15 +42,15 @@ transitively on the same thing.
       Fixed with `SOURCE_DATE_EPOCH`-pinned mtimes + sorted member order + `cpio
       --reproducible` + `gzip -n`; two consecutive builds now produce an identical digest, and
       the result still boots.
-  - [ ] **Same bug is still live in `vxzones/scripts/build-guest-bundle.sh`** — port the fix
+  - [ ] **Same bug is still live in `zones-legacy/scripts/build-guest-bundle.sh`** — port the fix
         there too, or land it as part of the cutover. Any H3 digest on record from that script
         is not rebuildable to the same hash.
   - [ ] Audit whether other artifact kinds (container builds, future QNX/AAOS bundles) have
         the same non-reproducibility, before they get digest-pinned in manifests
-- [x] Migration equivalence to the `vxzones` bundle **established by content, not by hash**
+- [x] Migration equivalence to the `zones-legacy` bundle **established by content, not by hash**
       (bit-for-bit was never achievable — see reproducibility item above): identical file
       trees/permissions/symlinks, byte-identical `busybox` and `vxprobe`, identical `vmlinuz`
-      digest; the only diff is two cosmetic strings (`vxzones` → `vxparts` in an `/init`
+      digest; the only diff is two cosmetic strings (`zones-legacy` → `vxparts` in an `/init`
       comment and its console line). Confirmed nothing in any repo greps that console line.
   - [x] **First real publish to GHCR (2026-07-28)**:
         `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:0.1.0`,
@@ -62,7 +62,7 @@ transitively on the same thing.
         registry, not just a local `registry:2`. Package **visibility: private**, consistent
         with going-public being deferred; publishing it is a separate deliberate step.
   - [x] **Cutover done and live-verified, 2026-08-05.** `exp-002-ws`/`exp-002b-ws`'s
-        `BUNDLE=`/`fetch-parts.sh` redirected from `vxzones/images/linux-probe/bundle` (long
+        `BUNDLE=`/`fetch-parts.sh` redirected from `zones-legacy/images/linux-probe/bundle` (long
         archived, no longer clonable) to `vxparts/parts/zone/linux/stack/probe-bundle/bundle`.
         Content equivalence verified before trusting it: `vmlinuz` byte-identical
         (`a2e220a5...`), `initrd.img` hash changed (`993b448d...` → `b3634b26...`) but confirmed
@@ -75,30 +75,30 @@ transitively on the same thing.
         `kind: bundle` refs. Live-verified: a real `--quick` campaign against the `vxparts`
         path completes clean on all three arms (container/microvm/libvirt), including the
         microvm arm that previously failed with a bundle-path error before the daemon fix.
-- [x] Migrate `vxzones`'s zone manifests into `parts/zone/...` — **confirmed 2026-08-04**:
-      `vxzones` never actually had zone manifests beyond `linux-probe` (its own board,
-      `vxzones/TASKS.md`, still shows "Zone manifests for the six roles" as `[ ]`, never
+- [x] Migrate `zones-legacy`'s zone manifests into `parts/zone/...` — **confirmed 2026-08-04**:
+      `zones-legacy` never actually had zone manifests beyond `linux-probe` (its own board,
+      `zones-legacy/TASKS.md`, still shows "Zone manifests for the six roles" as `[ ]`, never
       built — "zero code beyond linux-probe" throughout its own history). There was nothing
-      to migrate beyond what already landed above. Every item on `vxzones`' own backlog
+      to migrate beyond what already landed above. Every item on `zones-legacy`' own backlog
       (Zephyr/FreeRTOS/QNX/AAOS images, sensor-node variant, digest tooling, Kuksa, CAN, RSU,
       restbus, Renode, Jetson/DRIVE AGX validation) is already tracked here — see the
       `zone`-class section below plus Phase 3/4 — verified item-by-item against
-      `vxzones/TASKS.md` before checking this off, not assumed.
-- [x] Migrate `vxcompute`'s docs-only backlog (below) into this board — **confirmed
-      2026-08-04**: verified item-by-item against `vxcompute/TASKS.md`. Everything was
+      `zones-legacy/TASKS.md` before checking this off, not assumed.
+- [x] Migrate `compute-legacy`'s docs-only backlog (below) into this board — **confirmed
+      2026-08-04**: verified item-by-item against `compute-legacy/TASKS.md`. Everything was
       already migrated in the 2026-07-26 re-scope (see the `hpc`-class section below) except
       one real gap, found and added: the minimal responder/echo container for measuring
       **service response time** (`ARCHITECTURE.md` §12's own compute metric class, distinct
-      from `vxprobe`'s network-RTT numbers) — `vxcompute`'s own Phase 1 item, missed in the
-      original re-scope. `vxcompute`'s other two Phase-1 items (repo layout, a §6.1
+      from `vxprobe`'s network-RTT numbers) — `compute-legacy`'s own Phase 1 item, missed in the
+      original re-scope. `compute-legacy`'s other two Phase-1 items (repo layout, a §6.1
       `compute:` manifest) are genuinely obsolete, not gaps: superseded by this repo's own
       layout and by the §6.0 workspace model (§6.1 stopped being a provisioning input
       2026-07-31) respectively.
-- [x] Both migrations confirmed complete, then `vxzones` and `vxcompute` **archived on GitHub
+- [x] Both migrations confirmed complete, then `zones-legacy` and `compute-legacy` **archived on GitHub
       2026-08-04** (not deleted — verified via `gh repo view --json isArchived`, both
       `true`). Propagated ahead of the archival itself: workspace root `CLAUDE.md` repo
       table, `docs/ARCHITECTURE.md` §4, every other repo's `AGENTS.md`/skill naming
-      `vxzones`/`vxcompute`; a closing note pushed to each repo's own `TASKS.md` before
+      `zones-legacy`/`compute-legacy`; a closing note pushed to each repo's own `TASKS.md` before
       archiving (afterward they're read-only, no more pushes possible).
 
 ## Track D consequences for this repo (design closed 2026-07-29)
@@ -251,7 +251,7 @@ a GPU:
       Docker+CUDA) from the container half just delivered above — kept as a separate,
       smaller follow-on rather than blocking the container half on it
 
-## `zone`-class parts (from `vxzones`)
+## `zone`-class parts (from `zones-legacy`)
 
 - [ ] Zone manifests for the six roles (schema §6.1), initially with placeholder nodes
 - [ ] `parts/zone/zephyr/os/` microVM image: virtio-net, boots <1s, runs a UDP echo/probe
@@ -267,9 +267,9 @@ a GPU:
 - [ ] Digest tooling: build → sha256 tag → publish (per-`meta.json` digests exist for
       linux-probe already — generalize per-part)
 
-## `hpc`-class parts (from `vxcompute`, re-scoped 2026-07-26)
+## `hpc`-class parts (from `compute-legacy`, re-scoped 2026-07-26)
 
-**GPU-constraint direction, decided 2026-07-20 in `vxcompute`, carried forward:** the
+**GPU-constraint direction, decided 2026-07-20 in `compute-legacy`, carried forward:** the
 documented Tier 2 GPU minimum (`docs/TESTBED-SETUP.md`: RTX-class, ≥12GB VRAM) may be tight
 once CARLA + Autoware/ROS2 + DeepStream/TensorRT run concurrently. The fix is **more GPU**, not
 lowering CARLA's rendering/sensor quality — fidelity isn't the thing to trade away. Design
@@ -382,16 +382,16 @@ converts a schedule problem into a GPU-contention debugging problem.
 - [ ] MIG-slice GPU sharing variant (`resources.gpu: mig-slice`)
 - [ ] Minimal `hpc`-class responder/echo container — measures **service response time**
       specifically (`ARCHITECTURE.md` §12's compute metric class, distinct from the
-      network-RTT numbers `vxprobe` already produces). From `vxcompute`'s own phase-1
-      scope (`Repo layout`/`vxcompute-central manifest` items are obsolete — superseded by
+      network-RTT numbers `vxprobe` already produces). From `compute-legacy`'s own phase-1
+      scope (`Repo layout`/`compute-legacy-central manifest` items are obsolete — superseded by
       this repo's own layout and the §6.0 workspace model respectively — but this one
       metric-class gap survived the migration unaddressed until noticed 2026-08-04 while
-      confirming `vxcompute`'s backlog was fully present here before archiving it)
+      confirming `compute-legacy`'s backlog was fully present here before archiving it)
 
 ## `gw`-class parts
 
 - [ ] `parts/gw/tcu/app/` — TCU-role gateway image (uplink into vxgateway)
-- [x] `parts/gw/nos/os/sonic-vs` — SONiC-VS production-NOS twin, image sourcing + publish
+- [x] `parts/gw/nos/os/sonic-vs` — SONiC-VS production network OS, image sourcing + publish
       (`docs/ROADMAP.md` #16). **Scaffolded, sourced, verified, boot-tested, and published, all
       2026-08-03.** Real upstream mechanism resolved live, not guessed: SONiC-VS is an Azure
       Pipelines build output (`Azure.sonic-buildimage.official.vs`, definition 142) — not
@@ -423,7 +423,7 @@ converts a schedule problem into a GPU-contention debugging problem.
       is now fully closed** — mechanism, image sourcing, publish, and live config-parity
       verification all delivered and proven, not assumed.
 - [x] `parts/gw/5gc/os/open5gs` — Open5GS 5G core, containerized. **Landed 2026-08-05**
-      (`docs/ROADMAP.md` SDV-digital-twin buildout, priority-1 item: "already running, already
+      (`docs/ROADMAP.md` SDV buildout, priority-1 item: "already running, already
       producing H2's real numbers via local podman, just never wrapped"). Content ported from
       `vxedge/containers/fiveg/Containerfile.open5gs` — same NF set, now built through
       `publish-container.sh` instead of a bare `podman build` in that repo. No official OCI
@@ -460,7 +460,7 @@ converts a schedule problem into a GPU-contention debugging problem.
 ## `svc`-class parts
 
 - [x] `parts/svc/signal/app/kuksa-databroker` — Eclipse Kuksa databroker, the VSS/Kuksa signal
-      plane. **Landed 2026-08-05** (`docs/ROADMAP.md` SDV-digital-twin buildout, priority item:
+      plane. **Landed 2026-08-05** (`docs/ROADMAP.md` SDV buildout, priority item:
       "the `SignalBinding` model already parses `vss`/`dbc` fields end to end — nothing plugged
       into that slot yet ... pure content, not a design problem"). Genuinely greenfield —
       checked before authoring: `vxedge`, `vxtelemetry`, `vxparts`, `vxagents`, `docs` all
@@ -484,7 +484,7 @@ converts a schedule problem into a GPU-contention debugging problem.
       and manifest-level wiring beyond the schema field already parsing are all still `todo`,
       tracked in Phase 3 below.
 
-## Phase 3 (from `vxzones`, unclassified pending schema)
+## Phase 3 (from `zones-legacy`, unclassified pending schema)
 
 - [ ] Kuksa client / VSS signal emitters in zone guests (vehicle manifest support)
 - [ ] CAN-capable guest variants: QEMU CAN controller / SocketCAN in guests, emitting

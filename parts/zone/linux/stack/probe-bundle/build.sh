@@ -11,7 +11,7 @@
 # (vxprobe reflect on 0.0.0.0:9800) starts as PID-1 child. Serial console
 # carries logs. Bundle files are digest-recorded in meta.json.
 #
-# Migrated from vxzones/scripts/build-guest-bundle.sh (Track P, 2026-07-26).
+# Migrated from zones-legacy/scripts/build-guest-bundle.sh (Track P, 2026-07-26).
 set -euo pipefail
 
 PART_DIR="$(cd "$(dirname "$0")" && pwd)"
