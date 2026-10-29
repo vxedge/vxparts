@@ -46,6 +46,17 @@ it isn't an OCI digest and doesn't belong in the `upstream` field's sha256 slot.
 same caveat: standalone containerized service, not linked into vxedge code, final
 redistribution-terms call belongs to whoever owns that review.
 
+### Source offer
+
+The published image contains UERANSIM v3.2.7, built unmodified from upstream commit
+`1d1e154f869260b5e98f6905827b1bd9b8663afc` and licensed under AGPL-3.0. The Corresponding Source is
+the upstream repository at that commit:
+<https://github.com/aligungr/UERANSIM/tree/1d1e154f869260b5e98f6905827b1bd9b8663afc>. This
+repository adds no patches to it. If you received the image and cannot obtain that source from the
+link, open an issue at <https://github.com/vxedge/vxparts/issues> and the source will be provided
+at no charge beyond the cost of delivery. The offer is valid for as long as the image is
+distributed.
+
 ## Host prerequisites (unchanged from `vxedge/containers/fiveg`)
 
 - `modprobe sctp` once per boot on the host — UERANSIM's NGAP uses kernel SCTP, which is not
