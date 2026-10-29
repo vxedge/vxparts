@@ -69,7 +69,7 @@ meta.update(json.loads(os.environ["VX_META"]))
 meta.update({
     "upstream_azure_build_id": build_id,
     "upstream_azure_build_url": f"https://dev.azure.com/mssonic/build/_build/results?buildId={build_id}",
-    "payload": "SONiC-VS production-NOS twin (config-portability proof only -- ARCHITECTURE.md Sec 7)",
+    "payload": "SONiC-VS production network OS (config-portability proof only, ARCHITECTURE.md Sec 7)",
     "files": {disk.name: sha(disk)},
 })
 (out / "meta.json").write_text(json.dumps(meta, indent=2) + "\n")
