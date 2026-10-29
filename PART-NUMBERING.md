@@ -97,7 +97,7 @@ Two deliberate divergences from ARINC 665:
 (Road vehicles — Software update engineering) supply the vehicle-level concept. R156 defines
 **RxSWIN**, the identifier for the type-approval-relevant software of a vehicle system, which
 must be updated whenever that software changes. That is precisely the roll-up a
-digital-twin vehicle manifest needs, and it is a regulatory reality for any SDV shipped in a
+vehicle-model manifest needs, and it is a regulatory reality for any SDV shipped in a
 UNECE market — so the model should carry it rather than invent an equivalent.
 
 Not implemented yet — see the open item below. When it lands, an RxSWIN is a property of a

@@ -17,7 +17,7 @@ published artifact. Part numbers are computed from the pull path, as described i
 | Class | Examples |
 |---|---|
 | `zone` | Linux probe bundle (virtual ECU guest) |
-| `gw` | Open5GS core, UERANSIM RAN, SONiC-VS NOS twin |
+| `gw` | Open5GS core, UERANSIM RAN, SONiC-VS network OS |
 | `hpc` | ROS 2 Humble, CARLA client/server, Autoware |
 | `svc` | vxota container, Eclipse Kuksa databroker |
 | `veh`, `ctl` | Vehicle reference configs, manifest schema |
@@ -30,11 +30,20 @@ pip install PyYAML
 ./scripts/vxpn.py scan      # list parts with their computed part numbers
 ```
 
-Third-party licences for each part are summarised in [`NOTICE`](NOTICE).
+Parts are published to `ghcr.io/vxedge/parts/<class>/<subtype>/<layer>/<name>:<version>`, the same
+path as the directory under `parts/`. The packages are private for now, so build a part from its
+recipe instead: each part directory has a `README.md` with the steps and a `part.yaml` with the
+pinned upstream digest. With access to the registry, a part is pulled with `podman pull` (container
+parts) or `oras pull` (bundles and configs) at its pull path.
+
+Status, versions and measured values are kept in
+[`docs/FACTS.md`](https://github.com/vxedge/docs/blob/main/FACTS.md). Third-party licences for each
+part are summarised in [`NOTICE`](NOTICE).
 
 ## Links
 
 - Site: <https://vxedge.dev>
+- Facts: [`docs/FACTS.md`](https://github.com/vxedge/docs/blob/main/FACTS.md)
 - Architecture: [`docs/ARCHITECTURE.md`](https://github.com/vxedge/docs/blob/main/ARCHITECTURE.md)
 - Results: [`docs/RESULTS.md`](https://github.com/vxedge/docs/blob/main/RESULTS.md) · Roadmap: [`docs/ROADMAP.md`](https://github.com/vxedge/docs/blob/main/ROADMAP.md)
 - Contributing: [CONTRIBUTING](https://github.com/vxedge/.github/blob/main/CONTRIBUTING.md) · Security: [SECURITY](https://github.com/vxedge/.github/blob/main/SECURITY.md)

@@ -1,6 +1,6 @@
 # parts/zone/linux/stack/probe-bundle
 
-Migrated from `vxzones/scripts/build-guest-bundle.sh` (2026-07-26, Track P). The
+Migrated from `zones-legacy/scripts/build-guest-bundle.sh` (2026-07-26, Track P). The
 `linux-probe` guest bundle: host kernel + minimal busybox initramfs that autostarts a static
 `vxprobe` reflector. Boots under both zone VM backends (qemu-microvm direct kernel boot,
 libvirt direct kernel boot). Used by exp-002/exp-002b's microvm and libvirt arms; proved the
