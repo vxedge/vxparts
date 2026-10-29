@@ -35,6 +35,15 @@ part runs Open5GS as a standalone containerized service (no vxedge code links ag
 normal AGPL network-service deployment shape — but the final call on redistribution terms for
 a *built* image belongs to whoever owns that review, not assumed settled here.
 
+### Source offer
+
+The published image contains Open5GS 2.8.0, installed unmodified from the `ppa:open5gs/latest`
+packages and licensed under AGPL-3.0. The Corresponding Source is the upstream repository at the
+`v2.8.0` tag: <https://github.com/open5gs/open5gs/tree/v2.8.0>. This repository adds no patches
+to it. If you received the image and cannot obtain that source from the link, open an issue at
+<https://github.com/vxedge/vxparts/issues> and the source will be provided at no charge beyond
+the cost of delivery. The offer is valid for as long as the image is distributed.
+
 ## Build
 
 ```
