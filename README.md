@@ -31,9 +31,9 @@ pip install PyYAML
 ```
 
 Parts are published to `ghcr.io/vxedge/parts/<class>/<subtype>/<layer>/<name>:<version>`, the same
-path as the directory under `parts/`. Two packages are public: `agent/linux/app/probe` and
-`zone/wasm/app/reflector-capsule`. The others are private until their licence terms for binary
-distribution are settled, so build one from its recipe instead: each part directory has a
+path as the directory under `parts/`. `zone/wasm/app/reflector-capsule` is public. The others are
+private until their licence terms for binary distribution are settled, so build one from its
+recipe instead: each part directory has a
 `README.md` with the steps and a `part.yaml` with the pinned upstream digest. With access to the
 registry, a part is pulled with `podman pull` (container parts) or `oras pull` (bundles, capsules
 and configs) at its pull path.

@@ -16,8 +16,8 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
-- `agent/linux/app/probe` and `zone/wasm/app/reflector-capsule` are public packages. The others stay
-  private until their licence terms for binary distribution are settled.
+- `zone/wasm/app/reflector-capsule` is a public package. The others stay private until their licence
+  terms for binary distribution are settled.
 
 ## [0.1.0] - 2026-10-29
 
