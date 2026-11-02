@@ -14,6 +14,11 @@ All notable changes to this project will be documented in this file. Format foll
   `sha256:4392871714b302e17dc9f81518d4768093bbfbddac6dbc9c10a517a9f286654d`.
 - `scripts/publish/publish-wasm.sh`: publishes a capsule with a pull round-trip check.
 
+### Changed
+
+- `agent/linux/app/probe` and `zone/wasm/app/reflector-capsule` are public packages. The others stay
+  private until their licence terms for binary distribution are settled.
+
 ## [0.1.0] - 2026-10-29
 
 First public release: recipes, descriptors and publish scripts.
