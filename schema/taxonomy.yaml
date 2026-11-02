@@ -55,6 +55,7 @@ classes:
       freertos: {code: FRT, description: "FreeRTOS — actuator/ECU node"}
       linux:    {code: LNX, description: "Linux microVM guest"}
       aaos:     {code: AAO, description: "Android Automotive — infotainment guest"}
+      wasm:     {code: WSM, description: "WebAssembly capsule — sensor/ECU node as a sandboxed control loop"}
       mcu:      {code: MCU, description: "register-level guest (Renode), not OS-hosted"}
   hpc:
     code: H
