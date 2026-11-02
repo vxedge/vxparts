@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file. Format foll
 
 ## [Unreleased]
 
+### Added
+
+- `parts/zone/wasm/app/reflector-capsule`: the first WebAssembly capsule, a UDP reflector for
+  `backend: wasm-capsule` zone nodes, with a new `wasm` zone subtype.
+- `scripts/publish/publish-wasm.sh`: publishes a capsule with a pull round-trip check.
+
 ## [0.1.0] - 2026-10-29
 
 First public release: recipes, descriptors and publish scripts.

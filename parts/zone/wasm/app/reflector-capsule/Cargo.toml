@@ -1,0 +1,13 @@
+[package]
+name = "reflector-capsule"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+
+[workspace]
+
+[profile.release]
+opt-level = "s"
+strip = true
+codegen-units = 1
