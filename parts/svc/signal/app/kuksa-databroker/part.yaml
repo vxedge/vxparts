@@ -5,14 +5,15 @@
 # this part, no build:recipe non-OCI-upstream workaround is needed here.
 license: Apache-2.0
 upstream:
-  ref: ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0
-  digest: sha256:9ace2824719ba7c05929f0af4827d9b25fa5ca7b2e0d58d0acff95885c649d6d
-  # Resolved 2026-08-05 via `oras resolve ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0`
-  # (manifest-list digest, multi-arch). Latest release as of pinning: 0.7.0 (2026-07-03),
-  # confirmed via `gh api repos/eclipse-kuksa/kuksa-databroker/releases/latest`.
+  ref: ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.1
+  digest: sha256:529d8c6d3cc223362667672978bcb8f92c4d356b25aedd336e7a2e004d7279bd
+  # Resolved 2026-11-03 via `oras resolve ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.1`
+  # (manifest-list digest: amd64, arm64, riscv64). Latest release as of pinning: 0.7.1
+  # (2026-08-26), confirmed via `gh release list -R eclipse-kuksa/kuksa-databroker`.
+  # Previous pin: 0.7.0, sha256:9ace2824719ba7c05929f0af4827d9b25fa5ca7b2e0d58d0acff95885c649d6d.
 annotations:
   role: vss-signal-plane
-  kuksa-databroker-version: "0.7.0"
+  kuksa-databroker-version: "0.7.1"
   # The manifest schema hook this part feeds: SignalBinding.vss (vxedge-core::model /
   # workspace.rs) — a per-device COVESA VSS path string, parsed today, nothing plugged into
   # it yet. This part is that first plug: the databroker a rendered vss: path would subscribe
