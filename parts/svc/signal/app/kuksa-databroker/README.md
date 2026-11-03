@@ -23,40 +23,52 @@ Thin relabel (like `hpc/ad/middleware/ros2-humble`) of Eclipse Kuksa's own publi
 OCI image — no `build: recipe` non-OCI workaround needed, unlike the two `gw/5gc`/`gw/ran`
 siblings landed alongside this part in the same pass.
 
-- `upstream.ref: ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0`
-- `upstream.digest`: resolved 2026-08-05 via `oras resolve
-  ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.0` (manifest-list digest — the image is
-  multi-arch).
-- Version: `0.7.0`, the latest release as of pinning (confirmed via
-  `gh api repos/eclipse-kuksa/kuksa-databroker/releases/latest`, published 2026-07-03).
-- Confirmed via `podman inspect` against the pulled image (not assumed from documentation):
-  entrypoint `/app/databroker`, listens `0.0.0.0:55555` (gRPC, the only `ExposedPorts` entry),
-  ships VSS release **6.0** metadata baked in
-  (`KUKSA_DATABROKER_METADATA_FILE=vss_release_6.0.json`).
+- `upstream.ref: ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.1`
+- `upstream.digest`: `sha256:529d8c6d3cc223362667672978bcb8f92c4d356b25aedd336e7a2e004d7279bd`,
+  resolved 2026-11-03 via `oras resolve ghcr.io/eclipse-kuksa/kuksa-databroker:0.7.1`
+  (manifest-list digest: amd64, arm64, riscv64).
+- Version: `0.7.1`, the latest release as of pinning (published 2026-08-26). It is a maintenance
+  release: no flag changes, more robust handling of providers that give empty or delayed
+  responses, and opentelemetry 0.32. The previous pin was 0.7.0,
+  `sha256:9ace2824719ba7c05929f0af4827d9b25fa5ca7b2e0d58d0acff95885c649d6d`.
+- Read from the 0.7.1 image config with `oras` (not assumed from documentation): entrypoint
+  `/app/databroker`, listens `0.0.0.0:55555` (gRPC, the only `ExposedPorts` entry), ships VSS
+  release **6.0** metadata as the default (`KUKSA_DATABROKER_METADATA_FILE=vss_release_6.0.json`),
+  with `vss_release_5.1.json` alongside it.
+
+**This part does not set what runs.** The vehicle documents and the `signal_plane` example in
+`docs/ARCHITECTURE.md` pin the upstream image by digest directly, so bumping this part changes
+nothing that a `vehicle up` starts. Those pins move in their own changes.
 
 ## License
 
-**Apache-2.0** — confirmed both via the upstream repo's GitHub SPDX metadata and the pulled
+**Apache-2.0** — confirmed both via the upstream repo's GitHub SPDX metadata and the 0.7.1
 image's own `org.opencontainers.image.licenses` label. No redistribution caveat, unlike the
 `gw/5gc`/`gw/ran` siblings (AGPL-3.0) or QNX/AAOS.
 
 ## Build
 
 ```
-../../../../../scripts/publish/publish-container.sh svc/signal/app/kuksa-databroker 0.1.0
+../../../../../scripts/publish/publish-container.sh svc/signal/app/kuksa-databroker 0.2.0
 # or, for a local build without publishing:
-VXPARTS_NO_PUSH=1 ../../../../../scripts/publish/publish-container.sh svc/signal/app/kuksa-databroker 0.1.0
+VXPARTS_NO_PUSH=1 ../../../../../scripts/publish/publish-container.sh svc/signal/app/kuksa-databroker 0.2.0
 ```
 
 ## What this part does *not* yet do
 
-Landing the databroker container is the plane's foundation, not the whole feature. Still
-`todo`, tracked in `vxparts/TASKS.md`/`docs/ROADMAP.md`: a Kuksa client wired into zone
+The databroker now runs as the signal-plane stage of `vehicle up` on vxedge `main` (not in a
+release yet), pinned from upstream as described above. Still `todo`, tracked in
+`vxparts/TASKS.md`/`docs/ROADMAP.md`: a Kuksa client wired into zone
 guests/agents to actually publish `vss:`-bound signals, CAN/SocketCAN restbus emulation feeding
 it, and any manifest-level wiring beyond the schema field already parsing. This part makes those
 next steps buildable against a real, pinned, boot-tested server — it doesn't implement them.
 
-## Verified 2026-08-05
+## Publishing
+
+This part has not been published to the registry yet. `0.2.0` is the first tag it will carry,
+from the manual `publish` workflow, with its CycloneDX SBOM.
+
+## Verified 2026-08-05 (0.7.0)
 
 `VXPARTS_NO_PUSH=1 ./scripts/publish/publish-container.sh parts/svc/signal/app/kuksa-databroker
 0.1.0` built clean locally; all 9 `org.vxedge.*` labels confirmed intact. Standalone smoke
