@@ -1,0 +1,20 @@
+# Baseline launch parameters for autoware_carla_interface (Autoware Universe, CARLA 0.9.15,
+# ROS 2 Humble). Names and defaults are those documented in the package README; only the
+# values marked "set" differ from the upstream default. Source:
+# https://github.com/autowarefoundation/autoware_universe/tree/main/simulator/autoware_carla_interface
+autoware_carla_interface:
+  host: localhost                 # default
+  port: 2000                      # default
+  timeout: 20                     # default (s)
+  ego_vehicle_role_name: ego_vehicle   # default
+  vehicle_type: vehicle.toyota.prius   # default
+  sync_mode: true                 # set explicitly: trials need a deterministic tick
+  fixed_delta_seconds: 0.05       # set explicitly: 20 Hz simulation step
+  max_real_delta_seconds: 0.05    # default
+  max_substep_delta_time: 0.002   # default
+  use_traffic_manager: false      # default
+  tick_follower: false            # default
+  no_rendering_mode: false        # default; the experiment overrides per trial
+  use_light_weight_sensor_mapping: false   # default
+  publish_ground_truth_objects: false      # default
+  # carla_map and spawn_point are deliberately absent: they belong to the scenario, not the stack.
