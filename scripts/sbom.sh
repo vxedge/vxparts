@@ -4,6 +4,10 @@
 # Usage:  ./sbom.sh <part-dir> [target]
 #   target defaults to the part directory itself; pass an image ref for container parts.
 #
+# A part whose upstream image ships its own SBOM names that file in part.yaml as
+# `sbom.from_image`. It is copied out of the image pinned by `upstream.ref` and `upstream.digest`,
+# because a scanner sees nothing inside a static binary that its own build could list.
+#
 # Deliberately non-blocking: no SBOM tool installed means no SBOM, a clear message, and
 # exit 0. SBOM generation must never become the reason a part cannot be published — the
 # repo stays *ready* for SBOMs without depending on them. `vxpn.py meta` only emits
@@ -19,18 +23,35 @@ PART="${PART%/}"
 TARGET="${2:-dir:$PART}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-OUT_REL="$(python3 -c "
-import sys, yaml, pathlib
+read -r OUT_REL FROM_IMAGE UPSTREAM <<<"$(python3 -c "
+import re, yaml, pathlib
 decl = yaml.safe_load(pathlib.Path('$PART/part.yaml').read_text()) or {}
-print((decl.get('sbom') or {}).get('path', ''))
+sbom = decl.get('sbom') or {}
+up = decl.get('upstream') or {}
+ref = re.sub(r':[^:/]*$', '', str(up.get('ref', ''))) if up.get('ref') else ''
+pinned = f\"{ref}@{up['digest']}\" if ref and up.get('digest') else '-'
+print(sbom.get('path', '') or '-', sbom.get('from_image', '') or '-', pinned)
 ")"
+[[ "$OUT_REL" == "-" ]] && OUT_REL=""
 if [[ -z "$OUT_REL" ]]; then
   echo "== $PART declares no sbom.path in part.yaml — skipping"
   exit 0
 fi
 OUT="$PART/$OUT_REL"
 
-if command -v syft >/dev/null; then
+if [[ "$FROM_IMAGE" != "-" ]]; then
+  [[ "$UPSTREAM" =~ @sha256:[0-9a-f]{64}$ ]] || { echo "error: $PART: sbom.from_image needs a pinned upstream" >&2; exit 1; }
+  command -v podman >/dev/null || { echo "error: podman not found" >&2; exit 1; }
+  CID="$(podman create --platform linux/amd64 "$UPSTREAM")"
+  trap 'podman rm "$CID" >/dev/null 2>&1 || true' EXIT
+  podman cp "$CID:$FROM_IMAGE" "$OUT"
+  python3 -c "
+import json, sys
+d = json.load(open('$OUT'))
+assert d.get('bomFormat') == 'CycloneDX', 'not a CycloneDX SBOM'
+print(f\"== SBOM copied from {sys.argv[1]}:{sys.argv[2]}: CycloneDX {d.get('specVersion')}, {len(d.get('components', []))} components\")
+" "$UPSTREAM" "$FROM_IMAGE"
+elif command -v syft >/dev/null; then
   mkdir -p "$(dirname "$OUT")"
   syft "$TARGET" -o cyclonedx-json="$OUT"
   echo "== SBOM written: $OUT"

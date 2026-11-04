@@ -66,7 +66,13 @@ next steps buildable against a real, pinned, boot-tested server — it doesn't i
 ## Publishing
 
 This part has not been published to the registry yet. `0.2.0` is the first tag it will carry,
-from the manual `publish` workflow, with its CycloneDX SBOM.
+from the manual `publish` workflow.
+
+Its SBOM is upstream's own: the CycloneDX 1.4 file Kuksa's build puts in the image at
+`/app/sbom.json`, 317 components for 0.7.1. `part.yaml` names it as `sbom.from_image`, and
+`scripts/sbom.sh` copies it out of the pinned digest before the publish, so the image carries the
+`org.vxedge.sbom` label. The relabelled image keeps the file at `/app/sbom.json`. A scanner is no
+use here: syft 1.55.0 finds no components in the static binary.
 
 ## Verified 2026-08-05 (0.7.0)
 

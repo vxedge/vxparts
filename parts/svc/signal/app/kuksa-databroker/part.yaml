@@ -21,3 +21,6 @@ annotations:
 sbom:
   format: cyclonedx-json
   path: sbom.cdx.json
+  # Upstream's own CycloneDX SBOM, from its cargo build, inside the image. scripts/sbom.sh copies
+  # it out of the pinned digest; a scanner finds no components in the static binary.
+  from_image: /app/sbom.json
