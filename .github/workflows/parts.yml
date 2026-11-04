@@ -25,6 +25,7 @@ on:
           - parts/hpc/ad/app/autoware
           - parts/hpc/ad/middleware/ros2-humble
           - parts/hpc/ad/middleware/carla-client
+          - parts/svc/signal/app/kuksa-databroker
       tag:
         description: 'SemVer tag to publish'
         required: true
@@ -160,6 +161,11 @@ jobs:
         # fix is in the package's settings, not here.
         run: echo "${{ secrets.GITHUB_TOKEN }}" \
              | podman login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      # Written before the publish so vxpn.py meta labels the image org.vxedge.sbom. A part with
+      # no sbom.path, or no SBOM source on the runner, is skipped, as before.
+      - name: SBOM for ${{ inputs.part }}
+        run: ./scripts/sbom.sh "${{ inputs.part }}"
 
       - name: Publish ${{ inputs.part }}
         run: ./scripts/publish/publish-container.sh "${{ inputs.part }}" "${{ inputs.tag }}"
