@@ -14,24 +14,21 @@ This part is the `veh` class's first instance (Track D consequence a, `vxparts/T
 vehicle models are `config`-layer parts, numbered by the same VXPN scheme as every other part
 — no separate model-number scheme, so sharing a vehicle stays a single `oras pull`.
 
-## Status: todo, no payload yet
+## What this is
 
-Every existing vehicle document in `vxperiments` (`exp-001-ws/vehicle.yaml`,
-`exp-002-ws/vehicle.yaml`, `exp-002b-ws/vehicle.yaml`, `exp-010-ws/vehicle.yaml`,
-`exp-014/vehicle.yaml`) is scoped to its own experiment (two zones for `exp-001-ws`'s H1
-isolation test, etc.) — none is the full six-zone reference topology this part name promises.
-Populating this part means either:
+`vehicle.yaml` is the six-zone reference vehicle of `PROVISIONING.md` §4 (`vx-reference-sedan-01`):
+`front-left`, `front-right`, `rear-left`, `rear-right` and `central-hpc`, with an ECU plus a sensor
+or actuator in the corner zones, central compute, an OTA service and the Kuksa signal plane. There
+is no `gateway` zone entry, because the gateway is provisioned from the experiment's network, as in
+every other vehicle document.
 
-1. Authoring a genuinely new six-zone reference topology (front-left/front-right/rear-left/
-   rear-right/central-hpc/gateway, one device each) that no single experiment needs today, or
-2. Deferring to Track M (`vxmodels`) to render this structural model from its SysML v2 source
-   once that model exists — `vxmodels` is the design authority, this part would be the
-   manifest-shaped publication of it (root `CLAUDE.md` §6.3).
-
-Neither is a data-entry task; both are a design decision for whoever pulls this thread next.
-Left `todo` deliberately rather than inventing placeholder topology data, per the same
-discipline already applied to `hpc/ad/config/autoware-params` and `hpc/sim/config/scenarios`
-(both scaffolded empty until their real inputs exist).
+**Validated on probe guests.** All six zone devices boot `zone/linux/stack/probe-bundle:0.1.0`
+(`sha256:33c9c8d8625bd5c6d1f4d3d0c561fdaa930e057fcd1fb24fb3badb402f25429d`). The roles are
+structural claims, and the RTOS images they imply replace the probe one zone at a time. It was
+brought up, probed, brought up a second time, restarted and torn down with `vxedge vehicle`; the
+evidence is `vxperiments` `results/reference-vehicle-2026-11-04`. It is a provisioning result, not
+a measurement. The baseline that picks the guests (`parts.yaml`) lives with the vehicle in
+`vxperiments`, because its probe image is local to a host.
 
 ```
 ../../../../../scripts/publish/publish-files.sh $PWD 0.1.0
