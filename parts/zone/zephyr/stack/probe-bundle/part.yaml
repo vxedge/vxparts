@@ -1,0 +1,9 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+# A `stack` built as one artifact (a Zephyr image plus the contract's initrd slot), not an OCI
+# index over other parts — overrides the layer default.
+build: recipe
+license: Apache-2.0
+annotations:
+  backend: qemu-microvm
+  arch: i386
+  zephyr: v4.5.0
