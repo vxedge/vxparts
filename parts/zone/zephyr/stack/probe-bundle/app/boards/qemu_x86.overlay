@@ -1,0 +1,37 @@
+/* The QEMU microvm machine: no PCI, no HPET, one virtio-mmio transport per NIC at 0xfeb00000 +
+ * 0x200 * n, wired to IOAPIC pin 5 + n. Everything the q35 board adds is switched off. */
+
+/ {
+	chosen {
+		/delete-property/ zephyr,display;
+		/delete-property/ zephyr,touch;
+		/delete-property/ zephyr,canbus;
+		/delete-property/ zephyr,bt-hci;
+		/delete-property/ zephyr,bt-mon-uart;
+		/delete-property/ zephyr,uart-pipe;
+		/delete-property/ zephyr,ieee802154;
+	};
+
+	virtio_mmio0: virtio@feb00e00 {
+		compatible = "virtio,mmio";
+		reg = <0xfeb00e00 0x200>;
+		interrupts = <12 IRQ_TYPE_LOWEST_EDGE_RISING 3>;
+		interrupt-parent = <&intc>;
+		status = "okay";
+
+		virtio_net: device {
+			compatible = "virtio,net";
+			status = "okay";
+			zephyr,random-mac-address;
+		};
+	};
+};
+
+&hpet { status = "disabled"; };
+&can0 { status = "disabled"; };
+&eth0 { status = "disabled"; };
+&virtio_input_pci { status = "disabled"; };
+&ramfb0 { status = "disabled"; };
+&uart1 { status = "disabled"; };
+&bt_hci_uart { status = "disabled"; };
+&ieee802154 { status = "disabled"; };
