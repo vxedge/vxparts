@@ -46,8 +46,8 @@ and prints this command.
 
 ## Publish
 
-Not yet published anywhere — `oras` CLI is not installed on the build host yet (see
-`../../../../../scripts/publish/README.md`). Once installed:
+Published as `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:0.1.0`,
+`sha256:33c9c8d8625bd5c6d1f4d3d0c561fdaa930e057fcd1fb24fb3badb402f25429d`. To publish a new version:
 
 ```
 ../../../../../scripts/publish/publish-vm-bundle.sh ./bundle ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:<semver>
