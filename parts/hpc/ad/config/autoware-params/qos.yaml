@@ -1,0 +1,7 @@
+# Per-topic DDS QoS. Only what the upstream README documents is pinned here. Everything else
+# runs on the upstream defaults of the pinned image (RMW rmw_fastrtps_cpp).
+topics:
+  /sensing/camera/CAM_FRONT/image_raw:
+    qos_profile: reliable         # documented in the sensor mapping example
+  /sensing/camera/CAM_FRONT/camera_info:
+    qos_profile: reliable         # same mapping entry
