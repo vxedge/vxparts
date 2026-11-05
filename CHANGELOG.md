@@ -13,6 +13,15 @@ All notable changes to this project will be documented in this file. Format foll
   `ghcr.io/vxedge/parts/zone/wasm/app/reflector-capsule:0.1.0`,
   `sha256:4392871714b302e17dc9f81518d4768093bbfbddac6dbc9c10a517a9f286654d`.
 - `scripts/publish/publish-wasm.sh`: publishes a capsule with a pull round-trip check.
+- `parts/hpc/ad/config/autoware-params`, `parts/hpc/ad/stack/autoware` and the composite
+  `parts/hpc/ad/stack/ad-baseline`, published with constituents first. The composite has not been run
+  against a CARLA server.
+- `parts/veh/car/config/reference-sedan-6zone`, published at `0.1.0`
+  (`sha256:1bf1f9c7…89af13`), the six-zone reference vehicle, run live through `vxedge vehicle up`.
+- `parts/zone/zephyr/stack/probe-bundle`: a Zephyr v4.5.0 probe guest for qemu-microvm (board
+  `qemu_x86`, no MMU), reproducible in a digest-pinned container. Published as
+  `ghcr.io/vxedge/parts/zone/zephyr/stack/probe-bundle:0.1.0`,
+  `sha256:a50f0cb58ed9b041217cc9cdaba7555089d6c73545fcdebe90ecba250fdfe135`. A probe, not an ECU application.
 
 ### Changed
 
