@@ -5,7 +5,8 @@
 build: recipe
 license: Apache-2.0 AND GPL-2.0-only
 annotations:
-  backend: cuttlefish
+  backend: libvirt
+  backend-status: planned   # today launched with Cuttlefish's launch_cvd; see README
   arch: x86_64
   aaos-release: 26Q2
   android: "17"

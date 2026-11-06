@@ -10,14 +10,19 @@ with its Vehicle HAL served from Kuksa VSS signals by vxvhal instead of AOSP's f
 - Recipe-only. `build.sh` runs `cvd fetch`, checks every image against `SHA256SUMS`, and installs
   `vhal-proxy-vxvhal.sh` as Cuttlefish's host `vhal_proxy_server`. The guest's `GRPCVehicleHardware` then
   dials vxvhal on `192.168.98.1:9300`.
-- Runs on Cuttlefish's crosvm with KVM, x86_64. Needs `cuttlefish-base` 1.57.13 or later on the host.
+- A VirtIO guest: it boots under QEMU/KVM as well as Cuttlefish's crosvm, x86_64. Needs `cuttlefish-base`
+  1.57.13 or later on the host for `cvd fetch` and for the TEE helper (`secure_env`).
 
 ## What it is not
 
 - Not republished. The images come from Google's build servers; this part pins and verifies them. That keeps
   the source of every byte with AOSP, including the GPL kernel's.
-- Not yet a vxedge zone. vxedge's `cuttlefish` backend is being designed; until it lands, the guest is launched
-  with `launch_cvd` beside a vehicle, on Cuttlefish's own bridge, not on a vxedge slice.
+- Not yet a vxedge zone. The plan is the existing `libvirt` backend, as production cockpits run AAOS: a VirtIO
+  guest under the vehicle's hypervisor, its virtio-net on the zone's slice. That needs generic libvirt
+  extensions (firmware and disk boot, vsock, consoles bound to a helper) that are not built yet. Until then the
+  guest is launched with `launch_cvd` beside a vehicle, on Cuttlefish's own bridge.
+- Booted without Cuttlefish's TEE simulator (`secure_env`), it stops in the bootloader: the TEE stand-in is
+  required. On Arm hardware a real TEE replaces it.
 - Not a vendor build: `userdebug`, AOSP's fake hardware for everything except the Vehicle HAL.
 
 ## Verified
