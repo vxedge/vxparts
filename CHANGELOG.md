@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/zone/aaos/stack/cuttlefish-auto`: an Android Automotive 26Q2 zone guest, recipe-only. It fetches
+  AOSP's Cuttlefish build `16644040` (`aosp_cf_x86_64_auto-userdebug`), verifies it against `SHA256SUMS`, and
+  installs vxvhal as the host Vehicle HAL server. Not republished; not yet a vxedge zone backend.
 - `parts/zone/wasm/app/reflector-capsule`: the first WebAssembly capsule, a UDP reflector for
   `backend: wasm-capsule` zone nodes, with a new `wasm` zone subtype. Published as
   `ghcr.io/vxedge/parts/zone/wasm/app/reflector-capsule:0.1.0`,
