@@ -20,6 +20,8 @@ published OCI artifact as org.vxedge.license. Notable upstream licences:
   - CARLA — MIT; CARLA assets — CC-BY-NC-4.0 (non-commercial)
   - SONiC — Apache-2.0 plus third-party terms per sonic-net/sonic-buildimage
   - Autoware, ROS 2, Eclipse Kuksa — Apache-2.0
+  - Android Open Source Project (AAOS zone recipe) — Apache-2.0, Linux kernel GPL-2.0; fetched from
+    Google's build servers and verified, never republished
 
 Proprietary components (QNX SDP, NVIDIA DeepStream/TensorRT) are referenced as recipes only
 and are never redistributed by this project.

@@ -1,0 +1,16 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Recipe-only: build.sh fetches AOSP's own Cuttlefish build from ci.android.com and verifies it
+# against SHA256SUMS. No Android payload is republished by this project (see README).
+build: recipe
+license: Apache-2.0 AND GPL-2.0-only
+annotations:
+  backend: cuttlefish
+  arch: x86_64
+  aaos-release: 26Q2
+  android: "17"
+  api-level: "37"
+  aosp-branch: aosp-android-latest-release
+  aosp-build-id: "16644040"
+  aosp-target: aosp_cf_x86_64_auto-userdebug
+  cuttlefish-base: "1.57.13"
