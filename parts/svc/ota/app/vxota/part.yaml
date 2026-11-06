@@ -4,4 +4,6 @@ upstream:
   digest: sha256:63a496b5d3b99214b39f5ed70eb71a61e590a77979c79cbee4faf991f8c0783e
 annotations:
   vxota-source-repo: https://github.com/vxedge/vxota
-  vxota-source-commit: f35f76456743210539f855738af985ea7f8fc482
+  vxota-release: v0.1.1
+  vxota-source-commit: 621a51f91c94ba51b768b543335f4cf75f1419fe
+  vxota-tarball-sha256: 4205fb2c08a0e25daefe2afd3b70f7531a75d1829e1787d7158f1e3c0a868f54

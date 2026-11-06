@@ -8,6 +8,13 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/agent/probe/app/vxprobe`: the probe reflector payload of a container node, `vxprobe` from the
+  vxagents v0.1.1 release with a static busybox for the flow checks. Published as
+  `ghcr.io/vxedge/parts/agent/probe/app/vxprobe:0.1.1`,
+  `sha256:b3f22650146dcae004589d311fcd8f231bd2e058f8cb50a7d2a766519210fd6d`.
+- `parts/svc/ota/app/vxota` published for the first time, now packaging the vxota v0.1.1 release binary
+  (checksum verified by `stage.sh`): `ghcr.io/vxedge/parts/svc/ota/app/vxota:0.1.1`,
+  `sha256:38dc26f33a08dc0af3085e86caa07eb697559200d52c12e3730a7cd2e78e213d`.
 - `parts/zone/aaos/stack/cuttlefish-auto`: an Android Automotive 26Q2 zone guest, recipe-only. It fetches
   AOSP's Cuttlefish build `16644040` (`aosp_cf_x86_64_auto-userdebug`), verifies it against `SHA256SUMS`, and
   installs vxvhal as the host Vehicle HAL server. Not republished; not yet a vxedge zone backend.
