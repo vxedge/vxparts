@@ -15,6 +15,11 @@ All notable changes to this project will be documented in this file. Format foll
 - `parts/svc/ota/app/vxota` published for the first time, now packaging the vxota v0.1.1 release binary
   (checksum verified by `stage.sh`): `ghcr.io/vxedge/parts/svc/ota/app/vxota:0.1.1`,
   `sha256:38dc26f33a08dc0af3085e86caa07eb697559200d52c12e3730a7cd2e78e213d`.
+- `parts/svc/ota/config/gate-store`: the OTA artifact store of the reference vehicles and the vxAPI gate,
+  one 1 MiB test artifact with its signed metadata (the signing key is not published). Published as
+  `ghcr.io/vxedge/parts/svc/ota/config/gate-store:0.1.0`,
+  `sha256:8ea595fe8642bfba6809320befd7e9373c6eaba9f72e0ddaf3ae54da90180546`. A vehicle pins it as
+  `config.artifacts` once vxedge resolves a published store.
 - `parts/zone/aaos/stack/cuttlefish-auto`: an Android Automotive 26Q2 zone guest, recipe-only. It fetches
   AOSP's Cuttlefish build `16644040` (`aosp_cf_x86_64_auto-userdebug`), verifies it against `SHA256SUMS`, and
   installs vxvhal as the host Vehicle HAL server. Not republished; not yet a vxedge zone backend.
