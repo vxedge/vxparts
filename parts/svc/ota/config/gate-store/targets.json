@@ -1,0 +1,18 @@
+{
+  "signed": {
+    "version": 1,
+    "expires_unix": 1796147747,
+    "targets": {
+      "gate-artifact": {
+        "length": 1048576,
+        "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+      }
+    }
+  },
+  "signatures": [
+    {
+      "keyid": "db5277d720532e170e5872f4090e1daaa3c42ca23563949945c5d40f82b40c32",
+      "sig": "065ab3e4baeab120a99544464ebaa7b78c230be2f508e42a94b76891eb950eb6f9d77272e968ca42e8a5954fac8bf2d9e7e61fe30444f12d7e3e92787af7f10a"
+    }
+  ]
+}

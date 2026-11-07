@@ -1,0 +1,10 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# A config part: the files are the payload. A vxota artifact store with one 1 MiB test artifact,
+# signed by a test root key that is not part of this part and not published.
+license: Apache-2.0
+annotations:
+  role: ota-artifact-store
+  vxota-format: "root.json, targets.json, artifacts/<sha256>"
+  artifact: gate-artifact
+  artifact-sha256: 30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58

@@ -1,0 +1,32 @@
+{
+  "signed": {
+    "version": 1,
+    "expires_unix": 2108915747,
+    "keys": {
+      "db5277d720532e170e5872f4090e1daaa3c42ca23563949945c5d40f82b40c32": {
+        "keytype": "ed25519",
+        "public": "09957ce550835f57b83e1483df6e5887ebe1be498e51fe31c894035be2f7f365"
+      }
+    },
+    "roles": {
+      "root": {
+        "keyids": [
+          "db5277d720532e170e5872f4090e1daaa3c42ca23563949945c5d40f82b40c32"
+        ],
+        "threshold": 1
+      },
+      "targets": {
+        "keyids": [
+          "db5277d720532e170e5872f4090e1daaa3c42ca23563949945c5d40f82b40c32"
+        ],
+        "threshold": 1
+      }
+    }
+  },
+  "signatures": [
+    {
+      "keyid": "db5277d720532e170e5872f4090e1daaa3c42ca23563949945c5d40f82b40c32",
+      "sig": "6bb460bb863650af24a089a69a9648c658622f0baf1d639a1d8a16ed0836d871c8bb61e8844c4f46915d97ca526db1ecde0c1d4a7ee026fa5f644a2cc10cfd0f"
+    }
+  ]
+}
