@@ -1,0 +1,10 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+license: Apache-2.0
+# No upstream: the image is FROM scratch, the static musl binary and its mapping only.
+annotations:
+  role: vehicle-hal-server
+  vxvhal-source-repo: https://github.com/vxedge/vxvhal
+  vxvhal-release: v0.1.0
+  vxvhal-source-commit: c7b735212c5070be4cdbeda0db09a23ba803fd75
+  vxvhal-tarball-sha256: 29f07020eef170bc6686ee3004690343ee96906a742c03c7602e47d42d5e2b6f
+  aosp-vhal-interface: android17-release
