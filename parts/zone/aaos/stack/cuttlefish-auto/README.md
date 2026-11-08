@@ -24,6 +24,7 @@ with its Vehicle HAL served from Kuksa VSS signals by vxvhal instead of AOSP's f
 - The guest needs Cuttlefish's host stack to boot, not only its TEE simulator: booted by plain QEMU it also
   needs the display, sensor and input helpers, and more. A spike on 2026-11-07 rebuilt four of them one at a time
   before concluding so.
+- Not a vendor build: `userdebug`, AOSP's fake hardware for everything except the Vehicle HAL.
 
 ## Verified
 
