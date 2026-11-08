@@ -17,13 +17,13 @@ with its Vehicle HAL served from Kuksa VSS signals by vxvhal instead of AOSP's f
 
 - Not republished. The images come from Google's build servers; this part pins and verifies them. That keeps
   the source of every byte with AOSP, including the GPL kernel's.
-- Not yet a vxedge zone. The plan is the existing `libvirt` backend, as production cockpits run AAOS: a VirtIO
-  guest under the vehicle's hypervisor, its virtio-net on the zone's slice. That needs generic libvirt
-  extensions (firmware and disk boot, vsock, consoles bound to a helper) that are not built yet. Until then the
-  guest is launched with `launch_cvd` beside a vehicle, on Cuttlefish's own bridge.
-- Booted without Cuttlefish's TEE simulator (`secure_env`), it stops in the bootloader: the TEE stand-in is
-  required. On Arm hardware a real TEE replaces it.
-- Not a vendor build: `userdebug`, AOSP's fake hardware for everything except the Vehicle HAL.
+- Not yet a vxedge zone. The plan is vxedge's generic `attach` backend: Cuttlefish's own launcher stays the
+  guest's host stack, as a hypervisor vendor's board support would, and vxedge adopts the guest's Ethernet tap as
+  the zone's slice port and serves its Vehicle HAL from the vehicle. Until then the guest is launched with
+  `launch_cvd` beside a vehicle, on Cuttlefish's own bridge.
+- The guest needs Cuttlefish's host stack to boot, not only its TEE simulator: booted by plain QEMU it also
+  needs the display, sensor and input helpers, and more. A spike on 2026-11-07 rebuilt four of them one at a time
+  before concluding so.
 
 ## Verified
 
