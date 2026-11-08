@@ -6,7 +6,7 @@ build: recipe
 license: Apache-2.0 AND GPL-2.0-only
 annotations:
   backend: attach
-  backend-status: planned   # today launched with Cuttlefish's launch_cvd; see README
+  backend-status: live      # attach.yaml is the adapter; vxedge 0.9.1 or later
   arch: x86_64
   aaos-release: 26Q2
   android: "17"
