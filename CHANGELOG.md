@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file. Format foll
 
 ## [Unreleased]
 
+### Changed
+
+- `zone/aaos/stack/cuttlefish-auto`: `attach.yaml` runs `sh start.sh`, `sh status.sh` and `sh stop.sh`, so the
+  adapter starts after travelling in a package, which keeps no execute bit.
+
 ### Added
 
 - `parts/zone/linux/stack/probe-bundle-aarch64`: the `linux-probe` guest for aarch64, from pinned Ubuntu 26.04
