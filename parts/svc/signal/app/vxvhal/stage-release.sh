@@ -2,8 +2,8 @@
 # Stage the vxvhal release binary and its default mapping into bin/, after verifying the tarball.
 set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
-version=0.1.0
-want=29f07020eef170bc6686ee3004690343ee96906a742c03c7602e47d42d5e2b6f
+version=0.1.1
+want=fd5d7076480f4cda4625c787b5960ee560f2a16f27861fd550f227723759a6e3
 name=vxvhal-$version-x86_64-unknown-linux-musl
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
