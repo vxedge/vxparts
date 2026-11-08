@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/svc/signal/app/vxvhal`: the Vehicle HAL server of an Android Automotive zone, vxvhal from the
+  v0.1.0 release (static musl, checksum verified by `stage-release.sh`) with its default mapping, on
+  `scratch`. To be published as `ghcr.io/vxedge/parts/svc/signal/app/vxvhal:0.1.0`.
 - `parts/agent/probe/app/vxprobe`: the probe reflector payload of a container node, `vxprobe` from the
   vxagents v0.1.1 release with a static busybox for the flow checks. Published as
   `ghcr.io/vxedge/parts/agent/probe/app/vxprobe:0.1.1`,
