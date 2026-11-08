@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/zone/aaos/stack/cuttlefish-auto` is now also the `attach` adapter for vxedge 0.9.1 or later
+  (`attach.yaml`, `start.sh`, `status.sh`, `stop.sh`, `vhal-proxy-none.sh`), as `vx-reference-sedan-03` runs it:
+  10 of 10 vxAPI gate runs on 2026-11-08.
 - `parts/svc/signal/app/vxvhal` 0.1.1, packaging the vxvhal 0.1.1 release, which stops on SIGTERM:
   `ghcr.io/vxedge/parts/svc/signal/app/vxvhal:0.1.1`,
   `sha256:41ee94eaa596c59dafc3e934fe3014b0ee8af3084ac1fb4a94d02644b92c744e`.
