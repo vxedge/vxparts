@@ -26,3 +26,8 @@ points at another mapping.
 ```
 
 Bump the release, commit and checksum in `part.yaml` and `stage-release.sh` together when vxvhal moves.
+
+## Published
+
+`0.1.0`: `sha256:313f44bd558be6783287f45fa45c2439d336951e2d65f4ca5c2df63ce6f85423`, 11 `org.vxedge.*` labels.
+A vehicle pins it by that digest.
