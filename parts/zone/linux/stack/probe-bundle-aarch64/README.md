@@ -53,7 +53,9 @@ Verified 2026-11-08 on an x86_64 host under TCG: it booted and answered 20 of 20
 
 ## Publish
 
-Not published yet. To publish:
+Published as `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle-aarch64:0.1.0`,
+`sha256:e7a187368acedbd3a16fc61383ad2b760a6b0c4ac710976b4643be9ec718c187` (vxprobe from vxagents `7d952d6`).
+To publish a new version:
 
 ```
 ../../../../../scripts/publish/publish-vm-bundle.sh ./bundle ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle-aarch64:<semver>
