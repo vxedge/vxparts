@@ -1,0 +1,11 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+# The aarch64 build of `probe-bundle`: one image per instruction set. Built from pinned Ubuntu arm64
+# packages, so unlike the x86_64 part its digest is the same on every host.
+build: recipe
+license: GPL-2.0
+annotations:
+  backend: qemu-microvm
+  arch: aarch64
+  ubuntu-release: "26.04"
+  kernel: 7.0.0-14-generic
+  busybox: 1.37.0-7ubuntu1
