@@ -58,6 +58,11 @@ jobs:
     name: build changed container parts
     needs: validate
     runs-on: ubuntu-latest
+    # packages: read lets the job pull the org's private parts that other parts build FROM
+    # (carla-client is built on ros2-humble). Read-only: this job never pushes.
+    permissions:
+      contents: read
+      packages: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -88,8 +93,10 @@ jobs:
               BASE="$(git hash-object -t tree /dev/null)"
             fi
           fi
+          # *.md is excluded: a README edit cannot change what a Containerfile builds, so it
+          # should not cost a multi-GB rebuild.
           mapfile -t parts < <(
-            git diff --name-only "$BASE" HEAD -- parts/ \
+            git diff --name-only "$BASE" HEAD -- parts/ ':(exclude)*.md' \
               | awk -F/ 'NF>=6 {print $1"/"$2"/"$3"/"$4"/"$5}' \
               | sort -u
           )
@@ -98,6 +105,15 @@ jobs:
             printf '%s\n' "${parts[@]}"
             echo "VXEOF"
           } >> "$GITHUB_OUTPUT"
+      # Without a login every pull is anonymous, and GHCR answers an anonymous pull of a
+      # private package with "unable to retrieve auth token: invalid username/password".
+      # The token can read a private package only if that package's settings grant this
+      # repository Read under "Manage Actions access"; if a pull still fails with 403/denied
+      # after this step, that grant is what is missing, and the fix is in the package's
+      # settings, not here.
+      - name: Log in to GHCR (read-only)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" \
+             | podman login ghcr.io -u "${{ github.actor }}" --password-stdin
       - name: Build changed container parts (no push)
         env:
           VXPARTS_NO_PUSH: "1"
