@@ -100,34 +100,19 @@ must be updated whenever that software changes. That is precisely the roll-up a
 vehicle-model manifest needs, and it is a regulatory reality for any SDV shipped in a
 UNECE market — so the model should carry it rather than invent an equivalent.
 
-Not implemented yet — see the open item below. When it lands, an RxSWIN is a property of a
-*vehicle manifest* (a set of parts), never of a single part, and it belongs with Track D
-dimension 3's bill-of-software work rather than here.
+Not implemented: no part or manifest carries an RxSWIN. An RxSWIN is a property of a
+*vehicle manifest* (a set of parts), never of a single part.
 
-## Open items
+## Known limits
 
-- [ ] `org.vxedge.rxswin` on composite/`stack` parts + a vehicle-level roll-up, once Track D
-      dimension 3 (`vxedge manifest bom`) defines the whole-vehicle bill of software. The
-      natural pairing is a CycloneDX SBOM per part, with the RxSWIN computed over the set —
-      this also feeds the licensing review (`docs/ROADMAP.md`, go-public prerequisites).
-- [ ] `vxpn.py scan` + `vxpn.py lint` in CI as merge gates: the 3-char name digest holds
-      ~46.6k values, so collisions become likely somewhere past ~255 parts. Widen
-      `format.name_digest_chars` before that, not after.
-- [ ] **PURL as the machine-facing identifier**, alongside the VXPN:
-      `pkg:oci/<name>@sha256:...?repository_url=ghcr.io/vxedge/parts/<class>/<subtype>/<layer>`.
-      The VXPN serves humans and BOMs; nothing outside this project can interpret it. UN R155
-      (CSMS) obliges continuous vulnerability monitoring over a vehicle's software for its
-      whole lifetime, and that matching is done on PURL/CPE — a purely internal part number
-      leaves a compliance duty with no mechanical way to discharge it. Like the VXPN, a PURL
-      is computed from the path, so it adds no second source of truth.
-- [ ] **CycloneDX SBOM per part**, attached via the OCI referrers API rather than baked into
-      the artifact, so it can be regenerated when an advisory lands without repushing the
-      part. `part.yaml` already carries the `sbom:` slot and `scripts/sbom.sh` the generator;
-      both are deliberately non-blocking (no tooling installed → no SBOM, exit 0), and
-      `org.vxedge.sbom` is emitted only when the file genuinely exists.
-- [ ] **in-toto/SLSA provenance + signature** subject-linked to the digest. This is the
-      correct replacement for ARINC 665's "new PN per change" rule: that rule existed because
-      the number was the only provenance channel available, and a signed attestation answers
-      "which bytes, built from what, by whom" far better than a serial number can.
-- [ ] Supplier-code registry for third-party `MMM` values — needed only when a part arrives
-      from outside the project. Deliberately not built in advance.
+- CI runs `vxpn.py lint` and `vxpn.py scan` on every push and pull request. The 3-char name
+  digest holds 46,656 values, so collisions become likely somewhere past ~255 parts.
+  `format.name_digest_chars` sets the width, and changing it renumbers every part.
+- No PURL is emitted. The VXPN serves humans and BOMs; nothing outside this project can
+  interpret it, and vulnerability matching under UN R155 (CSMS) works on PURL/CPE.
+- No SBOM is attached through the OCI referrers API. `part.yaml` has an `sbom:` slot and
+  `scripts/sbom.sh` is the generator; both are non-blocking (no tooling installed → no SBOM,
+  exit 0), and `org.vxedge.sbom` is emitted only when the file exists.
+- No in-toto/SLSA provenance or signature is attached to published digests.
+- There is no registry of third-party supplier (`MMM`) codes; every part carries the
+  project's own.

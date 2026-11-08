@@ -13,5 +13,4 @@ podman image inspect --format '{{.Digest}}' ghcr.io/autowarefoundation/autoware:
 
 **GPU:** shares the host GPU with `carla-server`. On a single ≥12GB card that pairing is
 already tight — see `docs/TESTBED-SETUP.md`. Do not add DeepStream or Alpamayo to the same
-run before the phase-2 gate closes; they are not gate-blocking and they contend for the same
-VRAM.
+run: they contend for the same VRAM.

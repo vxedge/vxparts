@@ -1,8 +1,7 @@
 # parts/gw/5gc/os/open5gs
 
-The Open5GS 5G core (`docs/ROADMAP.md` priority-1 buildout item, 2026-08-05: "already running,
-already producing H2's real numbers via local podman, just never wrapped"). This part is that
-wrap — same content as `vxedge/containers/fiveg/Containerfile.open5gs`, re-homed under
+The Open5GS 5G core. This part carries the same content as
+`vxedge/containers/fiveg/Containerfile.open5gs`, re-homed under
 `vxparts`' class/subtype/layer structure so it's a real, publishable, digest-pinned loadable
 instead of a bare `podman build` step inside the `vxedge` repo.
 
@@ -29,11 +28,10 @@ update is ever suspected of changing NF behavior underneath a frozen experiment 
 ## License
 
 **AGPL-3.0** (confirmed via the upstream `open5gs/open5gs` repo's own SPDX metadata,
-2026-08-05) — this is one of the two cases `docs/ROADMAP.md`'s workspace-licensing-review item
-flags explicitly as "the one[s] to check carefully against any linking/service story." This
-part runs Open5GS as a standalone containerized service (no vxedge code links against it), the
+2026-08-05). It is one of the two AGPL parts here, with `gw/ran/os/ueransim`, whose linking
+and service terms need care. This part runs Open5GS as a standalone containerized service (no vxedge code links against it), the
 normal AGPL network-service deployment shape — but the final call on redistribution terms for
-a *built* image belongs to whoever owns that review, not assumed settled here.
+a *built* image belongs to the maintainers' licensing review and is not settled here.
 
 ### Source offer
 

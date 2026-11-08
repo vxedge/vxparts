@@ -13,9 +13,8 @@
 # repo stays *ready* for SBOMs without depending on them. `vxpn.py meta` only emits
 # org.vxedge.sbom when the file actually exists, so a missing SBOM is never a false claim.
 #
-# Once an SBOM exists it feeds two things already on the board: the workspace licensing
-# review (docs/ROADMAP.md, go-public prerequisites) and the RxSWIN roll-up computed over a
-# vehicle's set of parts (PART-NUMBERING.md open items).
+# An SBOM is an input to the licensing review of a part's bundled components, and to an
+# RxSWIN roll-up over a vehicle's set of parts (PART-NUMBERING.md, not implemented).
 set -euo pipefail
 
 PART="${1:?usage: $0 <part-dir> [target]}"

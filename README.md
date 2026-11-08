@@ -47,6 +47,6 @@ part are summarised in [`NOTICE`](NOTICE).
 - Site: <https://vxedge.dev>
 - Facts: [`docs/FACTS.md`](https://github.com/vxedge/docs/blob/main/FACTS.md)
 - Architecture: [`docs/ARCHITECTURE.md`](https://github.com/vxedge/docs/blob/main/ARCHITECTURE.md)
-- Results: [`docs/RESULTS.md`](https://github.com/vxedge/docs/blob/main/RESULTS.md) · Roadmap: [`docs/ROADMAP.md`](https://github.com/vxedge/docs/blob/main/ROADMAP.md)
+- Results: [`docs/RESULTS.md`](https://github.com/vxedge/docs/blob/main/RESULTS.md)
 - Contributing: [CONTRIBUTING](https://github.com/vxedge/.github/blob/main/CONTRIBUTING.md) · Security: [SECURITY](https://github.com/vxedge/.github/blob/main/SECURITY.md)
 - License: Apache-2.0 ([`LICENSE`](LICENSE))

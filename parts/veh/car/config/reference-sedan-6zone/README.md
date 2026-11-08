@@ -10,7 +10,7 @@ digest-addressed structural model instead of hand-copying a `vehicle.yaml` — t
 motivation as `hpc/ad/config/autoware-params`: an unversioned or divergently-copied structural
 file is a reproducibility gap, not a convenience shortcut.
 
-This part is the `veh` class's first instance (Track D consequence a, `vxparts/TASKS.md`):
+This part is the `veh` class's first instance (Track D consequence a):
 vehicle models are `config`-layer parts, numbered by the same VXPN scheme as every other part
 — no separate model-number scheme, so sharing a vehicle stays a single `oras pull`.
 

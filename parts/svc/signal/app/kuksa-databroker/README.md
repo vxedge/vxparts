@@ -1,9 +1,7 @@
 # parts/svc/signal/app/kuksa-databroker
 
-The VSS/Kuksa signal plane (`docs/ROADMAP.md` buildout priority-5 item, 2026-08-05: "the
-`SignalBinding` model already parses `vss`/`dbc` fields end to end — nothing plugged into that
-slot yet ... pure content, not a design problem"). This part is that first plug: Eclipse Kuksa's
-databroker, the reference in-vehicle VSS server the manifest schema's `vss:` field targets.
+The VSS/Kuksa signal plane: Eclipse Kuksa's databroker, the reference in-vehicle VSS server
+the manifest schema's `vss:` field targets.
 
 Classification: `class=svc`, `subtype=signal`, `layer=app`.
 
@@ -54,19 +52,18 @@ image's own `org.opencontainers.image.licenses` label. No redistribution caveat,
 VXPARTS_NO_PUSH=1 ../../../../../scripts/publish/publish-container.sh svc/signal/app/kuksa-databroker 0.2.0
 ```
 
-## What this part does *not* yet do
+## What this part does *not* do
 
-The databroker now runs as the signal-plane stage of `vehicle up` on vxedge `main` (not in a
-release yet), pinned from upstream as described above. Still `todo`, tracked in
-`vxparts/TASKS.md`/`docs/ROADMAP.md`: a Kuksa client wired into zone
-guests/agents to actually publish `vss:`-bound signals, CAN/SocketCAN restbus emulation feeding
-it, and any manifest-level wiring beyond the schema field already parsing. This part makes those
-next steps buildable against a real, pinned, boot-tested server — it doesn't implement them.
+The databroker runs as the signal-plane stage of `vehicle up` on vxedge `main` (not in a
+release yet), pinned from upstream as described above. No zone guest or agent runs a Kuksa
+client that publishes `vss:`-bound signals, no CAN/SocketCAN restbus emulation feeds it, and
+manifest-level wiring stops at the schema field parsing. This part is a pinned, boot-tested
+server only.
 
 ## Publishing
 
-This part has not been published to the registry yet. `0.2.0` is the first tag it will carry,
-from the manual `publish` workflow.
+This part has not been published to the registry yet. It is one of the choices in the manual
+`publish` workflow.
 
 Its SBOM is upstream's own: the CycloneDX 1.4 file Kuksa's build puts in the image at
 `/app/sbom.json`, 317 components for 0.7.1. `part.yaml` names it as `sbom.from_image`, and
@@ -82,8 +79,7 @@ test: ran the built image with `-p 15555:55555`, confirmed via logs it actually 
 "Starting Kuksa Databroker 0.7.0", populated metadata from `vss_release_6.0.json`, "Listening
 on 0.0.0.0:55555" — and stayed up. `vxpn.py lint`/`scan` both pass with no collisions.
 CI's own `build-containers` job hadn't independently exercised this part as of the initial
-landing commit — a regression in the `gw/ran/os/ueransim` sibling (fixed same day, see
-`vxparts/TASKS.md`) made `set -e` abort the job before reaching this part alphabetically.
+landing commit — a regression in the `gw/ran/os/ueransim` sibling (fixed the same day) made `set -e` abort the job before reaching this part alphabetically.
 Full
-VSS/CAN integration (a manifest-driven `vss:` path actually feeding this broker) is separate,
-later work, out of scope here.
+VSS/CAN integration (a manifest-driven `vss:` path actually feeding this broker) is out of
+scope here.
