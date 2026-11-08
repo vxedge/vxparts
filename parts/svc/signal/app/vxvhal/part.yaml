@@ -4,7 +4,7 @@ license: Apache-2.0
 annotations:
   role: vehicle-hal-server
   vxvhal-source-repo: https://github.com/vxedge/vxvhal
-  vxvhal-release: v0.1.0
-  vxvhal-source-commit: c7b735212c5070be4cdbeda0db09a23ba803fd75
-  vxvhal-tarball-sha256: 29f07020eef170bc6686ee3004690343ee96906a742c03c7602e47d42d5e2b6f
+  vxvhal-release: v0.1.1
+  vxvhal-source-commit: bee0ea60a06ac569d05925a8c58a620f176d0ff2
+  vxvhal-tarball-sha256: fd5d7076480f4cda4625c787b5960ee560f2a16f27861fd550f227723759a6e3
   aosp-vhal-interface: android17-release

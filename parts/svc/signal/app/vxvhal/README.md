@@ -9,7 +9,7 @@ It is the payload of the cockpit gateway node in `vx-reference-sedan-03`. It is 
 
 ## What it packages
 
-`vxvhal` from the [vxvhal](https://github.com/vxedge/vxvhal) v0.1.0 release (commit `c7b7352`), the static
+`vxvhal` from the [vxvhal](https://github.com/vxedge/vxvhal) v0.1.1 release (commit `bee0ea6`), the static
 x86_64 musl build, verified by `stage-release.sh` against the release tarball's sha256 (`part.yaml`) before
 it is packaged, and the release's default mapping (`PERF_VEHICLE_SPEED`, `ENGINE_RPM`, `PERF_ODOMETER`, `GEAR_SELECTION`) at
 `/etc/vxvhal/mapping.yaml`. The image is `FROM scratch`: the binary and the mapping only.
@@ -22,7 +22,7 @@ points at another mapping.
 
 ```sh
 ./parts/svc/signal/app/vxvhal/stage-release.sh
-./scripts/publish/publish-container.sh parts/svc/signal/app/vxvhal 0.1.0
+./scripts/publish/publish-container.sh parts/svc/signal/app/vxvhal 0.1.1
 ```
 
 Bump the release, commit and checksum in `part.yaml` and `stage-release.sh` together when vxvhal moves.
@@ -30,4 +30,5 @@ Bump the release, commit and checksum in `part.yaml` and `stage-release.sh` toge
 ## Published
 
 `0.1.0`: `sha256:313f44bd558be6783287f45fa45c2439d336951e2d65f4ca5c2df63ce6f85423`, 11 `org.vxedge.*` labels.
-A vehicle pins it by that digest.
+`0.1.1`: `sha256:41ee94eaa596c59dafc3e934fe3014b0ee8af3084ac1fb4a94d02644b92c744e`, stops on SIGTERM.
+A vehicle pins it by digest.

@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/svc/signal/app/vxvhal` 0.1.1, packaging the vxvhal 0.1.1 release, which stops on SIGTERM:
+  `ghcr.io/vxedge/parts/svc/signal/app/vxvhal:0.1.1`,
+  `sha256:41ee94eaa596c59dafc3e934fe3014b0ee8af3084ac1fb4a94d02644b92c744e`.
 - `parts/svc/signal/app/vxvhal`: the Vehicle HAL server of an Android Automotive zone, vxvhal from the
   v0.1.0 release (static musl, checksum verified by `stage-release.sh`) with its default mapping, on
   `scratch`. Published as `ghcr.io/vxedge/parts/svc/signal/app/vxvhal:0.1.0`,

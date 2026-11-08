@@ -1,6 +1,6 @@
 # vxvhal — serves an Android Automotive guest's gRPC Vehicle HAL from a Kuksa databroker.
 #
-# Packaging-only: stage.sh puts the vxvhal v0.1.0 release binary (static musl, checksum verified) and
+# Packaging-only: stage.sh puts the vxvhal v0.1.1 release binary (static musl, checksum verified) and
 # its default mapping in bin/ first. No upstream: the binary needs nothing beside it.
 FROM scratch
 COPY bin/vxvhal /vxvhal
