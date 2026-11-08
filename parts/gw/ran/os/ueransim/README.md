@@ -1,7 +1,7 @@
 # parts/gw/ran/os/ueransim
 
 UERANSIM RAN simulator (gNB + UE), the sibling of `gw/5gc/os/open5gs` — together these carry
-H2's real numbers (`docs/ROADMAP.md` priority-1 buildout item, 2026-08-05). Same content as
+H2's real numbers. Same content as
 `vxedge/containers/fiveg/Containerfile.ueransim`, re-homed under `vxparts`.
 
 Classification: `class=gw`, `subtype=ran`, `layer=os`.
@@ -27,8 +27,8 @@ manually, and nothing staged there is committed.
 **CI**: the `build-containers` job's own checkout has no `vxagents`, so `stage-*.sh` scripts
 are run automatically as a best-effort step — when the sibling repo isn't present, this part's
 build-verification is skipped (loudly, not silently) rather than failing the whole job. Real
-build verification for this part happens locally, or from a future CI variant that checks out
-`vxagents` too (not built — needs cross-repo checkout access, a separate decision).
+build verification for this part happens locally, with `vxagents` checked out alongside. CI
+has no cross-repo checkout.
 
 ## Upstream pin
 
@@ -42,9 +42,9 @@ it isn't an OCI digest and doesn't belong in the `upstream` field's sha256 slot.
 ## License
 
 **AGPL-3.0** (confirmed via the upstream `aligungr/UERANSIM` repo's own SPDX metadata,
-2026-08-05) — flagged by `docs/ROADMAP.md`'s workspace-licensing-review item alongside Open5GS,
+2026-08-05) — the same case as Open5GS,
 same caveat: standalone containerized service, not linked into vxedge code, final
-redistribution-terms call belongs to whoever owns that review.
+redistribution-terms call belongs to the maintainers' licensing review.
 
 ### Source offer
 

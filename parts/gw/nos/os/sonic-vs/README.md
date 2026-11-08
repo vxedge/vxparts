@@ -1,6 +1,6 @@
 # parts/gw/nos/os/sonic-vs
 
-The SONiC-VS production network OS (`docs/ROADMAP.md` #16, `ARCHITECTURE.md` §7): a community
+The SONiC-VS production network OS (`ARCHITECTURE.md` §7): a community
 SONiC virtual-switch image, fed the same slice/VLAN intent `vxedge_core::sonic` renders from a
 `GatewayPlan`, to prove that intent expresses identically on a real production NOS. **Not
 timing-representative** — every latency/jitter number this project has published still runs
@@ -45,8 +45,7 @@ the same repo (~67KB — a real, substantial manifest, not a formality) covers e
 component actually bundled *into* a built image, under their own upstream terms. `part.yaml`'s
 `license:` states both facts; it is not a legal clearance to redistribute the built artifact —
 get that confirmed by whoever owns that call before first publish, the same diligence already
-applied to Open5GS/UERANSIM (AGPL-3.0) and AAOS (trademark/CTS constraints) in
-`docs/ROADMAP.md`'s licensing review.
+applied to Open5GS/UERANSIM (AGPL-3.0) and AAOS (trademark/CTS constraints).
 
 ## Build
 
@@ -94,8 +93,7 @@ is genuine and usable; it does not yet confirm config parity (see below).
 ```
 
 `publish-vm-disk.sh` is the sibling of `publish-vm-bundle.sh` (kernel+initrd zone guests) for
-parts that ship as one complete disk image instead — SONiC-VS today, any future full-appliance
-VM twin later.
+parts that ship as one complete disk image instead. SONiC-VS is the only such part.
 
 **Published 2026-08-03**: `ghcr.io/vxedge/parts/gw/nos/os/sonic-vs:202505.1182664`. Confirmed
 via `oras manifest fetch` (not just a successful push exit code): the pushed
@@ -104,7 +102,7 @@ match the local `bundle/meta.json` exactly.
 
 ## Config parity: verified, 2026-08-03
 
-`docs/ROADMAP.md` #16's remaining claim — that `vxedge_core::sonic`'s rendered `config_db.json`
+The remaining claim — that `vxedge_core::sonic`'s rendered `config_db.json`
 actually expresses the declared VLAN intent on a real SONiC instance, not just that the
 renderer's own unit tests are internally consistent — is now proven against a live boot, not
 assumed:

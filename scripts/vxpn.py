@@ -176,11 +176,10 @@ REQUIRES_GPU_KEYS = {"vram_gb", "compute_capability"}
 
 
 def _validate_requires(requires: dict, meta_path: pathlib.Path) -> None:
-    """Schema-side validation only (Track D consequence b, vxparts/TASKS.md): what a part
+    """Schema-side validation only (Track D consequence b): what a part
     *needs* to run, as distinct from the `resources` a component is *allocated* in a vehicle
-    model. `vxedge manifest validate` checking part -> component -> host against this is a
-    separate, not-yet-built piece — it is blocked on Track D dimension 1 (a `parts:` list in
-    zone/hpc manifests), which does not exist yet. This function only keeps `requires:` blocks
+    model. Nothing checks part -> component -> host against this: zone/hpc manifests have no
+    `parts:` list (Track D dimension 1). This function only keeps `requires:` blocks
     honest at publish time; it does not itself enforce anything against a host.
     """
     if not isinstance(requires, dict):
@@ -367,8 +366,8 @@ def main() -> int:
                     bad += 1
                     continue
                 if not payload:
-                    # Scaffolded but empty: a legitimate intermediate state, tracked in
-                    # TASKS.md. Reported so it can't be mistaken for a complete part.
+                    # Scaffolded but empty: a legitimate intermediate state. Reported so
+                    # it can't be mistaken for a complete part.
                     print(f"todo {path}  {m['org.vxedge.pn']}  (no payload files yet)")
                     todo += 1
                     continue

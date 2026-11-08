@@ -4,9 +4,8 @@ The unified loadable registry for the vxedge platform: zone VM/RTOS bundles, cen
 container images, gateway/TCU images, and agent binaries — every loadable the platform boots,
 in one repo, published to `ghcr.io/vxedge/parts/...` via OCI/ORAS. Supersedes the former
 `zones-legacy` (zone VM images) / `compute-legacy` (compute containers) split, which was by deployment
-mechanism (VM vs container), not domain (see `TASKS.md` Track P for the rationale and
-migration plan). Master spec: `../docs/ARCHITECTURE.md` §6 (zone/compute schema), §9
-(virtualization stack), §10 (compute model).
+mechanism (VM vs container), not domain. Master spec: `../docs/ARCHITECTURE.md` §6
+(zone/compute schema), §9 (virtualization stack), §10 (compute model).
 
 ## Two files decide everything
 
@@ -72,6 +71,11 @@ image index over its constituent os/middleware/config parts, so it's a single pu
   for zone-side agents/tooling.
 - Images/bundles are loadable workloads, not services: OTA/telemetry service code lives in
   `vxota`/`vxtelemetry`, referenced via experiment manifests, not duplicated here.
+
+## Work tracking
+
+Work items are tracked on the maintainers' internal board. The public record of changes is
+`CHANGELOG.md`.
 
 ## Skill targeting
 

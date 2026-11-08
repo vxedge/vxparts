@@ -3,7 +3,7 @@
 `ghcr.io/vxedge/parts/hpc/ad/middleware/carla-client` · MIT · no GPU
 
 The CARLA **0.9.15** Python client API on ROS2 Humble — the version-pinning artifact for the
-CARLA↔ROS2 boundary on the `exp-011` critical path.
+CARLA↔ROS2 boundary in `exp-011`.
 
 ## Why this replaced `carla-ros-bridge`
 
@@ -35,9 +35,9 @@ part; what it needs from this repo is a matching CARLA client, which is this par
 The build imports `carla` as its last step, so a client that stops installing fails here
 rather than at experiment time.
 
-## Forward path, deliberately not taken yet
+## Not used: `carla-autoware-extension`
 
 `autowarefoundation/carla-autoware-extension` (very active — commit 2026-07-24) targets
 CARLA `ue5-dev`'s **native DDS publishers**, removing the bridge process from the data path
 entirely. Its README states it "does not replace `autoware_carla_interface` for 0.9.15" — it
-is the UE5-generation track. Revisit when moving off 0.9.15; not a phase-2 item.
+is the UE5-generation track, so it does not apply while this part pins 0.9.15.

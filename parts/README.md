@@ -1,7 +1,7 @@
 # parts/
 
 Loadables, one directory per part: `<class>/<subtype>/<layer>/<name>/`. See `../AGENTS.md`
-for the class/subtype/layer definitions and `../TASKS.md` for what's planned vs. migrated.
+for the class/subtype/layer definitions.
 
 Each part directory holds a build recipe + README only — no composition data. Which part
 goes into which zone/vehicle is decided solely by the vehicle/experiment manifest
@@ -46,7 +46,7 @@ per part:
 | `recipe` | `build.sh` (kernel+initrd, zone guests) | `publish-vm-bundle.sh` | ORAS artifact, `org.vxedge.*` annotations |
 | `recipe` | `build.sh` (one disk image, full appliance VM) | `publish-vm-disk.sh` | ORAS artifact, `org.vxedge.*` annotations |
 | `files` | none — the part is its files | `publish-files.sh` | ORAS artifact |
-| `composite` | none — indexed, not built | *(pending, Track P)* | OCI image index |
+| `composite` | none — indexed, not built | `publish-composite.sh` | OCI image index |
 
 Every publish script derives the registry ref *and* the VXPN from the part's own directory
 path, so neither is ever passed in and neither can be mistyped.
@@ -59,17 +59,20 @@ path, so neither is ever passed in and neither can be mistyped.
 ../scripts/vxpn.py meta <part-dir>   # what will be stamped on the artifact
 ```
 
-Current tree — `zone/linux/stack/probe-bundle` is published; the eight `hpc/{ad,sim}` parts
-are the phase-2 critical path (`../TASKS.md`); `gw/nos/os/sonic-vs` is scaffolded (recipe +
-`part.yaml`, pending an upstream ref and licence confirmation before its first `build.sh` run
-— `docs/ROADMAP.md` #16); the rest is skeleton awaiting migration:
+Current tree. Each part's README says whether it is published; versions and status are kept in
+[`docs/FACTS.md`](https://github.com/vxedge/docs/blob/main/FACTS.md).
 
 ```
-zone/{linux,qnx,zephyr,freertos,aaos,mcu}/...
-hpc/ad/{middleware/{ros2-humble,carla-ros-bridge},app/autoware,config/autoware-params,stack/ad-baseline}
+agent/probe/app/vxprobe
+ctl/schema/config/manifest-schema
+gw/{5gc/os/open5gs,nos/os/sonic-vs,ran/os/ueransim}
+hpc/ad/{middleware/{ros2-humble,carla-client},app/autoware,config/autoware-params,stack/ad-baseline}
 hpc/sim/{app/carla-server,config/scenarios,stack/sim-baseline}
-hpc/{cockpit,motion}/...
-gw/{tcu,nos,5gc,ran,dp}/...
-agent/{probe,load,collect}/...
-svc/{ota,telemetry,observability,signal}/...
+svc/ota/{app/vxota,config/gate-store}
+svc/signal/app/{kuksa-databroker,vxvhal}
+veh/car/config/reference-sedan-6zone
+zone/aaos/stack/cuttlefish-auto
+zone/linux/stack/probe-bundle
+zone/wasm/app/reflector-capsule
+zone/zephyr/stack/probe-bundle
 ```

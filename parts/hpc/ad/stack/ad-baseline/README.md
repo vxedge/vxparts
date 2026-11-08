@@ -15,8 +15,8 @@ The CARLA↔ROS2 link is `autoware_carla_interface`, which ships inside the `aut
 constituent; `carla-client` supplies the matching CARLA 0.9.15 client API. The former
 `carla-ros-bridge` part was retired 2026-07-28 — see `carla-client/README.md`.
 
-**Composite tooling landed 2026-08-05** (`scripts/publish/publish-composite.sh`, `vxparts/TASKS.md`
-#19 item 3): `part.yaml` now declares this baseline's four `constituents:` at their tags; the
+**Composite tooling landed 2026-08-05** (`scripts/publish/publish-composite.sh`):
+`part.yaml` now declares this baseline's four `constituents:` at their tags; the
 script cross-mounts each constituent's already-pushed manifest into this part's own repo (an
 OCI index can only reference manifests within its own repository — a real registry, not just a
 local one, is what surfaces that) and creates the index over the resulting digests. Verified
