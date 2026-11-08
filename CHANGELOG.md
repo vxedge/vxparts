@@ -10,7 +10,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 - `parts/zone/linux/stack/probe-bundle-aarch64`: the `linux-probe` guest for aarch64, from pinned Ubuntu 26.04
   arm64 packages and a static aarch64 vxprobe, for `qemu-microvm`'s aarch64 path (vxedge #106).
-  Reproducible: two builds are byte-identical. Not published yet.
+  Reproducible: two builds are byte-identical. Published as
+  `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle-aarch64:0.1.0`,
+  `sha256:e7a187368acedbd3a16fc61383ad2b760a6b0c4ac710976b4643be9ec718c187`.
 - `parts/zone/aaos/stack/cuttlefish-auto` is now also the `attach` adapter for vxedge 0.9.1 or later
   (`attach.yaml`, `start.sh`, `status.sh`, `stop.sh`, `vhal-proxy-none.sh`), as `vx-reference-sedan-03` runs it:
   10 of 10 vxAPI gate runs on 2026-11-08.
