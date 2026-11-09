@@ -17,7 +17,8 @@ The traffic generator an experiment runs as competing load: `vxtraffic --target 
 
 ## Published
 
-`ghcr.io/vxedge/parts/agent/load/app/vxtraffic:0.1.1`, `sha256:be310378c1f330969072669fb24a991b26c2a991dc02f23c81056c8fc98f2c3c`.
+- `ghcr.io/vxedge/parts/agent/load/app/vxtraffic:0.2.0`, `sha256:77956df1c4a4781d513a3d4e388fe91147bf5bc460aac59419da605370d81858`
+- `0.1.1` (vxagents v0.1.1), `sha256:be310378c1f330969072669fb24a991b26c2a991dc02f23c81056c8fc98f2c3c`
 
 ## Build and publish
 

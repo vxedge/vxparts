@@ -10,7 +10,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 - `agent/probe/app/vxprobe` and `agent/load/app/vxtraffic` package the vxagents v0.2.0 release (commit `60ba555`,
   x86_64 tarball sha256 `55b4bf3b…`): vxprobe adds a cumulative RTT histogram (`vxprobe_rtt_seconds_bucket`,
-  `_sum`, `_count`); its existing series and summary are unchanged. Both parts move to 0.2.0.
+  `_sum`, `_count`); its existing series and summary are unchanged. Both parts move to 0.2.0, published as
+  `agent/probe/app/vxprobe:0.2.0` (`sha256:860dc44caff3553f19e932ec7af181ca0f265340abb0c0f1e722794a3468bfd1`) and
+  `agent/load/app/vxtraffic:0.2.0` (`sha256:77956df1c4a4781d513a3d4e388fe91147bf5bc460aac59419da605370d81858`).
 - `schema/taxonomy.yaml`: the `zone` class drops a subtype no part uses. No part number changes. The
   class-scoped example in `PART-NUMBERING.md` and `vxpn.py` is now `hpc/zephyr`; `AGENTS.md`, `README.md`,
   `NOTICE` and part READMEs name only shipped guest images.
