@@ -2,8 +2,8 @@
 # Stage the vxagents release binary this part packages into bin/, after verifying the tarball.
 set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
-version=0.1.1
-want=e178b18d81eb0cd9dede52f7ba5f94f2afef11b56a60f530009f1053e4b4edda
+version=0.2.0
+want=55b4bf3b449cad32b614be35db12431dcdf917ef49c04de2b3762c2a1af01ab9
 tarball=vxagents-$version-x86_64-unknown-linux-gnu.tar.gz
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT

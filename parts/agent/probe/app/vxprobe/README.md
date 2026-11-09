@@ -6,7 +6,7 @@ flow checks use.
 
 ## What it is
 
-- `vxprobe` from the [vxagents](https://github.com/vxedge/vxagents) v0.1.1 release (commit `563961e`), the
+- `vxprobe` from the [vxagents](https://github.com/vxedge/vxagents) v0.2.0 release (commit `60ba555`), the
   x86_64 GNU build, verified against the release tarball's sha256 before it is packaged.
 - busybox from the official `busybox:1.37.0-musl` image (static, so independent of the base glibc), pinned by digest.
 - On `debian:bookworm-slim`, pinned by digest: the release binary needs glibc 2.34 or later.
@@ -21,5 +21,5 @@ flow checks use.
 
 ```sh
 ./parts/agent/probe/app/vxprobe/stage.sh
-./scripts/publish/publish-container.sh parts/agent/probe/app/vxprobe 0.1.1
+./scripts/publish/publish-container.sh parts/agent/probe/app/vxprobe 0.2.0
 ```
