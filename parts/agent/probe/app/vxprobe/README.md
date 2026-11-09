@@ -20,6 +20,6 @@ flow checks use.
 ## Build and publish
 
 ```sh
-./parts/agent/probe/app/vxprobe/stage.sh
+./parts/agent/probe/app/vxprobe/stage-release.sh
 ./scripts/publish/publish-container.sh parts/agent/probe/app/vxprobe 0.2.0
 ```
