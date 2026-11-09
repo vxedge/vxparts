@@ -1,0 +1,11 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Built from source: Eclipse Kuksa publishes no image of kuksa-perf, and its last release (0.3.2) predates
+# what an experiment needs (see README). The Containerfile pins the upstream commit and both base
+# images by digest; the build is --locked against upstream's Cargo.lock.
+license: Apache-2.0
+annotations:
+  role: signal-load-generator
+  kuksa-perf-source-repo: https://github.com/eclipse-kuksa/kuksa-perf
+  kuksa-perf-source-commit: aa6fba0ce4035ea0db348d2e999a03ed43f87177
+  kuksa-perf-source-date: "2025-07-28"
