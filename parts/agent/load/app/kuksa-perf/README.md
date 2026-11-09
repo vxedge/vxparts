@@ -11,13 +11,18 @@ and reports its latency. An experiment runs it against the signal plane a vehicl
 - Why a commit and not a release: in the 0.3.2 release (2024-12-12) the `kuksa.val.v2` provider never claims
   its signals, so databroker 0.7.1 aborts it, and `--operation actuate` is in no release.
 - Builder `rust:1.88-slim-bookworm` and runtime `debian:bookworm-slim`, both pinned by digest.
-- Path `/app/databroker-perf`, which is also the entrypoint.
+- Path `/app/databroker-perf`, which is also the entrypoint. `--version` prints 0.3.2: upstream had not
+  bumped its version at this commit.
 
 ## What it is not
 
 - Not a vehicle application: a measurement load.
 - Not an upstream release: move to one when a release carries what this commit does.
 - x86_64 only, for now.
+
+## Published
+
+`ghcr.io/vxedge/parts/agent/load/app/kuksa-perf:0.1.0`, `sha256:1e894b9d7de05d41059d711871b17ae3023497933ad88f05f29f903000c7ba73`.
 
 ## Build and publish
 

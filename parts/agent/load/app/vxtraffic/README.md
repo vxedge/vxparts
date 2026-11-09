@@ -15,6 +15,10 @@ The traffic generator an experiment runs as competing load: `vxtraffic --target 
 - Not a vehicle application: a measurement load.
 - x86_64 only, for now.
 
+## Published
+
+`ghcr.io/vxedge/parts/agent/load/app/vxtraffic:0.1.1`, `sha256:be310378c1f330969072669fb24a991b26c2a991dc02f23c81056c8fc98f2c3c`.
+
 ## Build and publish
 
 ```sh
