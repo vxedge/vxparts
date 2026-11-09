@@ -1,0 +1,6 @@
+# vxtraffic: the load generator a container runs beside or against a vehicle's nodes, as an experiment's
+# competing traffic. Packaging-only: stage-release.sh puts the vxagents release binary in bin/ first.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+COPY bin/vxtraffic /vxtraffic
+ENTRYPOINT ["/vxtraffic"]

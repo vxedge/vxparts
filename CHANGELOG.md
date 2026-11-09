@@ -16,6 +16,15 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/agent/load/app/vxtraffic`: the traffic generator an experiment runs as competing load, `vxtraffic` from
+  the vxagents v0.1.1 release (x86_64 GNU build, tarball sha256 verified) on `debian:bookworm-slim` pinned by
+  digest. Entrypoint `/vxtraffic`. Published as `ghcr.io/vxedge/parts/agent/load/app/vxtraffic:0.1.1`,
+  `sha256:be310378c1f330969072669fb24a991b26c2a991dc02f23c81056c8fc98f2c3c`.
+- `parts/agent/load/app/kuksa-perf`: Eclipse Kuksa's `databroker-perf`, built from source at upstream commit
+  `aa6fba0` (`--locked`), because the 0.3.2 release's `kuksa.val.v2` provider is aborted by databroker 0.7.1
+  and `--operation actuate` is in no release. Builder and runtime images pinned by digest. Entrypoint
+  `/app/databroker-perf`. Published as `ghcr.io/vxedge/parts/agent/load/app/kuksa-perf:0.1.0`,
+  `sha256:1e894b9d7de05d41059d711871b17ae3023497933ad88f05f29f903000c7ba73`.
 - `parts/zone/linux/stack/probe-bundle-aarch64`: the `linux-probe` guest for aarch64, from pinned Ubuntu 26.04
   arm64 packages and a static aarch64 vxprobe, for `qemu-microvm`'s aarch64 path (vxedge #106).
   Reproducible: two builds are byte-identical. Published as
