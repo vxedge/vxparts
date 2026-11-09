@@ -9,7 +9,7 @@ straight from the part's own `meta.json` (`../../AGENTS.md`) — never hardcoded
 - `publish-files.sh` — ORAS push for a `config`-layer part: a directory of files (params,
   scenario defs), not a container — nothing executes, but it's still versioned and
   digest-addressed like every other loadable.
-- `publish-vm-bundle.sh` — ORAS push for `zone`-class VM/kernel/QNX-IFS/AAOS guests that ship
+- `publish-vm-bundle.sh` — ORAS push for `zone`-class VM/kernel/AAOS guests that ship
   as a `vmlinuz`+`initrd.img` pair (the `zone-backend-contract` skill's guest-bundle
   convention). Exercised first by `linux-probe` (`../../parts/zone/linux/stack/probe-bundle`).
 - `publish-vm-disk.sh` — ORAS push for parts that ship as **one complete disk image** instead

@@ -24,7 +24,7 @@ nothing. `vxpn.py meta <part-dir>` is the single resolver both go through.
 - **Loadables**, one directory per part: `parts/<class>/<subtype>/<layer>/<name>/` — build
   recipe + `part.yaml` + README only, no composition data (see Classification below).
 - **Publish scripts**, one per artifact kind, in `scripts/publish/`: container push
-  (docker/podman) for `hpc`/`gw`-class parts, ORAS push for VM/kernel/QNX/AAOS bundles.
+  (docker/podman) for `hpc`/`gw`-class parts, ORAS push for VM/kernel/AAOS bundles.
 - **What does NOT land here**: which part goes into which zone/vehicle. That composition is
   the vehicle/experiment manifest's job (`vxperiments`), per the workspace's
   single-source-of-truth rule. There is deliberately no `catalog.yaml` index in this repo —
@@ -36,7 +36,7 @@ Every part is identified by **class / subtype / layer**, encoded both as its dir
 and as `org.vxedge.*` OCI annotations stamped at push time:
 
 - **class**: `zone` | `hpc` | `gw` | `agent` | `svc` | `veh` | `ctl`
-- **subtype**: for `zone` — `qnx` | `zephyr` | `freertos` | `linux` | `aaos` | `wasm`; for `hpc` —
+- **subtype**: for `zone` — `zephyr` | `freertos` | `linux` | `aaos` | `wasm`; for `hpc` —
   `ad` | `cockpit` | `motion` | `sim`; for `gw` — `tcu` | `nos`; for `veh` — `car`; for `ctl`
   — `schema`
 - **layer**: `firmware` | `os` | `hypervisor` | `middleware` | `app` | `config` | `stack`
@@ -50,8 +50,8 @@ software, labels, and anywhere a number gets retyped (it has check characters); 
 to pull; pin the digest for reproducibility. Full rationale and the ARINC 665 / UN R156
 provenance: **`PART-NUMBERING.md`**.
 
-A full loaded stack (e.g. `parts/zone/qnx/stack/safety-baseline:2.1.0`) publishes as one OCI
-image index over its constituent os/middleware/config parts, so it's a single pullable unit.
+A full loaded stack (e.g. `parts/hpc/ad/stack/ad-baseline:0.1.0`) publishes as one OCI
+image index over its constituent middleware/app/config parts, so it's a single pullable unit.
 
 ## Rules
 
@@ -62,8 +62,8 @@ image index over its constituent os/middleware/config parts, so it's a single pu
 - Guests (`zone`-class parts) must boot under the vxedge backends: libvirt domain (default) or
   raw-QEMU microvm. Every recipe documents which `backend:` values it supports
   (`zone-backend-contract` skill).
-- Licensing hygiene: QNX and AAOS artifacts follow their upstream licenses — never commit QNX
-  binaries or other licensed artifacts; commit recipes and fetch instructions only.
+- Licensing hygiene: third-party artifacts such as AAOS follow their upstream licenses — never
+  commit their binaries or other licensed artifacts; commit recipes and fetch instructions only.
 - **Optimize `hpc`/`gw`-class container definitions for GPU pass-through and TensorRT
   runtime** (workspace NVIDIA rule): explicit `resources.gpu: passthrough | mig-slice`,
   pinned CUDA/TensorRT versions, digests only.
@@ -79,7 +79,7 @@ Work items are tracked on the maintainers' internal board. The public record of 
 
 ## Skill targeting
 
-- `zone-backend-contract` — the guest-bundle contract every `zone`-class part (QNX/AAOS/real
+- `zone-backend-contract` — the guest-bundle contract every `zone`-class part (AAOS/real
   Zephyr/FreeRTOS/Linux) must satisfy: boot cmdline, digest `meta.json`, per-backend
   documentation. Shared with `vxedge`, which owns the other half of the same contract.
 - `deepstream-dev` / `deepstream-generate-pipeline` — target `hpc`-class perception pipelines,

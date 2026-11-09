@@ -24,5 +24,5 @@ published OCI artifact as org.vxedge.license. Notable upstream licences:
   - Android Open Source Project (AAOS zone recipe) — Apache-2.0, Linux kernel GPL-2.0; fetched from
     Google's build servers and verified, never republished
 
-Proprietary components (QNX SDP, NVIDIA DeepStream/TensorRT) are referenced as recipes only
+Proprietary components (NVIDIA DeepStream/TensorRT) are referenced as recipes only
 and are never redistributed by this project.

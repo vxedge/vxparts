@@ -42,7 +42,7 @@ nothing that a `vehicle up` starts. Those pins move in their own changes.
 
 **Apache-2.0** — confirmed both via the upstream repo's GitHub SPDX metadata and the 0.7.1
 image's own `org.opencontainers.image.licenses` label. No redistribution caveat, unlike the
-`gw/5gc`/`gw/ran` siblings (AGPL-3.0) or QNX/AAOS.
+`gw/5gc`/`gw/ran` siblings (AGPL-3.0) or AAOS.
 
 ## Build
 

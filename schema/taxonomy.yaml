@@ -50,7 +50,6 @@ classes:
     code: Z
     description: "virtual ECU / zone controller guest"
     subtypes:
-      qnx:      {code: QNX, description: "QNX SDP 8 — ADAS/safety guest"}
       zephyr:   {code: ZEP, description: "Zephyr RTOS — sensor/ECU node"}
       freertos: {code: FRT, description: "FreeRTOS — actuator/ECU node"}
       linux:    {code: LNX, description: "Linux microVM guest"}

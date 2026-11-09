@@ -2,8 +2,7 @@
 #
 # Not built from source: SONiC-VS is produced by upstream sonic-buildimage's own multi-hour CI
 # pipeline. This part re-labels an official pre-built artifact under vxedge's own registry
-# namespace (the same "pull one, push it back via oras" pattern QNX/AAOS use for other
-# third-party-licensed guest images). Confirmed 2026-08-03: this artifact is not published to
+# namespace. Confirmed 2026-08-03: this artifact is not published to
 # any OCI/ORAS-pullable registry — it is an Azure Pipelines build output, fetched over plain
 # HTTPS via Azure's public build API (see build.sh) — only the *republish* half is `oras push`.
 build: recipe

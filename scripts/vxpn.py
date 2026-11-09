@@ -114,7 +114,7 @@ def encode(cls: str, subtype: str, layer: str, name: str) -> str:
     if layer not in layers:
         raise SystemExit(f"unknown layer '{layer}' (expected one of {sorted(layers)})")
     subtypes = classes[cls]["subtypes"]
-    # Subtypes are class-scoped: `hpc/qnx` is as wrong as an unknown subtype, and catching it
+    # Subtypes are class-scoped: `hpc/zephyr` is as wrong as an unknown subtype, and catching it
     # here is why a typo'd path cannot quietly mint a valid-looking number for a nonexistent
     # kind of part.
     if subtype not in subtypes:
