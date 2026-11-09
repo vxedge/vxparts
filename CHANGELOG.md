@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- `schema/taxonomy.yaml`: the `zone` class drops a subtype no part uses. No part number changes. The
+  class-scoped example in `PART-NUMBERING.md` and `vxpn.py` is now `hpc/zephyr`; `AGENTS.md`, `README.md`,
+  `NOTICE` and part READMEs name only shipped guest images.
 - `zone/aaos/stack/cuttlefish-auto`: `attach.yaml` runs `sh start.sh`, `sh status.sh` and `sh stop.sh`, so the
   adapter starts after travelling in a package, which keeps no execute bit.
 
@@ -96,7 +99,7 @@ First public release: recipes, descriptors and publish scripts.
   knows the answer.
 - **`schema/taxonomy.yaml`**: classes, subtypes, layers, supplier code and digest width
   extracted out of `vxpn.py` into a single reviewable data file. The script now holds the
-  algorithm only. Subtypes became class-scoped in the move, so `hpc/qnx` is rejected rather
+  algorithm only. Subtypes became class-scoped in the move, so `hpc/zephyr` is rejected rather
   than silently encoded; `format.name_digest_chars` became a knob rather than a constant.
   Verified: every existing part number is byte-identical after the refactor.
 - **`part.yaml` per part**: licence, upstream pin, GPU need, SBOM slot, free-form

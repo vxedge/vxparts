@@ -42,7 +42,7 @@ layer, the supplier code, and the digest width — is data in **`schema/taxonomy
 extending the taxonomy never touches Python and can be reviewed by someone who does not read
 it. Two consequences worth knowing:
 
-- **Subtypes are class-scoped.** `hpc/qnx` is rejected as firmly as an unknown subtype, so a
+- **Subtypes are class-scoped.** `hpc/zephyr` is rejected as firmly as an unknown subtype, so a
   typo'd path cannot mint a valid-looking number for a kind of part that does not exist.
 - **`format.name_digest_chars` is a knob, not a constant.** Widening the digest (see the open
   item below) is a one-line data change — but it renumbers every part, so it is a deliberate,
@@ -58,7 +58,7 @@ VXE7G-ZLNX-SHAE
 │  │  ││    │└─ name digest (3 base36 chars, from sha256 of the part name)
 │  │  ││    └── layer:   F firmware  O os  H hypervisor  M middleware
 │  │  ││                 A app       C config           S stack
-│  │  │└─────── subtype: QNX ZEP FRT LNX AAO | ADS CKP MOT SIM | TCU NOS
+│  │  │└─────── subtype: ZEP FRT LNX AAO | ADS CKP MOT SIM | TCU NOS
 │  │  └──────── class:   Z zone  H hpc  G gw  A agent  S svc
 │  └─────────── check characters (cover MMM + both segments)
 └────────────── supplier code — VXE for parts produced by this project

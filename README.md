@@ -1,6 +1,6 @@
 # vxparts
 
-The unified loadable registry for the vxedge testbed. It holds zone VM/RTOS bundles, central-compute containers, gateway images, platform services and agents, all published to GHCR via OCI/ORAS. It contains **build recipes and descriptors**. Proprietary components (QNX, NVIDIA SDKs) are recipe-only and never redistributed.
+The unified loadable registry for the vxedge testbed. It holds zone VM/RTOS bundles, central-compute containers, gateway images, platform services and agents, all published to GHCR via OCI/ORAS. It contains **build recipes and descriptors**. Proprietary components (NVIDIA SDKs) are recipe-only and never redistributed.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![CI](https://github.com/vxedge/vxparts/actions/workflows/parts.yml/badge.svg)](https://github.com/vxedge/vxparts/actions/workflows/parts.yml)

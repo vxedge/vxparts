@@ -19,8 +19,8 @@ anything vxedge's zone backends provide. Classification: `class=gw`, `subtype=no
 SONiC-VS is produced by upstream [`sonic-net/sonic-buildimage`](https://github.com/sonic-net/sonic-buildimage)'s
 own multi-hour CI pipeline. This part does not compile it — `build.sh` fetches an official
 pre-built artifact and stages it for `publish-vm-disk.sh` to push under vxedge's own registry
-namespace, digest-pinned. Same third-party re-labeling pattern QNX/AAOS use ("commit recipes
-and fetch instructions only," `vxparts/AGENTS.md`).
+namespace, digest-pinned. It follows the third-party rule in `vxparts/AGENTS.md` ("commit
+recipes and fetch instructions only").
 
 **Upstream source: resolved 2026-08-03, not `oras pull`-able.** Checked both candidates from
 the original request: [sonic.software](https://sonic.software) is an *unofficial* community
