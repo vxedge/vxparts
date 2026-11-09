@@ -1,6 +1,6 @@
 # Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
 #
-# Packaging-only: the binary is vxagents' v0.1.1 release, staged by stage.sh after its checksum
+# Packaging-only: the binary is vxagents' v0.2.0 release, staged by stage-release.sh after its checksum
 # is verified. busybox comes from the official image pinned by digest in the Containerfile.
 license: Apache-2.0 AND GPL-2.0-only
 upstream:
@@ -8,7 +8,7 @@ upstream:
   digest: sha256:63a496b5d3b99214b39f5ed70eb71a61e590a77979c79cbee4faf991f8c0783e
 annotations:
   role: probe-reflector
-  vxagents-release: v0.1.1
-  vxagents-source-commit: 563961eb6fda808663f041baca3312288cd64178
-  vxagents-tarball-sha256: e178b18d81eb0cd9dede52f7ba5f94f2afef11b56a60f530009f1053e4b4edda
+  vxagents-release: v0.2.0
+  vxagents-source-commit: 60ba555221d3c4a879ecf2ee4e85489c9dae55b5
+  vxagents-tarball-sha256: 55b4bf3b449cad32b614be35db12431dcdf917ef49c04de2b3762c2a1af01ab9
   busybox-image: docker.io/library/busybox:1.37.0-musl@sha256:5624bb6777cf469b1fb50ae3f981b15d2715ee2fffaf20b9998cfb7843726835
