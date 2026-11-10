@@ -23,6 +23,11 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/zone/freertos/stack/probe-bundle`: a FreeRTOS probe guest for `qemu-microvm`, a 32-bit Multiboot ELF.
+  It runs FreeRTOS-Kernel V11.2.0 (IA32 port) and FreeRTOS-Plus-TCP V4.4.2, with a polled virtio-mmio v2
+  network interface. It takes `vx.ip` and `vx.node` from the command line and echoes UDP :9800. It answered
+  20/20 vxprobe probes under microvm. The build is reproducible: Debian pinned by digest, apt from a fixed
+  snapshot, and both FreeRTOS repositories at pinned commits.
 - `parts/hpc/cockpit/app/qt-cluster`: a Qt Quick (QML) instrument cluster on the vehicle's Kuksa signal plane,
   rendered offscreen. It subscribes over `kuksa.val.v2` to speed, gear and battery charge, and serves
   `/state.json` (the values as QML holds them) and `/screenshot.png` on `:8080`. PySide6 6.10.1 and
