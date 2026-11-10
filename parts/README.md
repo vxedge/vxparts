@@ -67,6 +67,7 @@ agent/{probe/app/vxprobe,load/app/{vxtraffic,kuksa-perf}}
 ctl/schema/config/manifest-schema
 gw/{5gc/os/open5gs,nos/os/sonic-vs,ran/os/ueransim}
 hpc/ad/{middleware/{ros2-humble,carla-client},app/autoware,config/autoware-params,stack/ad-baseline}
+hpc/cockpit/app/qt-cluster
 hpc/sim/{app/carla-server,config/scenarios,stack/sim-baseline}
 svc/ota/{app/vxota,config/gate-store}
 svc/signal/app/{kuksa-databroker,vxvhal}

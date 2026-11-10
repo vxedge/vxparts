@@ -1,0 +1,13 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Built here: the app is this part's own source (app/). The base is pinned by digest and every Python
+# package by hash; PySide6 bundles Qt 6.10 under the LGPL-3.0.
+license: Apache-2.0 AND LGPL-3.0-only
+upstream:
+  ref: docker.io/library/python:3.12-slim
+  digest: sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+annotations:
+  role: instrument-cluster
+  qt: "PySide6-Essentials 6.10.1"
+  kuksa-api: kuksa.val.v2 (kuksa-client 0.6.0)
+  signals: "Vehicle.Speed, Vehicle.Powertrain.TractionBattery.StateOfCharge.Current, Vehicle.Powertrain.Transmission.CurrentGear"

@@ -1,0 +1,17 @@
+# qt-cluster: a QML instrument cluster on the vehicle's Kuksa signal plane, rendered offscreen (Qt Quick's
+# software backend, no GPU or display). Base pinned by digest; every Python package pinned by hash
+# (requirements.txt, from `uv pip compile --generate-hashes requirements.in`); Debian runtime libraries for
+# Qt from the base's own release.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libglib2.0-0 libfontconfig1 libfreetype6 libxkbcommon0 libgl1 libegl1 libdbus-1-3 libgssapi-krb5-2 fonts-dejavu-core \
+    && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir --require-hashes --no-deps -r /app/requirements.txt
+COPY app/ /app/
+RUN useradd -r -u 10001 -d /nonexistent -s /usr/sbin/nologin cluster
+USER cluster
+ENV XDG_CACHE_HOME=/tmp
+EXPOSE 8080
+ENTRYPOINT ["python3", "-I", "/app/cluster.py"]
