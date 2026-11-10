@@ -23,6 +23,10 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/hpc/cockpit/app/qt-cluster`: a Qt Quick (QML) instrument cluster on the vehicle's Kuksa signal plane,
+  rendered offscreen. It subscribes over `kuksa.val.v2` to speed, gear and battery charge, and serves
+  `/state.json` (the values as QML holds them) and `/screenshot.png` on `:8080`. PySide6 6.10.1 and
+  kuksa-client 0.6.0, pinned by hash, on `python:3.12-slim` pinned by digest.
 - `parts/agent/load/app/vxtraffic`: the traffic generator an experiment runs as competing load, `vxtraffic` from
   the vxagents v0.1.1 release (x86_64 GNU build, tarball sha256 verified) on `debian:bookworm-slim` pinned by
   digest. Entrypoint `/vxtraffic`. Published as `ghcr.io/vxedge/parts/agent/load/app/vxtraffic:0.1.1`,
