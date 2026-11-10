@@ -62,6 +62,10 @@ Run locally under rootless Podman, beside `kuksa-databroker` 0.7.1:
 - It only reads signals; it never actuates.
 - x86_64 only, for now.
 
+## Published
+
+`ghcr.io/vxedge/parts/hpc/cockpit/app/qt-cluster:0.1.0`, `sha256:18b20b3696062f8a31ed96588c5db991382fdd5206c3e86eb65348cbd7589530`.
+
 ## Build and publish
 
 ```sh
