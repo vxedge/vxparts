@@ -1,0 +1,10 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+# A `stack` built as one artifact (a FreeRTOS image plus the contract's initrd slot), not an OCI
+# index over other parts — overrides the layer default.
+build: recipe
+license: MIT
+annotations:
+  backend: qemu-microvm
+  arch: i386
+  freertos-kernel: V11.2.0
+  freertos-plus-tcp: V4.4.2
