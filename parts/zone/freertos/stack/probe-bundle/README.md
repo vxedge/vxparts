@@ -47,6 +47,10 @@ Needs only Podman. The build runs in `debian:bookworm-slim` pinned by digest. It
 `snapshot.debian.org` at a fixed date (gcc 12.2.0, binutils 2.40). FreeRTOS-Kernel and FreeRTOS-Plus-TCP are
 cloned at their pinned commits, and the build refuses any other commit. `meta.json` records all of these.
 
+## Published
+
+`ghcr.io/vxedge/parts/zone/freertos/stack/probe-bundle:0.1.0`, `sha256:78edb6cc4fe7f8a477e581d9389d672ab0e60e028a81dc458b88872d70bb7d3b`.
+
 ## Publish
 
 ```

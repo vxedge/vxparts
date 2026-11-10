@@ -27,7 +27,8 @@ All notable changes to this project will be documented in this file. Format foll
   It runs FreeRTOS-Kernel V11.2.0 (IA32 port) and FreeRTOS-Plus-TCP V4.4.2, with a polled virtio-mmio v2
   network interface. It takes `vx.ip` and `vx.node` from the command line and echoes UDP :9800. It answered
   20/20 vxprobe probes under microvm. The build is reproducible: Debian pinned by digest, apt from a fixed
-  snapshot, and both FreeRTOS repositories at pinned commits.
+  snapshot, and both FreeRTOS repositories at pinned commits. Published as
+  `zone/freertos/stack/probe-bundle:0.1.0`, `sha256:78edb6cc4fe7f8a477e581d9389d672ab0e60e028a81dc458b88872d70bb7d3b`.
 - `parts/hpc/cockpit/app/qt-cluster`: a Qt Quick (QML) instrument cluster on the vehicle's Kuksa signal plane,
   rendered offscreen. It subscribes over `kuksa.val.v2` to speed, gear and battery charge, and serves
   `/state.json` (the values as QML holds them) and `/screenshot.png` on `:8080`. PySide6 6.10.1 and
