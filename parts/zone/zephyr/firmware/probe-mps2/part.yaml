@@ -1,0 +1,7 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+license: Apache-2.0
+annotations:
+  backend: qemu-mcu
+  arch: armv7m
+  machine: mps2-an385
+  zephyr: v4.5.0

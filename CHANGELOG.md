@@ -23,6 +23,19 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/zone/freertos/firmware/probe-mps2`: FreeRTOS firmware for vxedge's `qemu-mcu` backend on QEMU's
+  `mps2-an385` (Cortex-M3) with its LAN9118 NIC, the first `firmware`-layer part. It runs FreeRTOS-Kernel V11.2.0
+  (`ARM_CM3`) and FreeRTOS-Plus-TCP V4.4.2 with its `MPS2_AN385` interface, plus a fix to that interface's RX FIFO
+  read (`patches/`). It takes `vx.ip` and `vx.node` from the semihosting command line and echoes UDP :9800. It
+  answered 80/80 vxprobe probes at four payload sizes. The build is reproducible: Debian pinned by digest, apt from
+  a fixed snapshot, both FreeRTOS repositories at pinned commits, and the demo's board files checked by sha256.
+  Published as `zone/freertos/firmware/probe-mps2:0.1.0`, `sha256:6fb60c11acf8585941ded39195a033541e7e3556c4ebaf0124e74d6f14adc8b6`.
+- `parts/zone/zephyr/firmware/probe-mps2`: Zephyr v4.5.0 firmware for `qemu-mcu` on `mps2/an385`, with Zephyr's
+  `smsc911x` driver. Same command line and payload; it answered 80/80 vxprobe probes. Reproducible: Debian trixie
+  pinned by digest, apt from a fixed snapshot, Zephyr and its two CMSIS modules at pinned commits. Published as
+  `zone/zephyr/firmware/probe-mps2:0.1.0`, `sha256:b07ecf8206c918fa9f5e02f99aa003d40dc06fb6b42b14b992cee884b8227e08`.
+- `scripts/publish/publish-firmware.sh`: pushes a `firmware.elf` and `meta.json` bundle with ORAS, refusing a
+  `meta.json` that names no `org.vxedge.machine`, and checks the pull round-trip.
 - `parts/zone/freertos/stack/probe-bundle`: a FreeRTOS probe guest for `qemu-microvm`, a 32-bit Multiboot ELF.
   It runs FreeRTOS-Kernel V11.2.0 (IA32 port) and FreeRTOS-Plus-TCP V4.4.2, with a polled virtio-mmio v2
   network interface. It takes `vx.ip` and `vx.node` from the command line and echoes UDP :9800. It answered
