@@ -12,6 +12,10 @@ straight from the part's own `meta.json` (`../../AGENTS.md`) — never hardcoded
 - `publish-vm-bundle.sh` — ORAS push for `zone`-class VM/kernel/AAOS guests that ship
   as a `vmlinuz`+`initrd.img` pair (the `zone-backend-contract` skill's guest-bundle
   convention). Exercised first by `linux-probe` (`../../parts/zone/linux/stack/probe-bundle`).
+- `publish-firmware.sh` — ORAS push for `zone`-class MCU firmware that ships as one
+  `firmware.elf` plus `meta.json`, for vxedge's `qemu-mcu` backend. Refuses a `meta.json`
+  without `org.vxedge.machine`, since the backend boots the board it names. Consumers:
+  `../../parts/zone/freertos/firmware/probe-mps2` and `../../parts/zone/zephyr/firmware/probe-mps2`.
 - `publish-vm-disk.sh` — ORAS push for parts that ship as **one complete disk image** instead
   of a kernel+initrd pair — a full appliance VM, not a zone-attached guest. First consumer:
   `../../parts/gw/nos/os/sonic-vs` (the SONiC-VS production network OS).

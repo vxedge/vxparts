@@ -75,6 +75,6 @@ veh/car/config/reference-sedan-6zone
 zone/aaos/stack/cuttlefish-auto
 zone/linux/stack/probe-bundle
 zone/wasm/app/reflector-capsule
-zone/freertos/stack/probe-bundle
-zone/zephyr/stack/probe-bundle
+zone/freertos/{stack/probe-bundle,firmware/probe-mps2}
+zone/zephyr/{stack/probe-bundle,firmware/probe-mps2}
 ```

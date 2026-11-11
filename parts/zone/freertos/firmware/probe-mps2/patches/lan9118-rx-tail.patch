@@ -1,0 +1,29 @@
+MPS2_AN385 LAN9118: read the RX FIFO tail word only when there are tail bytes.
+
+empty_rx_fifo() always read one more word after the whole words of a frame. When the frame
+length is a multiple of 4 that read takes a word of the next frame, the RX FIFO loses sync and
+the interface stops receiving.
+
+diff --git a/source/portable/NetworkInterface/MPS2_AN385/ether_lan9118/smsc9220_eth_drv.c b/source/portable/NetworkInterface/MPS2_AN385/ether_lan9118/smsc9220_eth_drv.c
+index 9562e3f..26deb66 100644
+--- a/source/portable/NetworkInterface/MPS2_AN385/ether_lan9118/smsc9220_eth_drv.c
++++ b/source/portable/NetworkInterface/MPS2_AN385/ether_lan9118/smsc9220_eth_drv.c
+@@ -374,11 +374,14 @@ static void empty_rx_fifo( const struct smsc9220_eth_dev_t * dev,
+         size_bytes -= 4;
+     }
+ 
+-    rx_data_port_tmp = register_map->rx_data_port;
+-
+-    for( uint32_t i = 0; i < remainder_bytes; i++ )
++    if( remainder_bytes > 0 )
+     {
+-        data[ i ] = rx_data_port_tmp_ptr[ i ];
++        rx_data_port_tmp = register_map->rx_data_port;
++
++        for( uint32_t i = 0; i < remainder_bytes; i++ )
++        {
++            data[ i ] = rx_data_port_tmp_ptr[ i ];
++        }
+     }
+ }
+ 
