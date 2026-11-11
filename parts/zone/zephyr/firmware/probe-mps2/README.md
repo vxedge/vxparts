@@ -32,6 +32,10 @@ vxedge flow probes. It is a probe guest, not an ECU application.
 - **Reproducible:** two builds give the same `firmware.elf`
   (`5ae72db3626dd26992119bd1540ca51e68052ed741424b902f84f29dd4f772b1`) and the same `meta.json`.
 
+## Published
+
+`ghcr.io/vxedge/parts/zone/zephyr/firmware/probe-mps2:0.1.0`, `sha256:b07ecf8206c918fa9f5e02f99aa003d40dc06fb6b42b14b992cee884b8227e08`.
+
 ## Build
 
 ```

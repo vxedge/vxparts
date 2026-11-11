@@ -37,6 +37,10 @@ answers the vxedge flow probes. It is a probe guest, not an ECU application.
 - **Reproducible:** two builds give the same `firmware.elf`
   (`bcc30cfc4ff2e36312544e4ff9bec8600a30a2f583fa0edecfe41ae84bed64b0`) and the same `meta.json`.
 
+## Published
+
+`ghcr.io/vxedge/parts/zone/freertos/firmware/probe-mps2:0.1.0`, `sha256:6fb60c11acf8585941ded39195a033541e7e3556c4ebaf0124e74d6f14adc8b6`.
+
 ## Build
 
 ```
