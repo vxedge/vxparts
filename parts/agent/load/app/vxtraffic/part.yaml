@@ -1,6 +1,6 @@
 # Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
 #
-# Packaging-only: the binary is vxagents' v0.2.0 release, staged by stage-release.sh after its checksum
+# Packaging-only: the binary is vxagents' v0.2.3 release, staged by stage-release.sh after its checksum
 # is verified.
 license: Apache-2.0
 upstream:
@@ -8,6 +8,6 @@ upstream:
   digest: sha256:63a496b5d3b99214b39f5ed70eb71a61e590a77979c79cbee4faf991f8c0783e
 annotations:
   role: traffic-generator
-  vxagents-release: v0.2.0
-  vxagents-source-commit: 60ba555221d3c4a879ecf2ee4e85489c9dae55b5
-  vxagents-tarball-sha256: 55b4bf3b449cad32b614be35db12431dcdf917ef49c04de2b3762c2a1af01ab9
+  vxagents-release: v0.2.3
+  vxagents-source-commit: 5e97e9fe5874215186af731db63e1589b0cbbde9
+  vxagents-tarball-sha256: d416481e1e898d5c6fdd327f43b9008a7e839d75d0012ad05ffc426d54853286

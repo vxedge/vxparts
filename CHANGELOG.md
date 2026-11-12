@@ -8,6 +8,14 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- `agent/load/app/vxtraffic` packages the vxagents v0.2.3 release (commit `5e97e9f`, x86_64 tarball sha256
+  `d416481e…`): vxtraffic prints its summary when vxedged stops it with SIGTERM at cooldown, so a campaign's
+  traffic log records the achieved rate, and `--version` names the build profile. Published as
+  `agent/load/app/vxtraffic:0.2.3`, `sha256:dc1063fbfcb648b4f3afb9ff10a6eb86aaf23b9e02c0594f039cd798ab57ff35`.
+- `zone/linux/stack/probe-bundle` declares a PCI-capable guest, `virtio-pci: "true"` (published as
+  `org.vxedge.virtio-pci`): its kernel drives virtio-net on a PCI bus, so vxedge's `qemu-microvm` accepts
+  `qemu.transport: pci` with it. 0.1.2 carries the 0.1.0 payload unchanged, restamped with
+  `scripts/restamp-meta.sh`: `sha256:7d7f0c0c2d5c70f94661d67f5221b16093591aa01144a4d4dc2d99572a1e53b0`.
 - The six probe guests declare the UDP reflector they already run: `reflector: udp/9800` in each part.yaml,
   published as `org.vxedge.reflector`, so vxedge can take a VM running one as a measurement target. Each moves to
   0.1.1 with its 0.1.0 payload unchanged; only `meta.json` and the manifest gain the key.
