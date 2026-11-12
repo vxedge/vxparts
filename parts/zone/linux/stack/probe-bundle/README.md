@@ -46,8 +46,8 @@ and prints this command.
 
 ## Publish
 
-Published as `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:0.1.0`,
-`sha256:33c9c8d8625bd5c6d1f4d3d0c561fdaa930e057fcd1fb24fb3badb402f25429d`. To publish a new version:
+Published as `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:0.1.1`,
+`sha256:dce921197fa93f7a6bd306b1748b93785e329e443504bd2113a98ccfad52c5e6`. 0.1.1 is 0.1.0's payload byte for byte, with `org.vxedge.reflector: udp/9800` declared. To publish a new version:
 
 ```
 ../../../../../scripts/publish/publish-vm-bundle.sh ./bundle ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle:<semver>
