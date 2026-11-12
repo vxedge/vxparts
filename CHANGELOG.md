@@ -8,6 +8,17 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- The six probe guests declare the UDP reflector they already run: `reflector: udp/9800` in each part.yaml,
+  published as `org.vxedge.reflector`, so vxedge can take a VM running one as a measurement target. Each moves to
+  0.1.1 with its 0.1.0 payload unchanged; only `meta.json` and the manifest gain the key.
+  `scripts/restamp-meta.sh` does this: it pulls a part by digest, checks every file against its recorded sha256 and
+  replaces only the `org.vxedge.*` keys.
+  - `zone/linux/stack/probe-bundle:0.1.1`, `sha256:dce921197fa93f7a6bd306b1748b93785e329e443504bd2113a98ccfad52c5e6`
+  - `zone/linux/stack/probe-bundle-aarch64:0.1.1`, `sha256:bfe13a9628689618a0a3203bb0ad4db854012e205228692663d58fb877857276`
+  - `zone/freertos/stack/probe-bundle:0.1.1`, `sha256:5c1a314c658c2e1ebdb71761c1d0aecdb2d8ae0ae792840b77964c7ec0fa6e0d`
+  - `zone/zephyr/stack/probe-bundle:0.1.1`, `sha256:f613afb32a87a9fc78b455ad2f15ed4b168c755b5acdaae2c14736ebc558e34d`
+  - `zone/freertos/firmware/probe-mps2:0.1.1`, `sha256:ca728131ca8a2d0b0f6253c258c91abdb47d9666926e79474b01907571dd4a9f`
+  - `zone/zephyr/firmware/probe-mps2:0.1.1`, `sha256:3114361b2c184d5a0f58512147135007178e6f131d5def5fdf344dd77eb54156`
 - `agent/probe/app/vxprobe` and `agent/load/app/vxtraffic` package the vxagents v0.2.0 release (commit `60ba555`,
   x86_64 tarball sha256 `55b4bf3b…`): vxprobe adds a cumulative RTT histogram (`vxprobe_rtt_seconds_bucket`,
   `_sum`, `_count`); its existing series and summary are unchanged. Both parts move to 0.2.0, published as

@@ -53,8 +53,8 @@ Verified 2026-11-08 on an x86_64 host under TCG: it booted and answered 20 of 20
 
 ## Publish
 
-Published as `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle-aarch64:0.1.0`,
-`sha256:e7a187368acedbd3a16fc61383ad2b760a6b0c4ac710976b4643be9ec718c187` (vxprobe from vxagents `7d952d6`).
+Published as `ghcr.io/vxedge/parts/zone/linux/stack/probe-bundle-aarch64:0.1.1`,
+`sha256:bfe13a9628689618a0a3203bb0ad4db854012e205228692663d58fb877857276` (vxprobe from vxagents `7d952d6`). 0.1.1 is 0.1.0's payload byte for byte, with `org.vxedge.reflector: udp/9800` declared.
 To publish a new version:
 
 ```

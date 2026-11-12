@@ -4,6 +4,7 @@
 build: recipe
 license: GPL-2.0
 annotations:
+  reflector: udp/9800
   backend: qemu-microvm,libvirt
   arch: x86_64
 sbom:

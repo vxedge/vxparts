@@ -34,7 +34,7 @@ vxedge flow probes. It is a probe guest, not an ECU application.
 
 ## Published
 
-`ghcr.io/vxedge/parts/zone/zephyr/firmware/probe-mps2:0.1.0`, `sha256:b07ecf8206c918fa9f5e02f99aa003d40dc06fb6b42b14b992cee884b8227e08`.
+`ghcr.io/vxedge/parts/zone/zephyr/firmware/probe-mps2:0.1.1`, `sha256:3114361b2c184d5a0f58512147135007178e6f131d5def5fdf344dd77eb54156`. 0.1.1 is 0.1.0's payload byte for byte, with `org.vxedge.reflector: udp/9800` declared.
 
 ## Build
 

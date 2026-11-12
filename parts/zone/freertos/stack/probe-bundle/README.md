@@ -49,7 +49,7 @@ cloned at their pinned commits, and the build refuses any other commit. `meta.js
 
 ## Published
 
-`ghcr.io/vxedge/parts/zone/freertos/stack/probe-bundle:0.1.0`, `sha256:78edb6cc4fe7f8a477e581d9389d672ab0e60e028a81dc458b88872d70bb7d3b`.
+`ghcr.io/vxedge/parts/zone/freertos/stack/probe-bundle:0.1.1`, `sha256:5c1a314c658c2e1ebdb71761c1d0aecdb2d8ae0ae792840b77964c7ec0fa6e0d`. 0.1.1 is 0.1.0's payload byte for byte, with `org.vxedge.reflector: udp/9800` declared.
 
 ## Publish
 

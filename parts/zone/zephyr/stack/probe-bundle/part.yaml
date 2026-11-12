@@ -4,6 +4,7 @@
 build: recipe
 license: Apache-2.0
 annotations:
+  reflector: udp/9800
   backend: qemu-microvm
   arch: i386
   zephyr: v4.5.0

@@ -4,6 +4,7 @@
 build: recipe
 license: MIT
 annotations:
+  reflector: udp/9800
   backend: qemu-microvm
   arch: i386
   freertos-kernel: V11.2.0
