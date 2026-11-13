@@ -73,4 +73,7 @@ Without `VXPARTS_NO_PUSH=1` the script also pushes the image.
     133 notifications in 12 s.
 - Without `NET_ADMIN` the entrypoint printed its warning, and without a multicast route service
   discovery did not start.
-- Not verified yet: a run between two nodes of a vehicle, across a gateway slice.
+- Across a vehicle's gateway (vxedge 0.29.0, `run` with `cap_add: [NET_ADMIN]`): `request` and
+  `response` on two container devices of one slice found each other through service discovery
+  over the slice and exchanged requests and responses. vsomeip's example client logs an occasional
+  `rmi::on_message: Invalid Client ID` error while responses keep arriving.

@@ -96,3 +96,6 @@ podman run --rm -e KUKSA_ADDRESS=grpc://<databroker>:55555 <ref> --infinite
   and replayed `candump.log`. Afterwards `databroker-cli get` returned a value for `Vehicle.Speed`
   and `Vehicle.Powertrain.Transmission.CurrentGear`. Signals whose frames the short trace does not
   carry stayed `NotAvailable`.
+- Across a vehicle's gateway (vxedge 0.29.0, `run` on the part entry): the provider on one container
+  device, started with `--infinite` and `KUKSA_ADDRESS` naming the databroker on another, streamed
+  datapoint updates to it without stopping.
