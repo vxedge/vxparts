@@ -1,0 +1,46 @@
+#!/bin/sh
+# someip: run one of vsomeip's sample applications with a configuration written for this node.
+#
+#   someip response  [ARGS...]   answer requests            (service side)
+#   someip request   [ARGS...]   send requests              (client side; --cycle MS, --tcp, --quiet)
+#   someip notify    [ARGS...]   publish an event           (service side; --cycle MS)
+#   someip subscribe [ARGS...]   subscribe to that event    (client side)
+#
+# ARGS go to the sample unchanged. Environment:
+#   SOMEIP_UNICAST    this node's address (default: the first address `hostname -I` prints)
+#   SOMEIP_NETMASK    its netmask, used by the client side (default 255.255.255.0)
+#   SOMEIP_LOG_LEVEL  vsomeip log level (default info)
+#
+# vsomeip starts service discovery only when a route covers its multicast group through the node's
+# interface; a default route does not count. So this script adds 224.0.0.0/4 on that interface,
+# which needs NET_ADMIN. If a multicast route is already there, it needs nothing.
+set -eu
+
+usage() { sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 2; }
+
+[ $# -ge 1 ] || usage
+role=$1; shift
+case "$role" in
+    response|notify)   side=service ;;
+    request|subscribe) side=client ;;
+    *) usage ;;
+esac
+
+ip=${SOMEIP_UNICAST:-$(hostname -I | awk '{print $1}')}
+[ -n "$ip" ] || { echo "someip: no address found; set SOMEIP_UNICAST" >&2; exit 1; }
+
+dev=$(ip -o -4 addr show | awk -v a="$ip" '{ split($4, p, "/"); if (p[1] == a) { print $2; exit } }')
+[ -n "$dev" ] || { echo "someip: no interface carries $ip" >&2; exit 1; }
+ip route add 224.0.0.0/4 dev "$dev" 2>/dev/null \
+    || ip -4 route show dev "$dev" | grep -Eq '^(22[4-9]|23[0-9])\.' \
+    || echo "someip: no multicast route on $dev and none could be added (needs NET_ADMIN);" \
+            "service discovery will not start" >&2
+
+cfg=/tmp/vsomeip-$side.json
+sed -e "s|@UNICAST@|$ip|" \
+    -e "s|@NETMASK@|${SOMEIP_NETMASK:-255.255.255.0}|" \
+    -e "s|@LEVEL@|${SOMEIP_LOG_LEVEL:-info}|" \
+    "/opt/vsomeip/etc/$side.json.in" > "$cfg"
+
+export VSOMEIP_CONFIGURATION="$cfg" VSOMEIP_APPLICATION_NAME="$side-sample"
+exec "/opt/vsomeip/bin/$role-sample" "$@"
