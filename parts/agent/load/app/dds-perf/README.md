@@ -57,4 +57,7 @@ Without `VXPARTS_NO_PUSH=1` the script also pushes the image.
 - Smoke test under rootless Podman, two containers in one pod:
   - `ping` against `pong` for 10 s reported round-trip latency percentiles every second;
   - `pub 1000Hz size 1k` against `sub` reported 1.00 kS/s of 1024-byte samples with none lost.
-- Not verified yet: a run between two nodes of a vehicle, across a gateway slice.
+- Across a vehicle's gateway (vxedge 0.29.0, `run` on the part entry): `pub 1000Hz size 1k` and `sub`
+  on two container devices of one slice reported 1.00 kS/s with none lost. Discovery used unicast
+  peers with the interface pinned to `eth0` in `CYCLONEDDS_URI`. A container device has no multicast
+  route, so DDS multicast needs either that pin or a route the payload adds with `NET_ADMIN`.

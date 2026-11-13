@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- `agent/load/app/dds-perf`, `agent/load/app/someip-samples` and `svc/signal/app/kuksa-can-provider` record a run
+  across a vehicle's gateway, between two container devices of one slice, in their READMEs.
 - `gw/5gc/os/open5gs` and `gw/ran/os/ueransim` are published. The RAN part bundles the vxagents v0.2.3
   release `vxprobe`, staged by `stage-release.sh` after the tarball's sha256 is checked (it was built from a
   sibling checkout before), and its build checks the UERANSIM clone against the pinned commit.
