@@ -42,6 +42,12 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/svc/signal/app/kuksa-can-provider`: Eclipse Kuksa's CAN provider 0.5.1, a thin relabel pinned by
+  digest (amd64, arm64). It decodes CAN frames with a DBC file, maps them to VSS paths and publishes them to
+  `svc/signal/app/kuksa-databroker`. It reads a SocketCAN interface, or replays the sample trace in the upstream
+  image with no CAN interface. In a smoke test beside the databroker 0.7.1 it registered its 34 mapped VSS
+  entries and set values from the replayed trace. The part is not published yet.
+
 - `parts/zone/freertos/firmware/probe-mps2`: FreeRTOS firmware for vxedge's `qemu-mcu` backend on QEMU's
   `mps2-an385` (Cortex-M3) with its LAN9118 NIC, the first `firmware`-layer part. It runs FreeRTOS-Kernel V11.2.0
   (`ARM_CM3`) and FreeRTOS-Plus-TCP V4.4.2 with its `MPS2_AN385` interface, plus a fix to that interface's RX FIFO
