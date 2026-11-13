@@ -73,3 +73,13 @@ Without `VXPARTS_NO_PUSH=1` the script also pushes the image.
 - The local build was clean, and all 8 `org.vxedge.*` labels were intact.
 - `vxpn.py lint` and `vxpn.py scan` pass, with no part-number collision.
 - `gPTP.cfg` in the image differs from upstream's only in `neighborPropDelayThresh`.
+- Run by vxedge's `network.time_sync` on a VLAN-aware Linux bridge, with two followers in rootless
+  container groups:
+  - the grandmaster, started from the `hold` container with `nsenter --mount --pid` in the bridge's
+    network namespace, held both followers;
+  - over 20 readings a second apart, in three runs, each follower's mean |offset| was 0.37 to 0.94 µs, the
+    largest |offset| 1.6 µs, and the mean peer delay 0.9 to 1.5 µs;
+  - removing the `hold` container ended the grandmaster.
+- Run rootless with `--network host`, `gptp gateway` fails with `socket failed: Operation not permitted`.
+- `pmc` without `-t 1` gets no answer. Under the peer-to-peer delay mechanism, `CURRENT_DATA_SET`'s
+  `meanPathDelay` stays 0.
