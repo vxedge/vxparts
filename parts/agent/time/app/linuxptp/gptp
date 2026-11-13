@@ -1,0 +1,43 @@
+#!/bin/sh
+# gptp: run ptp4l with linuxptp's 802.1AS profile, /etc/linuxptp/gPTP.cfg, on software timestamps.
+#
+#   gptp gateway  --uds PATH IFACE...   the grandmaster: one master port per IFACE, priority1 100
+#   gptp follower --uds PATH IFACE      a follower on one port; it runs free and only measures
+#   gptp hold                           wait until stopped, so a privileged runner can start
+#                                       ptp4l from this image in another network namespace
+#
+# PATH is ptp4l's management socket (uds_address), and PATH.ro its read-only one. Give every ptp4l
+# on a host its own PATH. Read a follower's offset and peer delay with:
+#   pmc -u -b 0 -s PATH 'GET CURRENT_DATA_SET'
+set -eu
+
+CFG=/etc/linuxptp/gPTP.cfg
+
+usage() { sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 2; }
+
+[ $# -ge 1 ] || usage
+role=$1; shift
+
+if [ "$role" = hold ]; then
+    [ $# -eq 0 ] || usage
+    trap 'exit 0' TERM INT
+    while :; do sleep 3600 & wait $!; done
+fi
+
+[ $# -ge 3 ] && [ "$1" = --uds ] || usage
+uds=$2; shift 2
+ports=""
+for iface in "$@"; do ports="$ports -i $iface"; done
+
+case "$role" in
+    gateway)
+        # shellcheck disable=SC2086 # one -i per port
+        exec ptp4l -f "$CFG" -S -m -q --uds_address "$uds" --uds_ro_address "$uds.ro" \
+            --priority1 100 $ports ;;
+    follower)
+        [ $# -eq 1 ] || { echo "gptp: a follower takes one interface, got $#" >&2; exit 2; }
+        # Followers share the host's clock, so they do not steer it: free_running 1.
+        exec ptp4l -f "$CFG" -S -m -q --uds_address "$uds" --uds_ro_address "$uds.ro" \
+            --free_running 1 -i "$1" ;;
+    *) usage ;;
+esac

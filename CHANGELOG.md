@@ -47,6 +47,15 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/agent/time/app/linuxptp`: linuxptp 4.2 (Debian trixie's 4.2-1 package) with linuxptp's IEEE 802.1AS
+  profile, for vxedge's `network.time_sync`. `gPTP.cfg` is written into the image from the package's own copy, with
+  `neighborPropDelayThresh` raised from 800 to 100000 ns, since software timestamps on a veth put the peer delay
+  close to 800 ns; the build checks that this is the only change. The `gptp` entrypoint runs a grandmaster
+  (`gateway`, one master port per interface, `priority1 100`), a follower that runs free and only measures
+  (`follower`), or `hold`, which waits so a privileged runner can start the grandmaster from the image in the
+  bridge's network namespace. `schema/taxonomy.yaml` adds the `agent` subtype `time` (`TIM`) for it. Not published
+  yet.
+
 - `hpc/ad/middleware/score-com`: Eclipse S-CORE communication v0.6.0 (`mw::com`, the LoLa shared-memory
   binding, commit `c5efd74`), built from source with Bazel in the devcontainer image that release pins, with
   `vxlola`, this part's tool that measures one-way event latency between two processes for payloads up to
