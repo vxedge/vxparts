@@ -27,6 +27,7 @@ on:
           - parts/hpc/ad/middleware/carla-client
           - parts/svc/signal/app/kuksa-databroker
           - parts/svc/signal/app/kuksa-can-provider
+          - parts/agent/load/app/dds-perf
       tag:
         description: 'SemVer tag to publish'
         required: true

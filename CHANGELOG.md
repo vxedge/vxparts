@@ -42,6 +42,12 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/agent/load/app/dds-perf`: `ddsperf`, Eclipse Cyclone DDS's load and latency tool, built from source at
+  the 11.1.0 release (commit `179ae6f`) on a base image pinned by digest. It puts DDS traffic (RTPS over UDP) on a
+  network and reports throughput, loss and round-trip latency. In a smoke test in one pod, `ping` against `pong`
+  reported latency percentiles and `pub` against `sub` delivered 1 kS/s of 1024-byte samples with none lost. A run
+  across a gateway slice is not verified yet. The part is not published yet.
+
 - `parts/svc/signal/app/kuksa-can-provider`: Eclipse Kuksa's CAN provider 0.5.1, a thin relabel pinned by
   digest (amd64, arm64). It decodes CAN frames with a DBC file, maps them to VSS paths and publishes them to
   `svc/signal/app/kuksa-databroker`. It reads a SocketCAN interface, or replays the sample trace in the upstream
