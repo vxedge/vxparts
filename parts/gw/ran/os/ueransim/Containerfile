@@ -3,12 +3,9 @@
 # vxparts' own publish pipeline. Built from the pinned upstream tag (see part.yaml) so
 # nr-gnb/nr-ue versions ride the image digest into results metadata (§13).
 #
-# Also carries vxprobe (vxagents), so an H2 campaign's reflector can run *inside* a UE's own
-# pod/netns — the same way H1's methodology runs the reflector on the ADAS zone node itself, not
-# pinged from outside. vxagents is a separate git repo, not nested under this one, so podman
-# can't reach its source directly from this build context — run ./stage-vxprobe.sh first, which
-# stages the prebuilt binary into this directory. Do not `podman build`/publish-container.sh
-# this part directly without having run ./stage-vxprobe.sh at least once.
+# Also carries vxprobe, the vxagents release named in part.yaml, so a campaign's reflector can run
+# inside a UE's own pod and network namespace. Run ./stage-release.sh first: it downloads that
+# release, verifies the tarball's sha256 and stages the binary in bin/.
 #
 # Run:    podman run --rm <ref> nr-gnb -c /etc/vx5g/gnb.yaml
 #         nr-ue needs NET_ADMIN + /dev/net/tun (creates uesimtunN);
@@ -22,7 +19,8 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 ARG UERANSIM_TAG=v3.2.7
 RUN git clone --depth 1 --branch ${UERANSIM_TAG} \
-      https://github.com/aligungr/UERANSIM /src/UERANSIM
+      https://github.com/aligungr/UERANSIM /src/UERANSIM \
+ && test "$(git -C /src/UERANSIM rev-parse HEAD)" = 1d1e154f869260b5e98f6905827b1bd9b8663afc
 RUN cd /src/UERANSIM && make -j"$(nproc)"
 
 FROM ${UPSTREAM}
@@ -33,8 +31,8 @@ RUN apt-get update \
 COPY --from=build /src/UERANSIM/build/nr-gnb /usr/local/bin/nr-gnb
 COPY --from=build /src/UERANSIM/build/nr-ue /usr/local/bin/nr-ue
 COPY --from=build /src/UERANSIM/build/nr-cli /usr/local/bin/nr-cli
-COPY bin/vxprobe.bin /usr/local/bin/vxprobe
+COPY bin/vxprobe /usr/local/bin/vxprobe
 RUN mkdir -p /etc/vx5g
 
 ENTRYPOINT []
-CMD ["bash", "-c", "nr-gnb --version; nr-ue --version"]
+CMD ["bash", "-c", "nr-gnb --version; nr-ue --version; vxprobe --version"]

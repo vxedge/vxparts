@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- `gw/5gc/os/open5gs` and `gw/ran/os/ueransim` are published. The RAN part bundles the vxagents v0.2.3
+  release `vxprobe`, staged by `stage-release.sh` after the tarball's sha256 is checked (it was built from a
+  sibling checkout before), and its build checks the UERANSIM clone against the pinned commit.
+  - `gw/5gc/os/open5gs:0.1.0`, `sha256:dfad2271a85c7147669ed5a98cc4c61b113a915d95050ddbcfe25bdea55ac97d`
+  - `gw/ran/os/ueransim:0.1.0`, `sha256:39393bb1982f57f4c3b14ff743baea810868b089d7ceda633b85026817fe066a`
 - `agent/load/app/vxtraffic` packages the vxagents v0.2.3 release (commit `5e97e9f`, x86_64 tarball sha256
   `d416481e…`): vxtraffic prints its summary when vxedged stops it with SIGTERM at cooldown, so a campaign's
   traffic log records the achieved rate, and `--version` names the build profile. Published as
