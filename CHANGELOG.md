@@ -47,6 +47,11 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `hpc/ad/middleware/score-com`: Eclipse S-CORE communication v0.6.0 (`mw::com`, the LoLa shared-memory
+  binding, commit `c5efd74`), built from source with Bazel in the devcontainer image that release pins, with
+  `vxlola`, this part's tool that measures one-way event latency between two processes for payloads up to
+  1 MiB. Published as `hpc/ad/middleware/score-com:0.1.0`,
+  `sha256:6155f2f8b1106e865568e322115d3d6ecf1581953a419822b6d623976b415674`.
 - `parts/agent/load/app/someip-samples`: COVESA vsomeip 3.8.0 (commit `f1518b3`) and its four example
   applications, built from source on a base image pinned by digest. It puts SOME/IP traffic on a network: service
   discovery, request and response, and event notification. The `someip` entrypoint writes the node's address into

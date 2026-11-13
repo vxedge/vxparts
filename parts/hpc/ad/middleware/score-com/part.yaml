@@ -1,0 +1,13 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Built from source: Eclipse S-CORE publishes no runtime image. The Containerfile builds
+# communication v0.6.0 (mw::com, the LoLa shared-memory binding) with Bazel inside the devcontainer
+# image that release pins, both by digest, and checks the clone against the release commit. vxlola,
+# the latency tool in src/, is this part's own code (Apache-2.0).
+license: Apache-2.0
+annotations:
+  role: ipc-latency-meter
+  score-communication-version: v0.6.0
+  score-communication-source-repo: https://github.com/eclipse-score/communication
+  score-communication-source-commit: c5efd74f64c42ea3c60e19a1a3d5456a47ed1115
+  score-devcontainer: ghcr.io/eclipse-score/devcontainer@sha256:286f6d42c5c27ca66daf908b0f1c0a5e4f0d077a38a8611fe42753e4884335c1

@@ -1,0 +1,27 @@
+{
+  "serviceTypes": [
+    {
+      "serviceTypeName": "/vxedge/vxlola/LatencyInterface",
+      "version": { "major": 1, "minor": 0 },
+      "bindings": [
+        { "binding": "SHM", "serviceId": 6001, "events": [ { "eventName": "latency_event", "eventId": 1 } ] }
+      ]
+    }
+  ],
+  "serviceInstances": [
+    {
+      "instanceSpecifier": "vxedge/vxlola",
+      "serviceTypeName": "/vxedge/vxlola/LatencyInterface",
+      "version": { "major": 1, "minor": 0 },
+      "instances": [
+        {
+          "instanceId": 1,
+          "asil-level": "QM",
+          "binding": "SHM",
+          "events": [ { "eventName": "latency_event", "numberOfSampleSlots": 16, "maxSubscribers": 4 } ]
+        }
+      ]
+    }
+  ],
+  "global": { "asil-level": "QM" }
+}

@@ -1,0 +1,24 @@
+# hpc/ad/middleware/score-com: Eclipse S-CORE communication (mw::com, the LoLa shared-memory binding)
+# v0.6.0, with vxlola, this part's one-way latency tool. Upstream publishes no runtime image, so the
+# build runs Bazel inside the devcontainer image communication v0.6.0 pins, by digest, and the
+# clone is checked against the release commit. src/ is copied into the checkout as
+# score/mw/com/vxlola, so it builds against mw::com as an in-tree package.
+FROM ghcr.io/eclipse-score/devcontainer@sha256:286f6d42c5c27ca66daf908b0f1c0a5e4f0d077a38a8611fe42753e4884335c1 AS build
+ENV HOME=/tmp/home
+RUN git clone --depth 1 --branch v0.6.0 https://github.com/eclipse-score/communication /src \
+    && test "$(git -C /src rev-parse HEAD)" = c5efd74f64c42ea3c60e19a1a3d5456a47ed1115
+COPY src/BUILD src/vxlola.cpp /src/score/mw/com/vxlola/
+RUN cd /src && bazel --output_user_root=/tmp/bazel build -c opt --spawn_strategy=local \
+        --jobs="$(nproc)" //score/mw/com/vxlola:vxlola \
+    && install -D -m 0755 bazel-bin/score/mw/com/vxlola/vxlola /out/vxlola \
+    && rm -rf /tmp/bazel
+
+FROM docker.io/library/debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2
+# mw::com links libatomic, which the slim base leaves out.
+RUN apt-get update && apt-get install -y --no-install-recommends libatomic1 && rm -rf /var/lib/apt/lists/*
+COPY --from=build /out/vxlola /opt/vxlola/bin/vxlola
+COPY --from=build /src/LICENSE /src/NOTICE /opt/vxlola/score-communication/
+COPY src/mw_com_config.json src/logging.json /opt/vxlola/etc/
+COPY vxlola-run /opt/vxlola/bin/vxlola-run
+RUN ! ldd /opt/vxlola/bin/vxlola | grep -q 'not found' && /opt/vxlola/bin/vxlola 2>&1 | grep -q usage
+ENTRYPOINT ["/opt/vxlola/bin/vxlola-run"]

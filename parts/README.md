@@ -66,7 +66,7 @@ Current tree. Each part's README says whether it is published; versions and stat
 agent/{probe/app/vxprobe,load/app/{vxtraffic,kuksa-perf,dds-perf,someip-samples}}
 ctl/schema/config/manifest-schema
 gw/{5gc/os/open5gs,nos/os/sonic-vs,ran/os/ueransim}
-hpc/ad/{middleware/{ros2-humble,carla-client},app/autoware,config/autoware-params,stack/ad-baseline}
+hpc/ad/{middleware/{ros2-humble,carla-client,score-com},app/autoware,config/autoware-params,stack/ad-baseline}
 hpc/cockpit/app/qt-cluster
 hpc/sim/{app/carla-server,config/scenarios,stack/sim-baseline}
 svc/ota/{app/vxota,config/gate-store}

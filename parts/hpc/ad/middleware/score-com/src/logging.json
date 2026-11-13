@@ -1,0 +1,7 @@
+{
+  "appId": "VXLO",
+  "appDesc": "vxlola",
+  "logLevel": "kWarn",
+  "logLevelThresholdConsole": "kWarn",
+  "logMode": "kConsole"
+}
