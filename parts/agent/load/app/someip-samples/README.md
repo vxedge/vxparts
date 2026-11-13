@@ -52,8 +52,7 @@ behaviour, so a `request` client sees the service come and go.
 
 ## Published
 
-This part has not been published to the registry yet. It is one of the choices in the manual `publish`
-workflow.
+`ghcr.io/vxedge/parts/agent/load/app/someip-samples:0.1.0`, `sha256:9bfc942ecc88d5eee852b6209abc25989b10ed0ae0879973bfe9cf8f06f47d50`.
 
 ## Build
 

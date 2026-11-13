@@ -40,8 +40,7 @@ not carry multicast, give Cyclone DDS a peer list through the `CYCLONEDDS_URI` e
 
 ## Published
 
-This part has not been published to the registry yet. It is one of the choices in the manual `publish`
-workflow.
+`ghcr.io/vxedge/parts/agent/load/app/dds-perf:0.1.0`, `sha256:fb4dd05b876ae028fdae662443b269b92a4bedb2ff9ed70520f1a5351a4cc363`.
 
 ## Build
 

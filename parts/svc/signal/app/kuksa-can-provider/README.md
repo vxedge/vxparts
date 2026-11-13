@@ -83,10 +83,9 @@ podman run --rm -e KUKSA_ADDRESS=grpc://<databroker>:55555 <ref> --infinite
   namespace, for example a `vcan` link; the default replay mode needs none.
 - vxedge parses a device's `dbc:` field and does not act on it. This part does not change that.
 
-## Publishing
+## Published
 
-This part has not been published to the registry yet. It is one of the choices in the manual
-`publish` workflow.
+`ghcr.io/vxedge/parts/svc/signal/app/kuksa-can-provider:0.1.0`, `sha256:23b4aee64c14e49f52d50a0430fe5c8a9ac9709b44abbdadcfba7b7ab9e7698d`.
 
 ## Verified 2026-11-13 (0.5.1)
 
