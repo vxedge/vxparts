@@ -7,13 +7,14 @@
 #                                       ptp4l from this image in another network namespace
 #
 # PATH is ptp4l's management socket (uds_address), and PATH.ro its read-only one. Give every ptp4l
-# on a host its own PATH. Read a follower's offset and peer delay with:
-#   pmc -u -b 0 -s PATH 'GET CURRENT_DATA_SET'
+# on a host its own PATH. Read a follower's offset and peer delay with (-t 1: the profile's
+# transportSpecific, without which ptp4l ignores the request):
+#   pmc -u -b 0 -t 1 -s PATH 'GET CURRENT_DATA_SET' 'GET PORT_DATA_SET'
 set -eu
 
 CFG=/etc/linuxptp/gPTP.cfg
 
-usage() { sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 2; }
+usage() { sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//' >&2; exit 2; }
 
 [ $# -ge 1 ] || usage
 role=$1; shift

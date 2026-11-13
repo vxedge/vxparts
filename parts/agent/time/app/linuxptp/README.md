@@ -37,8 +37,12 @@ gptp hold                           wait until stopped, so a privileged runner c
 
 - `PATH` is `ptp4l`'s management socket (`uds_address`), and `PATH.ro` its read-only one. Every `ptp4l`
   on a host needs its own.
-- Read a follower's offset and peer delay with `pmc -u -b 0 -s PATH 'GET CURRENT_DATA_SET'`
-  (`offsetFromMaster`, `meanPathDelay`).
+- Read a follower's offset with `pmc -u -b 0 -t 1 -s PATH 'GET CURRENT_DATA_SET'` (`offsetFromMaster`)
+  and its peer delay with `'GET PORT_DATA_SET'` (`peerMeanPathDelay`). `-t 1` is the profile's
+  `transportSpecific`: without it `ptp4l` ignores the request. With the peer-to-peer delay mechanism,
+  `CURRENT_DATA_SET`'s `meanPathDelay` stays 0.
+- A follower that runs free never locks its servo, so its port stays `UNCALIBRATED` rather than `SLAVE`
+  while it follows a grandmaster.
 - Both roles open raw sockets on their interfaces, which needs `NET_RAW`.
 - The grandmaster wins election with `priority1 100` against the profile's 248.
 
@@ -47,6 +51,10 @@ Every role logs to standard output (`-m`).
 `hold` exists because a grandmaster's ports are a bridge's ports, in the network namespace the bridge
 lives in. A rootless container cannot open raw sockets there. So vxedge starts the image in `hold` and
 runs `gptp gateway` from the image's file system with the privileges the bridge's namespace needs.
+Put that
+`PATH` in a host directory mounted into the `hold` container: in the container's own file system, a
+`ptp4l` running as the host's root cannot create its socket (`bind` fails with `EOVERFLOW`), because root
+is not mapped in the container's user namespace.
 
 ## Published
 
