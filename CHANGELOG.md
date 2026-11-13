@@ -47,19 +47,25 @@ All notable changes to this project will be documented in this file. Format foll
   discovery, request and response, and event notification. The `someip` entrypoint writes the node's address into
   upstream's sample configuration and adds the multicast route vsomeip needs, which takes `NET_ADMIN`. In a smoke
   test between two containers, both pairs of examples exchanged messages after service discovery. The examples
-  measure nothing themselves. A run across a gateway slice is not verified yet. The part is not published yet.
+  measure nothing themselves. A run across a gateway slice is not verified yet.
+  Published as `ghcr.io/vxedge/parts/agent/load/app/someip-samples:0.1.0`,
+  `sha256:9bfc942ecc88d5eee852b6209abc25989b10ed0ae0879973bfe9cf8f06f47d50`.
 
 - `parts/agent/load/app/dds-perf`: `ddsperf`, Eclipse Cyclone DDS's load and latency tool, built from source at
   the 11.1.0 release (commit `179ae6f`) on a base image pinned by digest. It puts DDS traffic (RTPS over UDP) on a
   network and reports throughput, loss and round-trip latency. In a smoke test in one pod, `ping` against `pong`
   reported latency percentiles and `pub` against `sub` delivered 1 kS/s of 1024-byte samples with none lost. A run
-  across a gateway slice is not verified yet. The part is not published yet.
+  across a gateway slice is not verified yet.
+  Published as `ghcr.io/vxedge/parts/agent/load/app/dds-perf:0.1.0`,
+  `sha256:fb4dd05b876ae028fdae662443b269b92a4bedb2ff9ed70520f1a5351a4cc363`.
 
 - `parts/svc/signal/app/kuksa-can-provider`: Eclipse Kuksa's CAN provider 0.5.1, a thin relabel pinned by
   digest (amd64, arm64). It decodes CAN frames with a DBC file, maps them to VSS paths and publishes them to
   `svc/signal/app/kuksa-databroker`. It reads a SocketCAN interface, or replays the sample trace in the upstream
   image with no CAN interface. In a smoke test beside the databroker 0.7.1 it found its 34 mapped VSS
-  entries registered and set values from the replayed trace. The part is not published yet.
+  entries registered and set values from the replayed trace.
+  Published as `ghcr.io/vxedge/parts/svc/signal/app/kuksa-can-provider:0.1.0`,
+  `sha256:23b4aee64c14e49f52d50a0430fe5c8a9ac9709b44abbdadcfba7b7ab9e7698d`.
 
 - `parts/zone/freertos/firmware/probe-mps2`: FreeRTOS firmware for vxedge's `qemu-mcu` backend on QEMU's
   `mps2-an385` (Cortex-M3) with its LAN9118 NIC, the first `firmware`-layer part. It runs FreeRTOS-Kernel V11.2.0
