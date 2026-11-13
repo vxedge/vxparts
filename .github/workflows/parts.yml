@@ -28,6 +28,7 @@ on:
           - parts/svc/signal/app/kuksa-databroker
           - parts/svc/signal/app/kuksa-can-provider
           - parts/agent/load/app/dds-perf
+          - parts/agent/load/app/someip-samples
       tag:
         description: 'SemVer tag to publish'
         required: true

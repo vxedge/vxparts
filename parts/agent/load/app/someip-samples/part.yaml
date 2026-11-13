@@ -1,0 +1,12 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Built from source: COVESA publishes no container image of vsomeip. The Containerfile pins the
+# upstream release commit and the base image by digest. The four applications are vsomeip's own
+# examples; this part adds only the `someip` entrypoint script, which writes the node's address
+# into upstream's sample configuration.
+license: MPL-2.0 AND Apache-2.0
+annotations:
+  role: someip-traffic-source
+  vsomeip-version: "3.8.0"
+  vsomeip-source-repo: https://github.com/COVESA/vsomeip
+  vsomeip-source-commit: f1518b369f5ee9684fd01af0f9d147fb04523060

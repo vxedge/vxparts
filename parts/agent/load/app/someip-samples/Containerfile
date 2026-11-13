@@ -1,0 +1,46 @@
+# someip-samples: COVESA vsomeip 3.8.0 (commit f1518b3) and its four example applications, built from
+# source. The clone is checked against the pinned commit, so a moved tag fails the build.
+#
+# vsomeip needs Boost >= 1.75 and C++20, so the base is Debian trixie (Boost 1.83, GCC 14).
+#
+# The second RUN turns upstream's two UDP sample configurations into templates: the node address,
+# netmask and log level become placeholders the `someip` entrypoint fills in, and logging goes to
+# the console only. Each edit is checked, so a change in upstream's files fails the build.
+FROM docker.io/library/debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2 AS build
+RUN apt-get update && apt-get install -y --no-install-recommends git g++ cmake make ca-certificates \
+        libboost-filesystem-dev libboost-system-dev libboost-thread-dev \
+    && g++ --version | head -1 && cmake --version | head -1
+RUN git clone --depth 1 --branch 3.8.0 https://github.com/COVESA/vsomeip /src \
+    && test "$(git -C /src rev-parse HEAD)" = f1518b369f5ee9684fd01af0f9d147fb04523060
+RUN cmake -S /src -B /build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/vsomeip -DDISABLE_DLT=1 \
+    && cmake --build /build -j"$(nproc)" && cmake --build /build -j"$(nproc)" --target examples \
+    && cmake --install /build \
+    && install -m 0755 /build/examples/request-sample /build/examples/response-sample \
+        /build/examples/notify-sample /build/examples/subscribe-sample /opt/vsomeip/bin/
+RUN mkdir -p /opt/vsomeip/etc && cd /opt/vsomeip/etc \
+    && for side in service client; do \
+         sed -e 's|"unicast": *"[^"]*"|"unicast": "@UNICAST@"|' \
+             -e 's|"netmask": *"[^"]*"|"netmask": "@NETMASK@"|' \
+             -e 's|"level": *"[^"]*"|"level": "@LEVEL@"|' \
+             -e '/"file": *{/,/}/ s|"enable": *"true"|"enable": "false"|' \
+             -e 's|"dlt": *"true"|"dlt": "false"|' \
+             /src/config/vsomeip-udp-$side.json > $side.json.in \
+         && test "$(grep -c '@UNICAST@' $side.json.in)" = 1 \
+         && test "$(grep -c '@LEVEL@' $side.json.in)" = 1 \
+         && test "$(grep -c '"dlt": "false"' $side.json.in)" = 1 \
+         && test "$(grep -A3 '"file": *{' $side.json.in | grep -c '"enable": "false"')" = 1 \
+         || exit 1; \
+       done \
+    && test "$(grep -c '@NETMASK@' client.json.in)" = 1
+
+FROM docker.io/library/debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2
+RUN apt-get update && apt-get install -y --no-install-recommends libboost-filesystem1.83.0 iproute2 \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=build /opt/vsomeip/bin/ /opt/vsomeip/bin/
+COPY --from=build /opt/vsomeip/lib/ /opt/vsomeip/lib/
+COPY --from=build /opt/vsomeip/etc/ /opt/vsomeip/etc/
+COPY --from=build /src/LICENSE /opt/vsomeip/LICENSE
+COPY someip /usr/local/bin/someip
+ENV LD_LIBRARY_PATH=/opt/vsomeip/lib
+RUN ! ldd /opt/vsomeip/bin/*-sample /opt/vsomeip/lib/libvsomeip3*.so | grep 'not found'
+ENTRYPOINT ["/usr/local/bin/someip"]

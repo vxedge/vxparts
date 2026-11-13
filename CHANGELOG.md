@@ -42,6 +42,13 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `parts/agent/load/app/someip-samples`: COVESA vsomeip 3.8.0 (commit `f1518b3`) and its four example
+  applications, built from source on a base image pinned by digest. It puts SOME/IP traffic on a network: service
+  discovery, request and response, and event notification. The `someip` entrypoint writes the node's address into
+  upstream's sample configuration and adds the multicast route vsomeip needs, which takes `NET_ADMIN`. In a smoke
+  test between two containers, both pairs of examples exchanged messages after service discovery. The examples
+  measure nothing themselves. A run across a gateway slice is not verified yet. The part is not published yet.
+
 - `parts/agent/load/app/dds-perf`: `ddsperf`, Eclipse Cyclone DDS's load and latency tool, built from source at
   the 11.1.0 release (commit `179ae6f`) on a base image pinned by digest. It puts DDS traffic (RTPS over UDP) on a
   network and reports throughput, loss and round-trip latency. In a smoke test in one pod, `ping` against `pong`
