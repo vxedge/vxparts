@@ -53,8 +53,9 @@ All notable changes to this project will be documented in this file. Format foll
   close to 800 ns; the build checks that this is the only change. The `gptp` entrypoint runs a grandmaster
   (`gateway`, one master port per interface, `priority1 100`), a follower that runs free and only measures
   (`follower`), or `hold`, which waits so a privileged runner can start the grandmaster from the image in the
-  bridge's network namespace. `schema/taxonomy.yaml` adds the `agent` subtype `time` (`TIM`) for it. Not published
-  yet.
+  bridge's network namespace. `schema/taxonomy.yaml` adds the `agent` subtype `time` (`TIM`) for it.
+  Published as `agent/time/app/linuxptp:0.1.0`,
+  `sha256:cc81350e76480ee37237abcc78f42871d97c71ed1cd35e431a02924a521cc94b`.
 
 - `hpc/ad/middleware/score-com`: Eclipse S-CORE communication v0.6.0 (`mw::com`, the LoLa shared-memory
   binding, commit `c5efd74`), built from source with Bazel in the devcontainer image that release pins, with

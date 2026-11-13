@@ -58,7 +58,7 @@ is not mapped in the container's user namespace.
 
 ## Published
 
-Not published yet.
+`ghcr.io/vxedge/parts/agent/time/app/linuxptp:0.1.0`, `sha256:cc81350e76480ee37237abcc78f42871d97c71ed1cd35e431a02924a521cc94b`.
 
 ## Build
 
