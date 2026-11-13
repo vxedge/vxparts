@@ -1,0 +1,31 @@
+#!/bin/sh
+# vxlola-run: run vxlola's sender and receiver as two processes in this container and print one JSON
+# line per payload size. With `send` or `recv` as the first argument it runs that side alone.
+# SPDX-License-Identifier: Apache-2.0
+set -eu
+bin=/opt/vxlola/bin/vxlola
+cfg=${VXLOLA_CONFIG:-/opt/vxlola/etc/mw_com_config.json}
+export MW_LOG_CONFIG_FILE=${MW_LOG_CONFIG_FILE:-/opt/vxlola/etc/logging.json}
+
+case "${1:-sweep}" in
+send|recv)
+    role=$1; shift
+    exec "$bin" "$role" "$cfg" "$@" ;;
+sweep)
+    [ $# -gt 0 ] && shift
+    sizes=${VXLOLA_SIZES:-64 1024 16384 65536 262144 1048576}
+    rate=${VXLOLA_RATE_HZ:-1000}
+    count=${VXLOLA_COUNT:-10000}
+    warmup=${VXLOLA_WARMUP:-100}
+    for size in $sizes; do
+        "$bin" send "$cfg" --size "$size" --rate "$rate" 2>/dev/null &
+        sender=$!
+        "$bin" recv "$cfg" --count "$count" --warmup "$warmup" --timeout 300 \
+            | sed "s/^{/{\"rate_hz\":$rate,/" || echo "vxlola-run: size $size failed" >&2
+        kill "$sender" 2>/dev/null || true
+        wait "$sender" 2>/dev/null || true
+    done ;;
+*)
+    echo "usage: vxlola-run [sweep | send ARGS... | recv ARGS...]" >&2
+    exit 2 ;;
+esac

@@ -31,6 +31,7 @@ on:
           - parts/agent/load/app/someip-samples
           - parts/gw/5gc/os/open5gs
           - parts/gw/ran/os/ueransim
+          - parts/hpc/ad/middleware/score-com
       tag:
         description: 'SemVer tag to publish'
         required: true
