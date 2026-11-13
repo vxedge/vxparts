@@ -1,0 +1,23 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Thin relabel, like svc/signal/app/kuksa-databroker: Eclipse Kuksa publishes a versioned,
+# multi-arch OCI image of the CAN provider, so there is no source build here.
+license: Apache-2.0
+upstream:
+  ref: ghcr.io/eclipse-kuksa/kuksa-can-provider/can-provider:0.5.1
+  digest: sha256:41f5abffe30be4dd0bf6d82f28ca149d327e2d6de8619b562a12035a30da0c8e
+  # Resolved 2026-11-13 with `oras resolve` (image index: amd64, arm64). 0.5.1 is the latest
+  # release as of pinning (2026-10-28), from `gh release list -R eclipse-kuksa/kuksa-can-provider`.
+annotations:
+  role: can-signal-provider
+  kuksa-can-provider-version: "0.5.1"
+  # The VSS release of the mapping file the image uses by default (mapping/vss_6.0/vss_dbc.json).
+  # It matches the metadata svc/signal/app/kuksa-databroker loads by default.
+  vss-release: "6.0"
+  # Sample data inside the upstream image: a DBC file and a recorded CAN trace. The DBC is
+  # MIT-licensed third-party data (README, "Sample data").
+  sample-dbc: Model3CAN.dbc
+  sample-dbc-license: MIT
+sbom:
+  format: cyclonedx-json
+  path: sbom.cdx.json

@@ -70,7 +70,7 @@ hpc/ad/{middleware/{ros2-humble,carla-client},app/autoware,config/autoware-param
 hpc/cockpit/app/qt-cluster
 hpc/sim/{app/carla-server,config/scenarios,stack/sim-baseline}
 svc/ota/{app/vxota,config/gate-store}
-svc/signal/app/{kuksa-databroker,vxvhal}
+svc/signal/app/{kuksa-databroker,kuksa-can-provider,vxvhal}
 veh/car/config/reference-sedan-6zone
 zone/aaos/stack/cuttlefish-auto
 zone/linux/stack/probe-bundle

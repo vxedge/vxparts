@@ -26,6 +26,7 @@ on:
           - parts/hpc/ad/middleware/ros2-humble
           - parts/hpc/ad/middleware/carla-client
           - parts/svc/signal/app/kuksa-databroker
+          - parts/svc/signal/app/kuksa-can-provider
       tag:
         description: 'SemVer tag to publish'
         required: true

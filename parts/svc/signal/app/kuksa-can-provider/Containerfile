@@ -1,0 +1,12 @@
+# svc/signal/app/kuksa-can-provider — Eclipse Kuksa's CAN provider, relabeled under vxedge's own
+# registry namespace (the thin-relabel pattern of svc/signal/app/kuksa-databroker: no source build).
+#
+# Upstream image 0.5.1 (read from the image config with oras, 2026-11-13): entrypoint ./dbcfeeder,
+# working directory /dist, no exposed port (it is a client of the databroker). The image carries a
+# default config (config/dbc_feeder.ini), VSS mappings (mapping/), a sample DBC and a sample CAN
+# trace (candump.log), so it replays CAN traffic with no CAN interface. See this part's README.
+#
+# Run:    podman run --rm -e KUKSA_ADDRESS=grpc://<databroker>:55555 <ref>
+
+ARG UPSTREAM
+FROM ${UPSTREAM}
