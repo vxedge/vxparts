@@ -1,0 +1,19 @@
+# dds-perf (ddsperf): Eclipse Cyclone DDS's own load and latency tool, built from the 11.1.0 release
+# (commit 179ae6f). The clone is checked against the pinned commit, so a moved tag fails the build.
+# TLS and DDS Security are off: ddsperf here measures plain RTPS over UDP.
+FROM docker.io/library/debian:bookworm-slim@sha256:99c0b25c46d0214d5a2091092e7908907dcaecd6a962cde0ac700acee222b6f3 AS build
+RUN apt-get update && apt-get install -y --no-install-recommends git gcc libc6-dev cmake make ca-certificates \
+    && gcc --version | head -1 && cmake --version | head -1
+RUN git clone --depth 1 --branch 11.1.0 https://github.com/eclipse-cyclonedds/cyclonedds /src \
+    && test "$(git -C /src rev-parse HEAD)" = 179ae6fe82c9954c73aa5e31bd28f994a853dcf1
+RUN cmake -S /src -B /build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/cyclonedds \
+        -DENABLE_SSL=OFF -DENABLE_SECURITY=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF \
+    && cmake --build /build -j"$(nproc)" && cmake --install /build \
+    && ls -l /opt/cyclonedds/bin /opt/cyclonedds/lib
+
+FROM docker.io/library/debian:bookworm-slim@sha256:99c0b25c46d0214d5a2091092e7908907dcaecd6a962cde0ac700acee222b6f3
+COPY --from=build /opt/cyclonedds/bin/ddsperf /opt/cyclonedds/bin/ddsperf
+COPY --from=build /opt/cyclonedds/lib/libddsc.so* /opt/cyclonedds/lib/
+COPY --from=build /src/LICENSE /src/NOTICE.md /opt/cyclonedds/
+ENV LD_LIBRARY_PATH=/opt/cyclonedds/lib
+ENTRYPOINT ["/opt/cyclonedds/bin/ddsperf"]

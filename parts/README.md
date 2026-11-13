@@ -63,7 +63,7 @@ Current tree. Each part's README says whether it is published; versions and stat
 [`docs/FACTS.md`](https://github.com/vxedge/docs/blob/main/FACTS.md).
 
 ```
-agent/{probe/app/vxprobe,load/app/{vxtraffic,kuksa-perf}}
+agent/{probe/app/vxprobe,load/app/{vxtraffic,kuksa-perf,dds-perf}}
 ctl/schema/config/manifest-schema
 gw/{5gc/os/open5gs,nos/os/sonic-vs,ran/os/ueransim}
 hpc/ad/{middleware/{ros2-humble,carla-client},app/autoware,config/autoware-params,stack/ad-baseline}
