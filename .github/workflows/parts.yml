@@ -29,6 +29,8 @@ on:
           - parts/svc/signal/app/kuksa-can-provider
           - parts/agent/load/app/dds-perf
           - parts/agent/load/app/someip-samples
+          - parts/gw/5gc/os/open5gs
+          - parts/gw/ran/os/ueransim
       tag:
         description: 'SemVer tag to publish'
         required: true
@@ -127,13 +129,11 @@ jobs:
             [[ -z "$part" ]] && continue
             if [[ -f "$part/Containerfile" ]]; then
               any=1
-              # Convention: a part may stage content from a sibling repo this single-repo
-              # checkout doesn't have (e.g. gw/ran/os/ueransim's stage-vxprobe.sh, staging a
-              # prebuilt vxprobe from vxagents). Run any stage-*.sh first; if it fails because
-              # the sibling isn't present, skip this part's build-verification rather than
-              # failing the whole job — that's an expected CI limitation, not a broken
-              # Containerfile, and it's still verified for real whenever it's actually published
-              # (a human, from a workstation with the sibling repo checked out).
+              # Convention: a part may stage content this checkout doesn't have (e.g. a
+              # vxagents release binary, via the part's stage-release.sh). Run any stage-*.sh
+              # first; if it fails because that content is unavailable here, skip this part's
+              # build-verification rather than failing the whole job. That is a CI limitation,
+              # not a broken Containerfile, and the part is still built before it is published.
               stage_ok=1
               for stage in "$part"/stage-*.sh; do
                 [[ -e "$stage" ]] || continue

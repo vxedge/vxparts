@@ -6,29 +6,18 @@ H2's real numbers. Same content as
 
 Classification: `class=gw`, `subtype=ran`, `layer=os`.
 
-## Cross-repo build dependency — run `./stage-vxprobe.sh` first
+## vxprobe: run `./stage-release.sh` first
 
-This image bundles a prebuilt `vxprobe` binary (from the separate `vxagents` repo) so an H2
-campaign's reflector can run *inside* a UE's own pod/netns — the same way H1's methodology runs
-the reflector on the ADAS zone node itself, not pinged from outside. `podman build`'s context is
-sandboxed to this directory, so it can't reach `vxagents` directly. The staging step is
-deliberately not named `build.sh`: `vxpn.py lint` treats `Containerfile`/`build.sh` as mutually
-exclusive build recipes, and this is a prebuild helper for the `Containerfile` recipe, not a
-competing recipe of its own.
+The image bundles `vxprobe` so a campaign's reflector can run inside a UE's own pod and network
+namespace. It is the vxagents release named in `part.yaml` (`vxagents-release`, now `v0.2.3`):
+`./stage-release.sh` downloads that release's x86_64 tarball, checks it against
+`vxagents-tarball-sha256` and stages the binary in `bin/`, which is gitignored. The script is
+named `stage-*.sh` so CI runs it before the build, as it does for `agent/load/app/vxtraffic`.
 
 ```
-./stage-vxprobe.sh                                            # stages bin/vxprobe.bin
+./stage-release.sh
 ../../../../../scripts/publish/publish-container.sh gw/ran/os/ueransim 0.1.0
 ```
-
-`bin/` is gitignored repo-wide (`vxparts/.gitignore: parts/**/bin/`) — nothing to clean up
-manually, and nothing staged there is committed.
-
-**CI**: the `build-containers` job's own checkout has no `vxagents`, so `stage-*.sh` scripts
-are run automatically as a best-effort step — when the sibling repo isn't present, this part's
-build-verification is skipped (loudly, not silently) rather than failing the whole job. Real
-build verification for this part happens locally, with `vxagents` checked out alongside. CI
-has no cross-repo checkout.
 
 ## Upstream pin
 
@@ -63,13 +52,11 @@ distributed.
   namespaced; nothing else from UERANSIM touches the host.
 - UE containers need `--cap-add=NET_ADMIN --device /dev/net/tun` (creates `uesimtunN`).
 
-## Verified 2026-08-05
+## Published
 
-`./stage-vxprobe.sh` staged `bin/vxprobe.bin` from the sibling `vxagents` repo, then
-`VXPARTS_NO_PUSH=1 ./scripts/publish/publish-container.sh parts/gw/ran/os/ueransim 0.1.0` built
-clean (two-stage build: compiles `nr-gnb`/`nr-ue`/`nr-cli` from the pinned git tag, then a
-minimal runtime image); all 11 `org.vxedge.*` labels confirmed intact. Ran the built image
-with no arguments and confirmed both `nr-gnb --version`/`nr-ue --version` report `v3.2.7`,
-matching the pinned tag exactly. `vxpn.py lint`/`scan` both pass with no collisions. Not yet
-re-verified against a live pod run with this image swapped in for `vx5g-ran` — that repoint is
-a deliberate, separate follow-up, same reasoning as `gw/5gc/os/open5gs`'s README.
+`ghcr.io/vxedge/parts/gw/ran/os/ueransim:0.1.0`, `sha256:39393bb1982f57f4c3b14ff743baea810868b089d7ceda633b85026817fe066a`,
+with UERANSIM v3.2.7 and vxprobe 0.2.3.
+
+Verified 2026-11-13 before publishing: vxedge's `fiveg_podman` integration test, pointed at both
+0.1.0 images, brought up the core and RAN pods, attached both UEs (each got a PDU-session address)
+and started `vxprobe` inside each UE's pod, then tore everything down.

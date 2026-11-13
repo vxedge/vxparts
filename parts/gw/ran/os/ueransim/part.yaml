@@ -15,6 +15,10 @@ annotations:
   ueransim-commit: 1d1e154f869260b5e98f6905827b1bd9b8663afc
   # Resolved 2026-08-05 via `gh api repos/aligungr/UERANSIM/git/refs/tags/v3.2.7` — the tag's
   # own commit object, not a lightweight-tag ambiguity.
+  # vxprobe, staged by stage-release.sh from this vxagents release after its checksum is verified.
+  vxagents-release: v0.2.3
+  vxagents-source-commit: 5e97e9fe5874215186af731db63e1589b0cbbde9
+  vxagents-tarball-sha256: d416481e1e898d5c6fdd327f43b9008a7e839d75d0012ad05ffc426d54853286
 upstream:
   ref: docker.io/library/ubuntu:24.04
   digest: sha256:561618e2c15bf2397621dd04f96926663a3b5616c189cf7e38db7e82f5c538ea

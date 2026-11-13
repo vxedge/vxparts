@@ -50,25 +50,11 @@ the cost of delivery. The offer is valid for as long as the image is distributed
 VXPARTS_NO_PUSH=1 ../../../../../scripts/publish/publish-container.sh gw/5gc/os/open5gs 0.1.0
 ```
 
-## Deploying (unchanged from `vxedge/containers/fiveg`)
+## Published
 
-This image only replaces `vx5g-core`'s *build* path — the pod-orchestration mechanics it runs
-under are unchanged and still live in `vxedge/containers/fiveg/pod-up.sh` (mongo → nrf →
-{ausf,udm,udr,pcf,bsf,nssf} → amf → per-slice smf/upf, one container per NF, each running
-`open5gs-<nf>d -c /etc/vx5g/<nf>.yaml` against a vxedge-rendered config bind-mount). Repointing
-`pod-up.sh` at this part's published tag instead of the locally-built `vx5g-core` image is a
-deliberate, separate follow-up (mirrors the `exp-002`/`probe-bundle` cutover pattern) — not
-done in the same change that authors this part, so H2's currently-passing result isn't put at
-risk by an unproven swap.
+`ghcr.io/vxedge/parts/gw/5gc/os/open5gs:0.1.0`, `sha256:dfad2271a85c7147669ed5a98cc4c61b113a915d95050ddbcfe25bdea55ac97d`,
+with Open5GS `2.8.0~noble5` from the PPA and mongosh 2.14.2.
 
-## Verified 2026-08-05
-
-`VXPARTS_NO_PUSH=1 ./scripts/publish/publish-container.sh parts/gw/5gc/os/open5gs 0.1.0` built
-clean; all 10 `org.vxedge.*` labels confirmed intact via `podman image inspect` (the script's
-own round-trip check). Ran the built image with no arguments and confirmed every expected NF
-binary is present and executable: `open5gs-amfd`, `-ausfd`, `-bsfd`, `-hssd`, `-mmed`, `-nrfd`,
-`-nssfd`, `-pcfd`, `-pcrfd`, `-scpd`, `-seppd`, `-sgwcd`, `-sgwud`, `-smfd`, `-udmd`, `-udrd`,
-`-upfd` — the full Open5GS NF set. `vxpn.py lint`/`scan` both pass with no collisions (16 parts
-total in the catalogue after this landing). Not yet re-verified against a live pod run under
-`pod-up.sh` with this image swapped in for `vx5g-core` — that's the deploy-cutover step
-described above, deliberately out of scope for this pass.
+Verified 2026-11-13 before publishing: vxedge's `fiveg_podman` integration test, pointed at both
+0.1.0 images, brought up the core and RAN pods, attached both UEs (each got a PDU-session address)
+and started `vxprobe` inside each UE's pod, then tore everything down.
