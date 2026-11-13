@@ -80,6 +80,7 @@ classes:
       probe:   {code: PRB, description: "latency/loss reflector (vxprobe)"}
       load:    {code: LOD, description: "traffic generator (vxtraffic)"}
       collect: {code: CLT, description: "metric collection agent"}
+      time:    {code: TIM, description: "time synchronisation (IEEE 802.1AS gPTP, linuxptp)"}
   svc:
     code: S
     description: "platform service supporting an experiment"

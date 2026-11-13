@@ -1,0 +1,10 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# Packaging-only: linuxptp is Debian trixie's 4.2-1 package, on a base image pinned by digest in the
+# Containerfile. This part adds gPTP.cfg, taken from that package with one checked change, and the
+# `gptp` entrypoint script.
+license: GPL-2.0-or-later AND Apache-2.0
+annotations:
+  role: gptp-time-sync
+  linuxptp-version: "4.2"
+  linuxptp-debian-package: "4.2-1"

@@ -1,0 +1,27 @@
+# linuxptp: ptp4l and pmc from Debian trixie's linuxptp 4.2-1, with linuxptp's 802.1AS profile written
+# into the image, and the `gptp` entrypoint that runs a grandmaster or a follower.
+#
+# Slim Debian images drop /usr/share/doc, where the package keeps its example configurations, so the
+# build stage takes gPTP.cfg from the package itself and the runtime stage carries the result. The one
+# change, neighborPropDelayThresh 800 -> 100000 ns, is checked: a change in upstream's file fails the
+# build. Software timestamps on a veth put the peer delay close to 800 ns, and a follower dropped out
+# at that threshold.
+FROM docker.io/library/debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2 AS build
+RUN apt-get update && cd /tmp && apt-get download linuxptp=4.2-1 \
+    && dpkg-deb -x linuxptp_4.2-1_*.deb /tmp/linuxptp \
+    && cp /tmp/linuxptp/usr/share/doc/linuxptp/configs/gPTP.cfg /gPTP.cfg.upstream
+RUN sed -e 's/^neighborPropDelayThresh\([[:space:]]*\)800$/neighborPropDelayThresh\1100000/' \
+        /gPTP.cfg.upstream > /gPTP.cfg \
+    && test "$(diff /gPTP.cfg.upstream /gPTP.cfg | grep -c '^[<>]')" = 2 \
+    && grep -Eq '^neighborPropDelayThresh[[:space:]]+100000$' /gPTP.cfg \
+    && grep -Eq '^priority1[[:space:]]+248$' /gPTP.cfg \
+    && grep -Eq '^ptp_dst_mac[[:space:]]+01:80:C2:00:00:0E$' /gPTP.cfg \
+    && grep -Eq '^delay_mechanism[[:space:]]+P2P$' /gPTP.cfg
+
+FROM docker.io/library/debian:trixie-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2
+RUN apt-get update && apt-get install -y --no-install-recommends linuxptp=4.2-1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && ptp4l -v && pmc -v
+COPY --from=build /gPTP.cfg /etc/linuxptp/gPTP.cfg
+COPY gptp /usr/local/bin/gptp
+ENTRYPOINT ["/usr/local/bin/gptp"]
