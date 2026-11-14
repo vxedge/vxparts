@@ -22,7 +22,7 @@ the address. Duplicating them is exactly the drift the no-catalog rule exists to
 `vxpn.py meta` rejects a `part.yaml` that tries.
 
 ```yaml
-license: MIT AND CC-BY-NC-4.0    # required; SPDX where one applies
+license: MIT AND CC-BY-4.0       # required; SPDX where one applies
 gpu: passthrough                 # optional
 build: recipe                    # optional — overrides the layer default
 upstream:                        # optional — for parts that pin/re-label an upstream image

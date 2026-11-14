@@ -13,4 +13,4 @@ One pullable unit indexing the simulation side of exp-011:
 — `part.yaml` declares this baseline's two `constituents:`. **Still blocked on content**:
 `hpc/sim/config/scenarios` is itself still `todo` (no payload yet); `publish-composite.sh`
 fails at the `oras cp` step for it until that's populated. Inherits `carla-server`'s
-CC-BY-NC asset terms — a composite is not a licence laundry.
+terms (MIT code, CC BY 4.0 assets, the Unreal Engine EULA): a composite is not a licence laundry.

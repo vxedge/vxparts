@@ -6,13 +6,11 @@
 # any OCI/ORAS-pullable registry — it is an Azure Pipelines build output, fetched over plain
 # HTTPS via Azure's public build API (see build.sh) — only the *republish* half is `oras push`.
 build: recipe
-# Confirmed 2026-08-03 via sonic-net/sonic-buildimage's own LICENSE + ThirdPartyLicenses.txt
-# (github.com/sonic-net/sonic-buildimage): the build tooling/recipes are Apache-2.0 (Microsoft),
-# but a *built* VS image also bundles the Debian base and every packaged component under their
-# own upstream terms (ThirdPartyLicenses.txt is ~67KB — a real, substantial multi-license
-# manifest, not a formality). This line states what's confirmed; it is not a legal clearance to
-# redistribute — get that confirmed by someone who owns that call before first publish.
-license: "Apache-2.0 AND (third-party per sonic-net/sonic-buildimage ThirdPartyLicenses.txt, not yet itemized)"
+# The build tooling is Apache-2.0 (Microsoft). The built image bundles a Debian base, the Linux
+# kernel (GPL-2.0), FRR and the SONiC containers under their own terms; ThirdPartyLicenses.txt
+# lists only a few script-level imports and does not itemise them. Not cleared for public
+# redistribution (README, License).
+license: "Apache-2.0 AND (Debian, Linux and SONiC component terms, not yet itemised)"
 annotations:
   arch: x86_64
   # Not a zone-attached guest: does not follow the zone-backend-contract guest-bundle

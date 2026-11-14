@@ -39,13 +39,17 @@ Releases, and retention is not guaranteed indefinite.
 
 ## License
 
-**Confirmed 2026-08-03, not yet a publish decision.** `sonic-buildimage`'s own LICENSE
-(`Apache-2.0`, Microsoft) covers the *build tooling*. A separate `ThirdPartyLicenses.txt` in
-the same repo (~67KB — a real, substantial manifest, not a formality) covers every packaged
-component actually bundled *into* a built image, under their own upstream terms. `part.yaml`'s
-`license:` states both facts; it is not a legal clearance to redistribute the built artifact —
-get that confirmed by whoever owns that call before first publish, the same diligence already
-applied to Open5GS/UERANSIM (AGPL-3.0) and AAOS (trademark/CTS constraints).
+**Not cleared for public redistribution; the package is private.** `sonic-buildimage`'s
+LICENSE (`Apache-2.0`, Microsoft) covers the build tooling. Its `ThirdPartyLicenses.txt` lists
+only a few script-level imports (ONIE scripts and union-fsck GPL-2.0, boot0 GPL-3.0,
+bash_tacplus GPL-2.0, gnoic Apache-2.0); it does not describe the image. The built image holds a
+Debian base, the Linux kernel (GPL-2.0), FRR, the SONiC containers and Debian's
+`firmware-linux-nonfree`, each under its own terms. Publishing it would need the corresponding
+source for the GPL components at their exact versions, published beside the image, and an
+itemised SBOM. Upstream's Azure builds carry no licence statement or source offer.
+
+Azure keeps those builds for a limited time: build 1182664, which `build.sh` pins, returned 404
+on 2026-11-14, so a fresh fetch needs a newer build id and a new digest.
 
 ## Build
 
