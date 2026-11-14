@@ -18,7 +18,7 @@ published OCI artifact as org.vxedge.license. Notable upstream licences:
   - Open5GS, UERANSIM — AGPL-3.0 (built unmodified from upstream tags)
   - Linux kernel (zone probe bundle) — GPL-2.0
   - BusyBox (probe reflector, the official busybox:1.37.0-musl image) — GPL-2.0
-  - CARLA — MIT; CARLA assets — CC-BY-NC-4.0 (non-commercial)
+  - CARLA — MIT; CARLA assets — CC-BY-4.0; Unreal Engine — Epic's EULA
   - SONiC — Apache-2.0 plus third-party terms per sonic-net/sonic-buildimage
   - Autoware, ROS 2, Eclipse Kuksa — Apache-2.0
   - Android Open Source Project (AAOS zone recipe) — Apache-2.0, Linux kernel GPL-2.0; fetched from

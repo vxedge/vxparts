@@ -41,3 +41,10 @@ rather than at experiment time.
 CARLA `ue5-dev`'s **native DDS publishers**, removing the bridge process from the data path
 entirely. Its README states it "does not replace `autoware_carla_interface` for 0.9.15" — it
 is the UE5-generation track, so it does not apply while this part pins 0.9.15.
+
+## Published
+
+`ghcr.io/vxedge/parts/hpc/ad/middleware/carla-client:0.1.0`, `sha256:832dedf3a03e4b3f9eefc5f4955bce24ab7f30878579d5db2068f860a3e9d436` (2026-07-28), the digest
+`hpc/ad/stack/ad-baseline` pins. Checked again on 2026-11-14: in that image a `ros2 topic pub`
+reached a `ros2 topic echo` over `rmw_fastrtps_cpp`, and `carla` 0.9.15 and `transforms3d` imported
+beside `rclpy`.

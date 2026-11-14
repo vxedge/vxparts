@@ -1,4 +1,4 @@
-license: MIT AND CC-BY-NC-4.0
+license: MIT AND CC-BY-4.0
 annotations:
   composite: "true"
 # Each constituent must already be published at this tag (its own publish-container.sh /

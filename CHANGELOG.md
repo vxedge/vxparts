@@ -8,6 +8,13 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- Licence records corrected. CARLA 0.9.15's assets are CC BY 4.0, not CC-BY-NC: its README and the content
+  release it pins say so. `NOTICE`, `parts/README.md`, `carla-server` and `sim-baseline` now declare
+  `MIT AND CC-BY-4.0` and name the Unreal Engine EULA. `gw/nos/os/sonic-vs` no longer says `ThirdPartyLicenses.txt`
+  covers the image: it lists a few script imports, while the image bundles Debian, Linux and SONiC components
+  under their own terms. It also records that Azure build 1182664 is no longer downloadable.
+- `hpc/ad/middleware/ros2-humble` and `carla-client` record their 0.1.0 digests (published 2026-07-28), which
+  `ad-baseline` pins.
 - `agent/load/app/dds-perf`, `agent/load/app/someip-samples` and `svc/signal/app/kuksa-can-provider` record a run
   across a vehicle's gateway, between two container devices of one slice, in their READMEs.
 - `gw/5gc/os/open5gs` and `gw/ran/os/ueransim` are published. The RAN part bundles the vxagents v0.2.3

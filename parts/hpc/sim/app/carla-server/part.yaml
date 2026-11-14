@@ -1,6 +1,6 @@
-# CARLA's code is MIT but its bundled assets are CC-BY-NC. Both are declared, because a
-# consumer reading only "MIT" would draw the wrong conclusion about redistribution.
-license: MIT AND CC-BY-NC-4.0
+# CARLA's code is MIT and its assets CC BY 4.0 (0.9.15 README; the pinned content release's
+# LICENSE). The engine is Unreal Engine 4 under Epic's EULA, which SPDX does not name.
+license: MIT AND CC-BY-4.0
 gpu: passthrough
 # What this part needs to run, distinct from `gpu:` above (which names the passthrough
 # mechanism, not a size/capability floor). CARLA 0.9.15 alone wants ~6-8 GB VRAM before
@@ -18,7 +18,7 @@ upstream:
   digest: sha256:1af47c314443f4a2d0869ac399c5b5eabde138a5bc39dd31dcbb1540e22f5588
 annotations:
   headless: "true"
-  license-note: "assets CC-BY-NC — non-commercial; see README before publishing results"
+  license-note: "assets CC-BY-4.0 (attribution); engine under the Unreal Engine EULA; see README"
 sbom:
   format: cyclonedx-json
   path: sbom.cdx.json
