@@ -1,0 +1,10 @@
+# svc/signal/app/kuksa-v2-client: kv2, a kuksa.val.v2 test client (kv2.py, this part's own code).
+# Every Python package is pinned by hash in requirements.txt, compiled from requirements.in with
+# `uv pip compile --generate-hashes`; the base is pinned by digest in part.yaml.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+COPY requirements.txt /kv2/requirements.txt
+RUN pip install --no-cache-dir --require-hashes --no-deps -r /kv2/requirements.txt
+COPY kv2.py /kv2/kv2.py
+RUN python3 -I /kv2/kv2.py --help >/dev/null
+ENTRYPOINT ["python3", "-I", "/kv2/kv2.py"]
