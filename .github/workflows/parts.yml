@@ -26,6 +26,7 @@ on:
           - parts/hpc/ad/middleware/carla-client
           - parts/svc/signal/app/kuksa-databroker
           - parts/svc/signal/app/kuksa-can-provider
+          - parts/svc/signal/app/kuksa-v2-client
           - parts/agent/load/app/dds-perf
           - parts/agent/load/app/someip-samples
           - parts/gw/5gc/os/open5gs
