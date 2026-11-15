@@ -37,6 +37,21 @@ build id, not "latest on a branch" (reproducibility, `ARCHITECTURE.md` §13): re
 is itself a real constraint worth knowing — these are CI outputs, not versioned GitHub
 Releases, and retention is not guaranteed indefinite.
 
+## Fetching a build
+
+The package stays private (decision 2026-11-16); this is how to get a disk yourself. Azure
+keeps these builds for a limited time, so pick a current successful build of definition 142 on
+the release branch:
+
+```sh
+curl -s "https://dev.azure.com/mssonic/build/_apis/build/builds?definitions=142&branchName=refs/heads/202505&resultFilter=succeeded&\$top=1&api-version=6.0" \
+  | python3 -c 'import json,sys; b=json.load(sys.stdin)["value"][0]; print(b["id"], b["buildNumber"], b["sourceVersion"])'
+AZURE_BUILD_ID=<id> ./build.sh
+```
+
+Record the build id, its `sourceVersion` and the disk's sha256 with any result that used it,
+since the build will not stay downloadable.
+
 ## License
 
 **Not cleared for public redistribution; the package is private.** `sonic-buildimage`'s

@@ -1,7 +1,7 @@
 # The world and sensor source. Its sensor streams ARE the measured ADAS load for exp-011,
 # which is what makes exp-011 a real-traffic experiment rather than a synthetic one.
+#
+# Not published: a vehicle runs the official image by digest (README). This recipe only labels
+# that image for local use and changes nothing in it.
 ARG UPSTREAM
 FROM ${UPSTREAM}
-
-# Off-screen: the host has no display, and rendering to one would perturb the measurement.
-ENV CARLA_HEADLESS=1

@@ -17,11 +17,10 @@ on:
   workflow_dispatch:
     inputs:
       part:
-        description: 'Part directory to publish (e.g. parts/hpc/sim/app/carla-server)'
+        description: 'Part directory to publish (e.g. parts/hpc/ad/middleware/score-com)'
         required: true
         type: choice
         options:
-          - parts/hpc/sim/app/carla-server
           - parts/hpc/ad/app/autoware
           - parts/hpc/ad/middleware/ros2-humble
           - parts/hpc/ad/middleware/carla-client

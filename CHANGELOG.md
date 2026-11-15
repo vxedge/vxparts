@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- `hpc/sim/app/carla-server` is not republished: a vehicle runs `docker.io/carlasim/carla` by digest, with
+  CARLA's `-RenderOffScreen` passed through `run.args`. The recipe's `CARLA_HEADLESS=1` is gone: CARLA reads
+  no such variable. It leaves the publish workflow's choices. `hpc/sim/stack/sim-baseline` says it cannot
+  be indexed while `carla-server` is not on GHCR.
+- `gw/nos/os/sonic-vs` stays private, and its README shows how to fetch a current Azure build and what to
+  record with it.
 - Licence records corrected. CARLA 0.9.15's assets are CC BY 4.0, not CC-BY-NC: its README and the content
   release it pins say so. `NOTICE`, `parts/README.md`, `carla-server` and `sim-baseline` now declare
   `MIT AND CC-BY-4.0` and name the Unreal Engine EULA. `gw/nos/os/sonic-vs` no longer says `ThirdPartyLicenses.txt`
