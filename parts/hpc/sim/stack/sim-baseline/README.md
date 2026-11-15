@@ -14,3 +14,8 @@ One pullable unit indexing the simulation side of exp-011:
 `hpc/sim/config/scenarios` is itself still `todo` (no payload yet); `publish-composite.sh`
 fails at the `oras cp` step for it until that's populated. Inherits `carla-server`'s
 terms (MIT code, CC BY 4.0 assets, the Unreal Engine EULA): a composite is not a licence laundry.
+
+**Not indexable while `carla-server` is not republished.** An OCI index can only reference
+manifests in its own registry, and `carla-server` now runs CARLA's official image from Docker
+Hub (decision 2026-11-16). A vehicle that needs the simulator pins that image and
+`hpc/sim/config/scenarios` directly.

@@ -3,7 +3,8 @@ annotations:
   composite: "true"
 # Each constituent must already be published at this tag (its own publish-container.sh /
 # publish-files.sh run) before ./scripts/publish/publish-composite.sh can index it —
-# that script fails loudly, not silently, if a constituent isn't there yet.
+# that script fails loudly, not silently, if a constituent isn't there yet. carla-server is
+# not published (it runs the upstream image), so this composite cannot be indexed (README).
 constituents:
   - hpc/sim/app/carla-server:0.1.0
   - hpc/sim/config/scenarios:0.1.0

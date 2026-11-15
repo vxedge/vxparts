@@ -17,7 +17,7 @@ upstream:
   ref: docker.io/carlasim/carla:0.9.15
   digest: sha256:1af47c314443f4a2d0869ac399c5b5eabde138a5bc39dd31dcbb1540e22f5588
 annotations:
-  headless: "true"
+  published: "no: vehicles run the upstream image by digest (README)"
   license-note: "assets CC-BY-4.0 (attribution); engine under the Unreal Engine EULA; see README"
 sbom:
   format: cyclonedx-json

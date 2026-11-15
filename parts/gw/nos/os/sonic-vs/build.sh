@@ -20,7 +20,7 @@
 # one-line change, not a script run unattended.
 #
 # Usage:  ./build.sh [out-dir]     (default ./bundle)
-#         AZURE_BUILD_ID=<id> ./build.sh [out-dir]   to override the pin
+#         AZURE_BUILD_ID=<id> ./build.sh [out-dir]   to fetch another build (README: Fetching a build)
 set -euo pipefail
 
 PART_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -31,6 +31,8 @@ VXPARTS_ROOT="$(cd "$PART_DIR/../../../../.." && pwd)"
 # buildNumber 20260803.4, sourceVersion ff3c0c9f686a1d0dbddbe813b233b3b7a51bd8e2 -- verified via
 # https://dev.azure.com/mssonic/build/_apis/build/builds/1182664?api-version=6.0 (public, no
 # auth). Build page: https://dev.azure.com/mssonic/build/_build/results?buildId=1182664
+# Azure keeps these builds for a limited time: 1182664 returned 404 on 2026-11-14, so pass a
+# current one (README: Fetching a build).
 AZURE_BUILD_ID="${AZURE_BUILD_ID:-1182664}"
 
 echo "== resolving artifact download URL for Azure build $AZURE_BUILD_ID"
