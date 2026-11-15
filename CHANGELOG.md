@@ -64,7 +64,8 @@ All notable changes to this project will be documented in this file. Format foll
 
 - `svc/signal/app/kuksa-v2-client`: `kv2`, a `kuksa.val.v2` test client that prints one JSON line per event,
   built on the v2 stubs `kuksa-client` 0.6.0 ships, with every Python package pinned by hash. It moved here
-  from vxperiments' exp-015 and exp-017, where it was a local image.
+  from vxperiments' exp-015 and exp-017, where it was a local image. Published as
+  `svc/signal/app/kuksa-v2-client:0.1.0`, `sha256:aed1c8d13ff7a421d3bd0907956cf1934b954bc0698fef8a84daa1e0dc890aaa`.
 - `parts/agent/time/app/linuxptp`: linuxptp 4.2 (Debian trixie's 4.2-1 package) with linuxptp's IEEE 802.1AS
   profile, for vxedge's `network.time_sync`. `gPTP.cfg` is written into the image from the package's own copy, with
   `neighborPropDelayThresh` raised from 800 to 100000 ns, since software timestamps on a veth put the peer delay

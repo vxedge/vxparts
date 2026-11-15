@@ -33,6 +33,11 @@ The default server is `127.0.0.1:55555`. A connection that is not ready within `
 prints `{"result": "refused"}`. Every other outcome is `"ok"` or `"error"` with the gRPC status
 code, so a caller classifies the output, never the exit code alone.
 
+## Published
+
+`ghcr.io/vxedge/parts/svc/signal/app/kuksa-v2-client:0.1.0`, `sha256:aed1c8d13ff7a421d3bd0907956cf1934b954bc0698fef8a84daa1e0dc890aaa`,
+the image the check below ran.
+
 ## Verified 2026-11-16
 
 In one pod with `svc/signal/app/kuksa-databroker:0.2.0` (databroker 0.7.1, `--insecure`), using
