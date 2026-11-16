@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Changed
 
+- vxedge is described as a virtual vehicle with environmental parity, for packaged, measured SDV experiments;
+  5G slicing is one family of its measured cases. `README.md` and the `CITATION.cff` title use the
+  wording registered in `docs/FACTS.md` (`project.summary`, `project.description`). No identifier, API or
+  result changes.
 - `hpc/sim/app/carla-server` is not republished: a vehicle runs `docker.io/carlasim/carla` by digest, with
   CARLA's `-RenderOffScreen` passed through `run.args`. The recipe's `CARLA_HEADLESS=1` is gone: CARLA reads
   no such variable. It leaves the publish workflow's choices. `hpc/sim/stack/sim-baseline` says it cannot
