@@ -55,6 +55,14 @@ image index over its constituent middleware/app/config parts, so it's a single p
 
 ## Rules
 
+- **Branch names use the `vx/` prefix**, for example `vx/fix-probe-drift`. Never name a branch after a
+  tool or vendor. Delete a branch once its PR is merged.
+- **Merge only after formal checks.** Before a PR is merged: its CI is green on the PR head; `./scripts/vxpn.py lint`
+  and `./scripts/vxpn.py scan`
+  ran clean locally; and the diff was re-read for claims beyond `docs/FACTS.md`, host details and
+  personal or private material. A failing check blocks the merge; never skip, weaken or disable one.
+- **Describe vxedge with `project.summary` from `docs/FACTS.md`** (the README's first lines quote it).
+  Do not write another description of vxedge; 5G slicing is one family of its measured cases.
 - All published images/bundles are tagged with SHA256 digests, never `latest`
   (reproducibility rule, ARCHITECTURE.md §13).
 - Keep loadables minimal: agents from `vxagents` are injected per experiment, not baked into

@@ -1,11 +1,11 @@
 # vxparts
 
-The unified loadable registry for the vxedge testbed. It holds zone VM/RTOS bundles, central-compute containers, gateway images, platform services and agents, all published to GHCR via OCI/ORAS. It contains **build recipes and descriptors**. Proprietary components (NVIDIA SDKs) are recipe-only and never redistributed.
+The unified loadable registry for vxedge. It holds zone VM/RTOS bundles, central-compute containers, gateway images, platform services and agents, all published to GHCR via OCI/ORAS. It contains **build recipes and descriptors**. Proprietary components (NVIDIA SDKs) are recipe-only and never redistributed.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![CI](https://github.com/vxedge/vxparts/actions/workflows/parts.yml/badge.svg)](https://github.com/vxedge/vxparts/actions/workflows/parts.yml)
 
-vxedge is an open, all-software testbed for mapping 5G network slices onto zonal and central software-defined-vehicle (SDV) E/E architectures on a single machine. Every published number ships with the manifest and image digests that produced it.
+`vxparts` is the loadable registry of vxedge, a virtual vehicle with environmental parity, for packaged, measured SDV experiments. Every result ships with the manifest and image digests that produced it.
 
 ## Layout
 

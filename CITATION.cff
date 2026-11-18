@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "vxparts: the loadable registry of the vxedge testbed, build recipes and descriptors for zone, gateway, compute and service parts"
+title: "vxparts: the loadable registry of vxedge, build recipes and descriptors for zone, gateway, compute and service parts"
 type: software
 authors:
   - family-names: "Djaafri"
@@ -20,12 +20,12 @@ keywords:
   - testbed
   - reproducible-research
 abstract: >-
-  vxparts holds the build recipes, part descriptors and publish scripts for the loadable parts of the
-  vxedge testbed. Each part declares its licence and pinned upstream digest. Proprietary components are
+  vxparts holds the build recipes, part descriptors and publish scripts for the loadable parts of
+  vxedge. Each part declares its licence and pinned upstream digest. Proprietary components are
   recipe-only and never redistributed.
 references:
   - type: software
-    title: "vxedge: specification and results of an all-software SDV network-slicing testbed"
+    title: "vxedge: specification and results of a virtual vehicle with environmental parity"
     authors:
       - family-names: "Djaafri"
         given-names: "Fouzi"
