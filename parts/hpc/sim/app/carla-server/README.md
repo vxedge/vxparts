@@ -27,5 +27,8 @@ parts:
       args: ["/bin/bash", "CarlaUE4.sh", "-RenderOffScreen"]
 ```
 
+There is no simulation stack part: an OCI index can only reference manifests in its own registry, so
+CARLA's image cannot be one of its constituents. A vehicle lists this entry beside its other parts.
+
 The image runs as user `carla` in `/home/carla`. The Containerfile here only relabels it for
 local builds and is not published.

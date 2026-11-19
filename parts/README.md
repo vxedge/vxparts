@@ -68,7 +68,7 @@ ctl/schema/config/manifest-schema
 gw/{5gc/os/open5gs,nos/os/sonic-vs,ran/os/ueransim}
 hpc/ad/{middleware/{ros2-humble,carla-client,score-com},app/autoware,config/autoware-params,stack/ad-baseline}
 hpc/cockpit/app/qt-cluster
-hpc/sim/{app/carla-server,config/scenarios,stack/sim-baseline}
+hpc/sim/{app/carla-server,config/scenarios}
 svc/ota/{app/vxota,config/gate-store}
 svc/signal/app/{kuksa-databroker,kuksa-can-provider,kuksa-v2-client,vxvhal}
 veh/car/config/reference-sedan-6zone

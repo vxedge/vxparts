@@ -24,9 +24,8 @@ straight from the part's own `meta.json` (`../../AGENTS.md`) — never hardcoded
 - `publish-composite.sh` — builds a `stack`-layer composite: an OCI image index over
   constituent parts that are each already published (their own `constituents:` list in
   `part.yaml`), cross-mounting each into the composite's own repo before indexing (an index
-  can only reference manifests within its own repository). Consumers:
-  `../../parts/hpc/ad/stack/ad-baseline` and `../../parts/hpc/sim/stack/sim-baseline`. The
-  `sim-baseline` publish fails while its `hpc/sim/config/scenarios` constituent has no payload.
+  can only reference manifests within its own repository). Consumer:
+  `../../parts/hpc/ad/stack/ad-baseline`.
 
 Requires the `oras` CLI (<https://oras.land>) for every script but `publish-container.sh`
 (podman only) — confirmed installed on at least one build host as of 2026-08-03; do not

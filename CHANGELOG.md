@@ -14,12 +14,11 @@ All notable changes to this project will be documented in this file. Format foll
   result changes.
 - `hpc/sim/app/carla-server` is not republished: a vehicle runs `docker.io/carlasim/carla` by digest, with
   CARLA's `-RenderOffScreen` passed through `run.args`. The recipe's `CARLA_HEADLESS=1` is gone: CARLA reads
-  no such variable. It leaves the publish workflow's choices. `hpc/sim/stack/sim-baseline` says it cannot
-  be indexed while `carla-server` is not on GHCR.
+  no such variable. It leaves the publish workflow's choices.
 - `gw/nos/os/sonic-vs` stays private, and its README shows how to fetch a current Azure build and what to
   record with it.
 - Licence records corrected. CARLA 0.9.15's assets are CC BY 4.0, not CC-BY-NC: its README and the content
-  release it pins say so. `NOTICE`, `parts/README.md`, `carla-server` and `sim-baseline` now declare
+  release it pins say so. `NOTICE`, `parts/README.md` and `carla-server` now declare
   `MIT AND CC-BY-4.0` and name the Unreal Engine EULA. `gw/nos/os/sonic-vs` no longer says `ThirdPartyLicenses.txt`
   covers the image: it lists a few script imports, while the image bundles Debian, Linux and SONiC components
   under their own terms. It also records that Azure build 1182664 is no longer downloadable.
@@ -192,6 +191,12 @@ All notable changes to this project will be documented in this file. Format foll
 
 - `zone/wasm/app/reflector-capsule` is a public package. The others stay private until their licence
   terms for binary distribution are settled.
+
+### Removed
+
+- `hpc/sim/stack/sim-baseline`. An OCI index can only reference manifests in its own registry, and
+  `carla-server` runs CARLA's image from Docker Hub, so the composite could never be indexed. The
+  `carla-server` README shows the vehicle entry to use instead.
 
 ## [0.1.0] - 2026-10-29
 
