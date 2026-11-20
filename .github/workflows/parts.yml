@@ -32,6 +32,7 @@ on:
           - parts/gw/5gc/os/open5gs
           - parts/gw/ran/os/ueransim
           - parts/hpc/ad/middleware/score-com
+          - parts/hpc/ad/app/executorch-perception
       tag:
         description: 'SemVer tag to publish'
         required: true
