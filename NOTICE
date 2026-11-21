@@ -33,6 +33,8 @@ published OCI artifact as org.vxedge.license. Notable upstream licences:
   - CARLA — MIT; CARLA assets — CC-BY-4.0; Unreal Engine — Epic's EULA
   - SONiC — Apache-2.0 plus third-party terms per sonic-net/sonic-buildimage
   - Autoware, ROS 2, Eclipse Kuksa — Apache-2.0
+  - PyTorch, torchvision, ExecuTorch — BSD-3-Clause (their published CPU wheels, pinned by hash;
+    each wheel carries its own third-party notices)
   - Android Open Source Project (AAOS zone recipe) — Apache-2.0, Linux kernel GPL-2.0; fetched from
     Google's build servers and verified, never republished
 

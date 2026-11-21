@@ -65,6 +65,11 @@ All notable changes to this project will be documented in this file. Format foll
 
 ### Added
 
+- `hpc/ad/app/executorch-perception`: ExecuTorch 1.6.0 on XNNPACK with `vxet`, which runs MobileNetV2 or ResNet18
+  (fp32, random weights, exported at build time and checked by sha256) at a fixed frame rate. It serves
+  inference-latency quantiles, frames and deadline misses on `/metrics`. Every Python package is pinned by hash,
+  from CPU wheels only. Published as `hpc/ad/app/executorch-perception:0.1.0`,
+  `sha256:ab1ff2797076cc2b339b14492094c821affe73b9459acf4f8fa43a64e11e6f9d`.
 - `svc/signal/app/kuksa-v2-client`: `kv2`, a `kuksa.val.v2` test client that prints one JSON line per event,
   built on the v2 stubs `kuksa-client` 0.6.0 ships, with every Python package pinned by hash. It moved here
   from vxperiments' exp-015 and exp-017, where it was a local image. Published as

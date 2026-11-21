@@ -1,0 +1,18 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# vxet and export.py are this part's own code (Apache-2.0). ExecuTorch, PyTorch and torchvision
+# (BSD-3-Clause) come from their published CPU wheels, pinned by hash. The models are torchvision's
+# MobileNetV2 and ResNet18 with random weights (seed 0), fp32, lowered to XNNPACK: the part measures
+# inference cost, not a trained perception function.
+license: Apache-2.0 AND BSD-3-Clause
+upstream:
+  ref: docker.io/library/python:3.12-slim
+  digest: sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+annotations:
+  role: inference-latency-meter
+  executorch-version: "1.6.0"
+  executorch-source-commit: 4776f71b6f0daa5dfc7d758d5836fc1cc0d40154
+  backend: xnnpack
+  models: mobilenet_v2,resnet18
+  precision: fp32
+  weights: random

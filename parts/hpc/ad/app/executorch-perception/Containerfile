@@ -1,0 +1,26 @@
+# hpc/ad/app/executorch-perception: vxet (vxet.py, this part's own code) runs ExecuTorch programs on
+# XNNPACK at a fixed frame rate and serves their latency on /metrics. export.py lowers two
+# torchvision models (random weights) to .pte files at build time, and the build checks their
+# sha256. Every Python package is pinned by hash in requirements.txt, compiled from requirements.in
+# with `uv pip compile --generate-hashes` (CPU wheels only); the base is pinned by digest in part.yaml.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+COPY requirements.txt /vxet/requirements.txt
+RUN pip install --no-cache-dir --require-hashes --no-deps \
+        --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple \
+        -r /vxet/requirements.txt
+# torch's own OpenMP pool would start one idle thread per CPU at import. Inference runs on
+# ExecuTorch's XNNPACK pool, so keep the process's threads to that pool.
+ENV OMP_NUM_THREADS=1
+COPY export.py vxet.py /vxet/
+RUN mkdir /models \
+    && python3 -I /vxet/export.py mobilenet_v2 /models/mobilenet_v2.pte \
+    && python3 -I /vxet/export.py resnet18 /models/resnet18.pte \
+    && printf '%s\n' \
+        '42f58fd97b8b828f6705a0f91cf20f2be3eed0911c9c11b519ab14a1dcc89660  /models/mobilenet_v2.pte' \
+        '145038889893e41dd1d5b3bf59b9eedb2517c024b6ad8c3328cb513cb8f61a4f  /models/resnet18.pte' \
+        | sha256sum -c - \
+    && python3 -I /vxet/vxet.py --model mobilenet_v2 --rate-hz 0 --warmup-s 0 --duration-s 1 \
+        --metrics-listen 127.0.0.1:0 >/dev/null
+EXPOSE 9470
+ENTRYPOINT ["python3", "-I", "/vxet/vxet.py"]
