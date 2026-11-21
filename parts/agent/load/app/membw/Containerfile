@@ -1,0 +1,14 @@
+# agent/load/app/membw: vxmembw (vxmembw.py, this part's own code), a memory-bandwidth load with a
+# /metrics endpoint. numpy is pinned by hash in requirements.txt, compiled from requirements.in with
+# `uv pip compile --generate-hashes`; the base is pinned by digest in part.yaml.
+ARG UPSTREAM
+FROM ${UPSTREAM}
+COPY requirements.txt /vxmembw/requirements.txt
+RUN pip install --no-cache-dir --require-hashes --no-deps -r /vxmembw/requirements.txt
+# numpy's BLAS pool is unused by a copy, so keep it from starting one thread per CPU.
+ENV OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+COPY vxmembw.py /vxmembw/vxmembw.py
+RUN python3 -I /vxmembw/vxmembw.py --workers 1 --buffer-mib 8 --duration-s 1 \
+        --metrics-listen 127.0.0.1:0 >/dev/null
+EXPOSE 9471
+ENTRYPOINT ["python3", "-I", "/vxmembw/vxmembw.py"]
