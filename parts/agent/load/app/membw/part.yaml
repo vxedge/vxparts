@@ -1,0 +1,12 @@
+# Identity (class/subtype/layer/name) comes from this file's own path — never restated here.
+#
+# vxmembw is this part's own code (Apache-2.0); numpy (BSD-3-Clause) comes from its published wheel,
+# pinned by hash. It loads the memory bus that a node shares, so an experiment can declare memory
+# contention as a device rather than run it by hand.
+license: Apache-2.0 AND BSD-3-Clause
+upstream:
+  ref: docker.io/library/python:3.12-slim
+  digest: sha256:b18b261e1b4974b4f321451ad5251ded85abb22c2b8b262da527dda1d031ab30
+annotations:
+  role: memory-bandwidth-load
+  numpy-version: "2.5.4"

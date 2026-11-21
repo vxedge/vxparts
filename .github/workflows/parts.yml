@@ -33,6 +33,7 @@ on:
           - parts/gw/ran/os/ueransim
           - parts/hpc/ad/middleware/score-com
           - parts/hpc/ad/app/executorch-perception
+          - parts/agent/load/app/membw
       tag:
         description: 'SemVer tag to publish'
         required: true

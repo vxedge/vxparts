@@ -35,6 +35,7 @@ published OCI artifact as org.vxedge.license. Notable upstream licences:
   - Autoware, ROS 2, Eclipse Kuksa — Apache-2.0
   - PyTorch, torchvision, ExecuTorch — BSD-3-Clause (their published CPU wheels, pinned by hash;
     each wheel carries its own third-party notices)
+  - numpy — BSD-3-Clause (its published wheel, pinned by hash)
   - Android Open Source Project (AAOS zone recipe) — Apache-2.0, Linux kernel GPL-2.0; fetched from
     Google's build servers and verified, never republished
 

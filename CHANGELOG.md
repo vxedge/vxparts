@@ -70,6 +70,10 @@ All notable changes to this project will be documented in this file. Format foll
   inference-latency quantiles, frames and deadline misses on `/metrics`. Every Python package is pinned by hash,
   from CPU wheels only. Published as `hpc/ad/app/executorch-perception:0.1.0`,
   `sha256:ab1ff2797076cc2b339b14492094c821affe73b9459acf4f8fa43a64e11e6f9d`.
+- `agent/load/app/membw`: `vxmembw`, a memory-bandwidth load. N worker processes copy buffers much larger than the
+  last-level cache in a loop, and the copy rate is served on `/metrics`, so an experiment can declare memory
+  contention as a device. numpy is pinned by hash. Published as `agent/load/app/membw:0.1.0`,
+  `sha256:bc7c29f272b200f6a60b967d0617262364a5bf9f2e8ad1ff422215789f5869ab`.
 - `svc/signal/app/kuksa-v2-client`: `kv2`, a `kuksa.val.v2` test client that prints one JSON line per event,
   built on the v2 stubs `kuksa-client` 0.6.0 ships, with every Python package pinned by hash. It moved here
   from vxperiments' exp-015 and exp-017, where it was a local image. Published as
