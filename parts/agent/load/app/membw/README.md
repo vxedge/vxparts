@@ -41,6 +41,10 @@ vxmembw [--workers N] [--buffer-mib M] [--duration-s S] [--metrics-listen ADDR:P
 On exit, `vxmembw` prints one JSON summary to stdout: workers, buffer size, allowed CPUs, run
 time, bytes copied and the mean copy rate in GiB/s.
 
+## Published
+
+`ghcr.io/vxedge/parts/agent/load/app/membw:0.1.0`, `sha256:bc7c29f272b200f6a60b967d0617262364a5bf9f2e8ad1ff422215789f5869ab`.
+
 ## Build
 
 ```sh
