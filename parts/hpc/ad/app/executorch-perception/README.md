@@ -76,6 +76,10 @@ On exit, `vxet` prints one JSON summary to stdout: frames, misses, latency quant
 microseconds, the thread and allowed CPU counts, the ExecuTorch version and commit, and the
 program's sha256.
 
+## Published
+
+`ghcr.io/vxedge/parts/hpc/ad/app/executorch-perception:0.1.0`, `sha256:ab1ff2797076cc2b339b14492094c821affe73b9459acf4f8fa43a64e11e6f9d`.
+
 ## Build
 
 ```sh
