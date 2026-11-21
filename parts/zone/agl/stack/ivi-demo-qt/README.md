@@ -14,7 +14,7 @@ An Automotive Grade Linux zone guest for arm64: AGL's own Vimba 22.0.1 build of 
   - `meta.json`: `aarch64`, 4 CPUs and 2 GiB, AGL's own QEMU settings.
 - AGL publishes no checksums beside these images. `SHA256SUMS` pins the files as downloaded from AGL's release
   server on 2026-11-21.
-- A vxedge zone through `backend: qemu-microvm`, which boots a bundle's root disk as `/dev/vda` from a snapshot and
+- A vxedge zone through `backend: qemu-microvm` (needs the vxedge release with https://github.com/vxedge/vxedge/pull/221), which boots a bundle's root disk as `/dev/vda` from a snapshot and
   sets the guest's address with the kernel's `ip=` (ARCHITECTURE.md §9). The image is never written: every boot
   starts from AGL's image.
 
@@ -26,6 +26,14 @@ An Automotive Grade Linux zone guest for arm64: AGL's own Vimba 22.0.1 build of 
 - Not timed. On a host of another instruction set it runs under emulation (TCG), which is functional evidence only.
 - Headless: the compositor runs with no display attached, and no input reaches the home screen.
 - Not wired to the vehicle's signals yet: its Kuksa databroker serves only the guest itself.
+
+## Verified
+
+On 2026-11-21, with vxedge's root-disk change (https://github.com/vxedge/vxedge/pull/221), as a `qemu-microvm` node
+under emulation: vxedge's `zones_qemu_microvm` test booted this bundle on a gateway port. The guest answered ICMP at
+its pinned address and printed its login prompt; `down` stopped it, and a second boot answered again. Booted by
+hand the same day, it reached systemd's `running` state with no failed units, and its compositor, home screen and
+Kuksa databroker were active.
 
 ## Licences
 
