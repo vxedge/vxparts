@@ -67,7 +67,8 @@ All notable changes to this project will be documented in this file. Format foll
 
 - `zone/agl/stack/ivi-demo-qt`: an Automotive Grade Linux 22.0.1 (Vimba) zone guest for arm64, AGL's own
   `agl-ivi-demo-qt` build for `qemuarm64`. Recipe-only: `build.sh` fetches the kernel and root filesystem from AGL's
-  release server, checks them against `SHA256SUMS` and lays out a root-disk bundle for `backend: qemu-microvm`.
+  release server, checks them against `SHA256SUMS` and lays out a root-disk bundle for `backend: qemu-microvm`
+  (vxedge 0.35.0 or later).
   The zone subtype `agl` is new.
 - `hpc/ad/app/executorch-perception`: ExecuTorch 1.6.0 on XNNPACK with `vxet`, which runs MobileNetV2 or ResNet18
   (fp32, random weights, exported at build time and checked by sha256) at a fixed frame rate. It serves
