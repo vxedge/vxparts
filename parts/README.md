@@ -73,6 +73,7 @@ svc/ota/{app/vxota,config/gate-store}
 svc/signal/app/{kuksa-databroker,kuksa-can-provider,kuksa-v2-client,vxvhal}
 veh/car/config/reference-sedan-6zone
 zone/aaos/stack/cuttlefish-auto
+zone/agl/stack/ivi-demo-qt
 zone/linux/stack/probe-bundle
 zone/wasm/app/reflector-capsule
 zone/freertos/{stack/probe-bundle,firmware/probe-mps2}

@@ -38,6 +38,8 @@ published OCI artifact as org.vxedge.license. Notable upstream licences:
   - numpy — BSD-3-Clause (its published wheel, pinned by hash)
   - Android Open Source Project (AAOS zone recipe) — Apache-2.0, Linux kernel GPL-2.0; fetched from
     Google's build servers and verified, never republished
+  - Automotive Grade Linux (AGL zone recipe) — Apache-2.0, Linux kernel GPL-2.0, Qt LGPL-3.0, and others per
+    package; fetched from AGL's release server and verified, never republished
 
 Proprietary components (NVIDIA DeepStream/TensorRT) are referenced as recipes only
 and are never redistributed by this project.
